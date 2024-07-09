@@ -8,6 +8,7 @@ module.exports = {
         publicPath: "/public/",
         filename: "bundle.js"       // название создаваемого файла
     },
+    devtool: "source-map",
     devServer: {
      historyApiFallback: true,
      static: {
