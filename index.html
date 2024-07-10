@@ -4,61 +4,11 @@
     <link rel="stylesheet" type="text/css" href="./styles/Styles.css"/>
     <meta charset="utf-8">
     <meta name="author" content="NickyParsons"/>
-    <title>NickyParsons Site | </title>
+    <title>NickyParsons Site</title>
 </head>
 <body>
-    <header>
-        <h2>HEADER</h2>
-        <div id="header">
-            <div class="menu" id="logon">
-                <a href="/register" id="openRegisterBtn" class="navLink">Register</a>
-                <div id="registerBar" class="pop-up-window window-hidden">
-                    register form here<button id="closeRegisterBtn">Закрыть</button>
-                </div>
-            </div>
-            <div class="menu" id="navMenu">
-                <a href="/home" class="navLink">Home</a>
-                <a href="/test1" class="navLink">Test1</a>
-                <a href="/test2" class="navLink">Test2</a>
-                <a href="/counter" class="navLink">Counter</a>
-            </div>
-            <h3 id="pageTitle">Page Title</h3>
-        </div>
-        <script type="text/javascript">
-            {
-                const openRegisterBtn = document.getElementById("openRegisterBtn");
-                const closeRegisterBtn = document.getElementById("closeRegisterBtn");
-                const registerBar = document.getElementById("registerBar");
-                openRegisterBtn.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    registerBar.classList.toggle("window-hidden");
-                    registerBar.classList.toggle("window-visible");
-                });
-                closeRegisterBtn.addEventListener("click", () => {
-                    registerBar.classList.toggle("window-hidden");
-                    registerBar.classList.toggle("window-visible");
-                });
-            }
-        </script>
-    </header>
-    <main role="main">
-        <h2>MAIN</h2>
-        <div id="pageContent">
-            <script src="public/bundle.js"></script>
-        </div>
-    </main>
-    <footer>
-        <h2>FOOTER</h2>
-        <div id="footer">
-            <p>
-                <address>
-                    Telegram: <a class="textLink" href="https://t.me/NickyParsons">@NickyParsons</a>.
-                </address>
-            </p>
-            <p>
-                Copyright © <script>document.write(`${new Date().getFullYear()}`);</script>
-            </p>
-        </div>
-    </footer>
+    <div id="app">
+        <script src="public/bundle.js"></script>
+    </div>
 </body>
 </html>

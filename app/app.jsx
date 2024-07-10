@@ -1,28 +1,26 @@
 const ReactDOM = require("react-dom/client");
 const React = require("react");
-import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
-
-const Test = require("./components/test.jsx");
-const Counter = require("./components/counter.jsx");
-import Nav from "./components/navMenu.jsx";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Layout }  from "./components/_layout.jsx";
+import { NotFound } from "./components/notFound.jsx";
+import { Test } from "./pages/test.jsx";
+import { Counter } from "./pages/counter.jsx";
   
-const text="Asshole";
+const text="This is some text on a main page of my site";
   
 ReactDOM.createRoot(
-    document.getElementById("pageContent")
+    document.getElementById("app")
 )
 .render(
     <>
-        
         <BrowserRouter>
-            <Nav/>
-            <div>
-                <Routes>
-                    <Route path="/test" element={<Test content={text} />} />
+            <Routes>
+                <Route path="/" element={<Layout/>}>
+                    <Route index element={<Test content={text} />} />
                     <Route path="/counter" element={<Counter count={7} />} />
-                </Routes>
-            </div>
+                    <Route path="*" element={<NotFound />} />
+                </Route>
+            </Routes>
         </BrowserRouter>
     </>
-    
 );

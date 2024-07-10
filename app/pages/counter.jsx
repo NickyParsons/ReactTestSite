@@ -8,6 +8,11 @@ class Counter extends React.Component{
         this.addToCounter = this.addToCounter.bind(this);
         this.reduceToCounter = this.reduceToCounter.bind(this);
     }
+    componentDidMount() {
+        const pageTitle = "Counter Page";
+        document.title = `NickyParsons Site | ${pageTitle}`;
+        document.getElementById("pageTitle").innerText = pageTitle;
+    }
     testHandler(event){
         console.log(`Кнопка нажата ${event.ctrlKey}`);
     }
@@ -35,15 +40,15 @@ class Counter extends React.Component{
         }
     }
     render() {
-        return <div>
+        return <>
             <h3>Counter Component</h3>
             <button id="minus-buuton" onClick={this.reduceToCounter}>-</button>
             <button id="count-buuton" onClick={this.testHandler}>{this.state.count}</button>
             <button id="plus-buuton" onClick={this.addToCounter}>+</button>
-        </div>
+        </>
     }
 }
 
 Counter.defaultProps = {count: 0}
   
-module.exports = Counter;
+export { Counter };
