@@ -85,6 +85,7 @@ body, #app{
     display: block;
     position: absolute;
     /*min-height: 80px;*/
+    
     box-shadow: 10px 10px 5px rgb(0, 0, 0, .5);
     border: 2px solid #2fd8d8;
     border-radius: 6px;
@@ -100,3 +101,37 @@ body, #app{
     opacity: 0;
     visibility: hidden;
 }
+
+/*ФОРМЫ*/
+.validFormField {
+    display: flex;
+    justify-content: space-between;
+}
+    .validFormField label {
+        display:block;
+        width: 200px;
+    }
+    .validFormField input {
+        font-weight: bold;
+        color: #172323;
+        background-color: lightgrey;
+        border-radius: 3px;
+    }
+.invalidFormField {
+    display: flex;
+    justify-content: space-between;
+}
+
+    .invalidFormField label {
+        display: block;
+        width: 200px;
+        color: red;
+    }
+
+    .invalidFormField input {
+        font-weight: bold;
+        color: #172323;
+        background-color: #ad8686;
+        border: 2px solid #b53030;
+        border-radius: 3px;
+    }

@@ -1,4 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
+import { RegisterForm } from "./registerForm.jsx";
 const React = require("react");
   
 class Header extends React.Component{
@@ -8,7 +9,7 @@ class Header extends React.Component{
         this.toggleRigisterFormVisibility = this.toggleRigisterFormVisibility.bind(this);
     }
     toggleRigisterFormVisibility(event) {
-        const registerBar = document.getElementById("registerBar");
+        const registerBar = document.getElementById("registerWindow");
         event.preventDefault();
         registerBar.classList.toggle("window-hidden");
         registerBar.classList.toggle("window-visible");
@@ -19,8 +20,9 @@ class Header extends React.Component{
             <div id="header">
                 <div className="menu" id="logon">
                     <a href="/register" id="openRegisterBtn" className="navLink" onClick={this.toggleRigisterFormVisibility}>Register</a>
-                    <div id="registerBar" className="pop-up-window window-hidden">
-                        register form here<button id="closeRegisterBtn" onClick={this.toggleRigisterFormVisibility}>Закрыть</button>
+                    <div id="registerWindow" className="pop-up-window window-hidden">
+                        <RegisterForm/>
+                        <button id="closeRegisterBtn" onClick={this.toggleRigisterFormVisibility}>Закрыть</button>
                     </div>
                 </div>
                 <div className="menu" id="navMenu">
