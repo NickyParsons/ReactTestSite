@@ -6,6 +6,28 @@ class Test extends React.Component{
         super(props);
         this.state = {message: "This is state"};
     }
+    async getData() {
+        try {
+            let response = await fetch(`http://192.168.1.2:5214/test3`, {
+                method: "GET",
+                headers: {
+                    "Accept": "*/*",
+                    "Content-Type": "*/*"
+                },
+                mode: "cors",
+                credentials: "include"
+            });
+            if (response.status === 200) {
+                console.log(`date: ${await response.text()}`);
+            }
+            else {
+                console.log(response.statusText);
+            }
+        }
+        catch (error) {
+            console.log(`Something goes wrong: ${error}`);
+        }
+    }
     componentDidMount() {
         const pageTitle = "Test Page";
         document.title = `NickyParsons Site | ${pageTitle}`;
@@ -16,6 +38,7 @@ class Test extends React.Component{
                 <h3>Test Component</h3>
                 <p>{this.state.message}</p>
                 <p>Props: {this.props.content}</p>
+            <button onClick={this.getData}>TEST FETCH SEE CONSOLE</button>
             </>
     }
 }

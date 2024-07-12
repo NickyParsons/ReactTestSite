@@ -79,25 +79,25 @@ body, #app{
     }
 
 /*Pop Up Windows*/
-.pop-up-window {
+.popUpWindow {
     top: 45px;
     right: 20px;
     display: block;
     position: absolute;
     /*min-height: 80px;*/
-    
+
     box-shadow: 10px 10px 5px rgb(0, 0, 0, .5);
     border: 2px solid #2fd8d8;
     border-radius: 6px;
 }
 
-.window-visible {
+.windowVisible {
     transition-property: opacity;
-    transition-duration: 400ms;
+    transition-duration: 500ms;
     opacity: 1;
     visibility: visible;
 }
-.window-hidden {
+.windowHidden {
     opacity: 0;
     visibility: hidden;
 }

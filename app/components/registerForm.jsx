@@ -155,24 +155,24 @@ class RegisterForm extends React.Component{
             return <>
                 <form id="registerForm" method="post" action="http://localhost:5214/register" onSubmit={this.submitForm}>
                     <div className={emailClass}>
-                        <label>E-Mail:</label>
-                        <input type="email" name="email" ref={this.emailInput} value={this.state.name} onChange={this.changeEmail} required />
+                        <label htmlFor="email">E-Mail:</label>
+                        <input type="email" id="email" name="email" ref={this.emailInput} value={this.state.name} onChange={this.changeEmail} required />
                     </div>
                     <div className={firstNameClass}>
-                        <label>Имя:</label>
-                        <input type="text" name="firstname" value={this.state.firstname} onChange={this.changeFirstName} />
+                        <label htmlFor="firstname">Имя:</label>
+                        <input type="text" id="firstname" name="firstname" value={this.state.firstname} onChange={this.changeFirstName} />
                     </div>
                     <div className={lastNameClass}>
-                        <label>Фамилия:</label>
-                        <input type="text" name="lastname" value={this.state.lastname} onChange={this.changeLastName} />
+                        <label htmlFor="lastname">Фамилия:</label>
+                        <input type="text" id="lastname" name="lastname" value={this.state.lastname} onChange={this.changeLastName} />
                     </div>
                     <div className={passwordClass}>
-                        <label>Пароль:</label>
-                        <input type="password" ref={this.passwordInput} name="password" value={this.state.password} onChange={this.changePassword} required />
+                        <label htmlFor="password">Пароль:</label>
+                        <input type="password" ref={this.passwordInput} id="password" name="password" value={this.state.password} onChange={this.changePassword} required />
                     </div>
                     <div className={repeatPasswordClass}>
-                        <label>Повторите пароль:</label>
-                        <input type="password" ref={this.repeatPasswordInput} value={this.state.repeatPassword} onChange={this.changePasswordRepeat} required />
+                        <label htmlFor="repeatPassword">Повторите пароль:</label>
+                        <input type="password" ref={this.repeatPasswordInput} id="repeatPassword" value={this.state.repeatPassword} onChange={this.changePasswordRepeat} required />
                     </div>
                     <p><input type="submit" value="Регистрация" /></p>
                 </form>
