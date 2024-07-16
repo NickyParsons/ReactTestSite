@@ -4,7 +4,6 @@ class RegisterForm extends React.Component{
  
     constructor(props) {
         super(props);
-        this.submitForm = this.submitForm.bind(this);
         this.changeEmail = this.changeEmail.bind(this);
         this.changeFirstName = this.changeFirstName.bind(this);
         this.changeLastName = this.changeLastName.bind(this);
@@ -27,36 +26,10 @@ class RegisterForm extends React.Component{
         this.passwordInput = React.createRef();
         this.repeatPasswordInput = React.createRef();
     }
-
-    async submitForm(event) {
-        this.setState({ isFormSended: false });
-        this.setState({ isError: false });
-        event.preventDefault();
-        let requestForm = {
-            email: this.state.email,
-            firstname: this.state.firstname,
-            lastname: this.state.lastname,
-            password: this.state.password
-        }
-        let hostString = `http://localhost:5214/register`;
-        let queryString = `email=${this.state.email}&firstname=${this.state.firstname}&lastname=${this.state.lastname}&password=${this.state.password}`;
-        console.log(`request: ${hostString}?${queryString}`)
-        try {
-            this.setState({ isFormSended: true });
-            let response = await fetch(`${hostString}?${queryString}`, {
-                method: "POST",
-                mode: "no-cors"
-            });
-        }
-        catch (error) {
-            this.setState({isError: true });
-            console.log(`Something goes wrong: ${error}`);
-        }
-
-    }
     changeEmail(event) {
         let value = event.target.value;
-        this.setState({ email: value })
+        this.setState({ email: value });
+        this.props.requestForm.email = event.target.value;
         if (event.target.validity.valid === true) {
             this.setState({ emailValid: true });
         }
@@ -67,6 +40,7 @@ class RegisterForm extends React.Component{
     changeFirstName(event) {
         let value = event.target.value;
         this.setState({ firstname: value })
+        this.props.requestForm.firstName = event.target.value;
         if (value.length > 20) {
             event.target.setCustomValidity("Не более 20 символов");
         }
@@ -83,6 +57,7 @@ class RegisterForm extends React.Component{
     changeLastName(event) {
         let value = event.target.value;
         this.setState({ lastname: value })
+        this.props.requestForm.lastName = event.target.value;
         if (value.length > 20) {
             event.target.setCustomValidity("Не более 20 символов");
         }
@@ -98,6 +73,7 @@ class RegisterForm extends React.Component{
     }
     changePassword(event) {
         this.setState({ password: event.target.value })
+        this.props.requestForm.password = event.target.value;
         this.validatePassword();
     }
     changePasswordRepeat(event) {
@@ -153,7 +129,7 @@ class RegisterForm extends React.Component{
             let passwordClass = this.state.passwordValid === true ? "validFormField" : "invalidFormField";
             let repeatPasswordClass = this.state.repeatPasswordValid === true ? "validFormField" : "invalidFormField";
             return <>
-                <form id="registerForm" method="post" action="http://localhost:5214/register" onSubmit={this.submitForm}>
+                <form id="registerForm" method="post" action="http://localhost:5214/register" onSubmit={this.props.submitHandler}>
                     <div className={emailClass}>
                         <label htmlFor="email">E-Mail:</label>
                         <input type="email" id="email" name="email" ref={this.emailInput} value={this.state.name} onChange={this.changeEmail} required />

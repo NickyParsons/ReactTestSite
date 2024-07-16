@@ -7,11 +7,12 @@
     <PackageJsonAuthor Condition="$(PackageJsonAuthor) == ''">NickyParsons</PackageJsonAuthor>
     <PackageJsonScriptsDev Condition="$(PackageJsonScriptsDev) == ''">webpack serve --mode=development</PackageJsonScriptsDev>
     <PackageJsonScriptsBuild Condition="$(PackageJsonScriptsBuild) == ''">webpack</PackageJsonScriptsBuild>
+    <PackageJsonDependenciesHistory Condition="$(PackageJsonDependenciesHistory) == ''">5.3.0</PackageJsonDependenciesHistory>
     <PackageJsonDependenciesReact Condition="$(PackageJsonDependenciesReact) == ''">18.0.0</PackageJsonDependenciesReact>
     <PackageJsonDependenciesReactDom Condition="$(PackageJsonDependenciesReactDom) == ''">18.0.0</PackageJsonDependenciesReactDom>
-    <PackageJsonDependenciesHistory Condition="$(PackageJsonDependenciesHistory) == ''">5.3.0</PackageJsonDependenciesHistory>
     <PackageJsonDependenciesReactRouter Condition="$(PackageJsonDependenciesReactRouter) == ''">6.3.0</PackageJsonDependenciesReactRouter>
     <PackageJsonDependenciesReactRouterDom Condition="$(PackageJsonDependenciesReactRouterDom) == ''">6.3.0</PackageJsonDependenciesReactRouterDom>
+    <PackageJsonDependenciesUniversalCookie Condition="$(PackageJsonDependenciesUniversalCookie) == ''">^7.1.4</PackageJsonDependenciesUniversalCookie>
     <PackageJsonDevdependenciesBabelCli Condition="$(PackageJsonDevdependenciesBabelCli) == ''">7.17.0</PackageJsonDevdependenciesBabelCli>
     <PackageJsonDevdependenciesBabelCore Condition="$(PackageJsonDevdependenciesBabelCore) == ''">7.17.0</PackageJsonDevdependenciesBabelCore>
     <PackageJsonDevdependenciesBabelPresetReact Condition="$(PackageJsonDevdependenciesBabelPresetReact) == ''">7.16.0</PackageJsonDevdependenciesBabelPresetReact>

@@ -7,8 +7,10 @@ class Test extends React.Component{
         this.state = {message: "This is state"};
     }
     async getData() {
+        //let hostString = "http://192.168.1.2:5214";
+        let hostString = "http://localhost:5214";
         try {
-            let response = await fetch(`http://192.168.1.2:5214/test3`, {
+            let response = await fetch(`${hostString}/test3`, {
                 method: "GET",
                 headers: {
                     "Accept": "*/*",
