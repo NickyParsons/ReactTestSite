@@ -1,21 +1,25 @@
 const path = require("path");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
    
 module.exports = {
-    mode: "development",
-    entry: "./app/app.jsx", // входная точка - исходный файл
+    entry: "./src/app.jsx", // входная точка - исходный файл
     output:{
-        path: path.resolve(__dirname, "./public"),     // путь к каталогу выходных файлов - папка public
-        publicPath: "/public/",
+        path: path.resolve(__dirname, "./dist"),     // путь к каталогу выходных файлов
+        //publicPath: "/dist/",
         filename: "bundle.js"       // название создаваемого файла
     },
     devtool: "source-map",
     devServer: {
-     historyApiFallback: true,
-     static: {
-      directory: path.join(__dirname, "/"),
-    },
-     port: 8081,
-     open: true
+        historyApiFallback: true,
+        static: {
+            directory: path.join(__dirname, "/"),
+            watch: true
+        },
+        port: 8081,
+        open: true,
+        liveReload: true,
+        hot: true
+        
    },
     module:{
         rules:[   //загрузчик для jsx
@@ -26,7 +30,18 @@ module.exports = {
                 options:{
                     presets:[ "@babel/preset-react"]    // используемые плагины
                 }
+            },
+            {
+                test: /\.css$/,
+                exclude: /(node_modules)/,
+                use: ["style-loader", "css-loader"]
             }
         ]
-    }
+    },
+    plugins: [
+        new HtmlWebPackPlugin({
+            title: "NickyParsons Site",
+            template: "./src/template.html"
+        })
+    ]
 }

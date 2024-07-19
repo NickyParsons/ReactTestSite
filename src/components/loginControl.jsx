@@ -1,7 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useLayoutEffect, useContext } from "react";
+import Cookies from "universal-cookie";
+
 import { RegisterForm } from "./registerForm.jsx";
 import { LoginForm } from "./loginForm.jsx";
-import Cookies from "universal-cookie";
+import { AuthContext } from "../hocs/AuthProvider.jsx";
 
 function LoginControl(props) {
     //fields
@@ -18,13 +20,15 @@ function LoginControl(props) {
         lastName: "",
         password: ""
     });
+    //context
+    let context = useContext(AuthContext);
     //states
     let [isLoogedIn, setLoggedState] = useState(false);
     let [isRegisterVisible, setRegisterVisibility] = useState(false);
     let [isLoginVisible, setLoginVisibility] = useState(false);
     //effects
     useEffect(showRenderState);
-    useEffect(checkLoginState, []);
+    useLayoutEffect(checkLoginState, []);
     //handlers
     function showRenderState() {
         console.log(`Render count: ${renderCount.current}`);
@@ -60,6 +64,7 @@ function LoginControl(props) {
                 let data = await response.json();
                 cookies.set("nasty-boy", data.token);
                 setLoggedState(true);
+                context.setUser(data.email);
             }
             else if (response.status === 401) {
                 console.log("Email or password incorrect");

@@ -1,0 +1,11 @@
+﻿#createArticleForm{
+    display: flex;
+    flex-direction: column;
+}
+.formRow {
+    display: flex;
+    justify-content: space-between;
+}
+.formRow input{
+    width:stretch;
+}

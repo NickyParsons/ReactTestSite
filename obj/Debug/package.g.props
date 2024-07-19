@@ -5,8 +5,9 @@
     <PackageJsonDescription Condition="$(PackageJsonDescription) == ''">A React.js project using Webpack</PackageJsonDescription>
     <PackageJsonVersion Condition="$(PackageJsonVersion) == ''">0.0.0</PackageJsonVersion>
     <PackageJsonAuthor Condition="$(PackageJsonAuthor) == ''">NickyParsons</PackageJsonAuthor>
-    <PackageJsonScriptsDev Condition="$(PackageJsonScriptsDev) == ''">webpack serve --mode=development</PackageJsonScriptsDev>
-    <PackageJsonScriptsBuild Condition="$(PackageJsonScriptsBuild) == ''">webpack</PackageJsonScriptsBuild>
+    <PackageJsonScriptsServe Condition="$(PackageJsonScriptsServe) == ''">webpack serve --mode development</PackageJsonScriptsServe>
+    <PackageJsonScriptsDev Condition="$(PackageJsonScriptsDev) == ''">webpack --mode development</PackageJsonScriptsDev>
+    <PackageJsonScriptsBuild Condition="$(PackageJsonScriptsBuild) == ''">webpack --mode production</PackageJsonScriptsBuild>
     <PackageJsonDependenciesHistory Condition="$(PackageJsonDependenciesHistory) == ''">5.3.0</PackageJsonDependenciesHistory>
     <PackageJsonDependenciesReact Condition="$(PackageJsonDependenciesReact) == ''">18.0.0</PackageJsonDependenciesReact>
     <PackageJsonDependenciesReactDom Condition="$(PackageJsonDependenciesReactDom) == ''">18.0.0</PackageJsonDependenciesReactDom>
@@ -17,6 +18,9 @@
     <PackageJsonDevdependenciesBabelCore Condition="$(PackageJsonDevdependenciesBabelCore) == ''">7.17.0</PackageJsonDevdependenciesBabelCore>
     <PackageJsonDevdependenciesBabelPresetReact Condition="$(PackageJsonDevdependenciesBabelPresetReact) == ''">7.16.0</PackageJsonDevdependenciesBabelPresetReact>
     <PackageJsonDevdependenciesBabelLoader Condition="$(PackageJsonDevdependenciesBabelLoader) == ''">8.2.0</PackageJsonDevdependenciesBabelLoader>
+    <PackageJsonDevdependenciesCssLoader Condition="$(PackageJsonDevdependenciesCssLoader) == ''">^7.1.2</PackageJsonDevdependenciesCssLoader>
+    <PackageJsonDevdependenciesHtmlWebpackPlugin Condition="$(PackageJsonDevdependenciesHtmlWebpackPlugin) == ''">^5.6.0</PackageJsonDevdependenciesHtmlWebpackPlugin>
+    <PackageJsonDevdependenciesStyleLoader Condition="$(PackageJsonDevdependenciesStyleLoader) == ''">^4.0.0</PackageJsonDevdependenciesStyleLoader>
     <PackageJsonDevdependenciesWebpack Condition="$(PackageJsonDevdependenciesWebpack) == ''">5.70.0</PackageJsonDevdependenciesWebpack>
     <PackageJsonDevdependenciesWebpackCli Condition="$(PackageJsonDevdependenciesWebpackCli) == ''">4.10.0</PackageJsonDevdependenciesWebpackCli>
     <PackageJsonDevdependenciesWebpackDevServer Condition="$(PackageJsonDevdependenciesWebpackDevServer) == ''">4.11.0</PackageJsonDevdependenciesWebpackDevServer>

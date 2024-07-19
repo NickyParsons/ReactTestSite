@@ -109,7 +109,7 @@ body, #app{
 }
     .validFormField label {
         display:block;
-        width: 200px;
+        /*width: 200px;*/
     }
     .validFormField input {
         font-weight: bold;
