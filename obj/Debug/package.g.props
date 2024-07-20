@@ -9,6 +9,7 @@
     <PackageJsonScriptsDev Condition="$(PackageJsonScriptsDev) == ''">webpack --mode development</PackageJsonScriptsDev>
     <PackageJsonScriptsBuild Condition="$(PackageJsonScriptsBuild) == ''">webpack --mode production</PackageJsonScriptsBuild>
     <PackageJsonDependenciesHistory Condition="$(PackageJsonDependenciesHistory) == ''">5.3.0</PackageJsonDependenciesHistory>
+    <PackageJsonDependenciesJwtDecode Condition="$(PackageJsonDependenciesJwtDecode) == ''">^4.0.0</PackageJsonDependenciesJwtDecode>
     <PackageJsonDependenciesReact Condition="$(PackageJsonDependenciesReact) == ''">18.0.0</PackageJsonDependenciesReact>
     <PackageJsonDependenciesReactDom Condition="$(PackageJsonDependenciesReactDom) == ''">18.0.0</PackageJsonDependenciesReactDom>
     <PackageJsonDependenciesReactRouter Condition="$(PackageJsonDependenciesReactRouter) == ''">6.3.0</PackageJsonDependenciesReactRouter>

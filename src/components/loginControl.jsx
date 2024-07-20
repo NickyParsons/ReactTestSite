@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect, useLayoutEffect, useContext } from "react";
-import Cookies from "universal-cookie";
 
 import { RegisterForm } from "./registerForm.jsx";
 import { LoginForm } from "./loginForm.jsx";
@@ -7,81 +6,39 @@ import { AuthContext } from "../hocs/AuthProvider.jsx";
 
 function LoginControl(props) {
     //fields
-    const cookies = new Cookies();
-    //refs
-    let renderCount = useRef(1);
-    let loginRequestRef = useRef({
+    let loginRequest = {
         email: "",
         password: ""
-    });
-    let registerRequestRef = useRef({
+    }
+    let registerRequest = {
         email: "",
         firstName: "",
         lastName: "",
         password: ""
-    });
+    }
+    //refs
+    let renderCount = useRef(1);
     //context
-    let context = useContext(AuthContext);
+    let authContext = useContext(AuthContext);
     //states
-    let [isLoogedIn, setLoggedState] = useState(false);
     let [isRegisterVisible, setRegisterVisibility] = useState(false);
     let [isLoginVisible, setLoginVisibility] = useState(false);
     //effects
-    useEffect(showRenderState);
-    useLayoutEffect(checkLoginState, []);
+    //useEffect(showRenderState);
     //handlers
     function showRenderState() {
-        console.log(`Render count: ${renderCount.current}`);
+        console.log(`Render login control count: ${renderCount.current}`);
         renderCount.current = renderCount.current + 1;
-    }
-    function checkLoginState() {
-        if (cookies.get("nasty-boy")) {
-            setLoggedState(true);
-            console.log(`Found cookie`);
-        }
-        else {
-            setLoggedState(false);
-            console.log(`cookie not found`);
-        }
     }
     async function submitLoginForm(event) {
         event.preventDefault();
-        let hostString = `http://localhost:5214/login`;
-        let queryString = `email=${loginRequestRef.current.email}&password=${loginRequestRef.current.password}`;
-        console.log(`request: ${hostString}?${queryString}`)
-        try {
-            let response = await fetch(`${hostString}?${queryString}`, {
-                method: "POST",
-                headers: {
-                    "Accept": "*/*",
-                    "Content-Type": "*/*"
-                },
-                cache: "no-cache",
-                mode: "cors",
-                credentials: "include"
-            });
-            if (response.status === 200) {
-                let data = await response.json();
-                cookies.set("nasty-boy", data.token);
-                setLoggedState(true);
-                context.setUser(data.email);
-            }
-            else if (response.status === 401) {
-                console.log("Email or password incorrect");
-            }
-            else {
-                console.log("Unexpected status code");
-            }
-        }
-        catch (error) {
-            console.log(`Something goes wrong: ${error}`);
-        }
+        authContext.signIn(loginRequest);
         setLoginVisibility(false);
     }
     async function submitRegisterForm(event) {
         event.preventDefault();
         let hostString = `http://localhost:5214/register`;
-        let queryString = `email=${registerRequestRef.current.email}&firstname=${registerRequestRef.current.firstName}&lastname=${registerRequestRef.current.lastName}&password=${registerRequestRef.current.password}`;
+        let queryString = `email=${registerRequest.email}&firstname=${registerRequest.firstName}&lastname=${registerRequest.lastName}&password=${registerRequest.password}`;
         console.log(`request: ${hostString}?${queryString}`)
         try {
             let response = await fetch(`${hostString}?${queryString}`, {
@@ -93,6 +50,10 @@ function LoginControl(props) {
             console.log(`Something goes wrong: ${error}`);
         }
         setRegisterVisibility(false);
+    }
+    function logout(event) {
+        event.preventDefault();
+        authContext.signOut();
     }
     function toggleRigisterFormVisibility(event) {
         event.preventDefault();
@@ -108,18 +69,11 @@ function LoginControl(props) {
         }
         setLoginVisibility(isLoginVisible === true ? false : true);
     }
-    function logout(event) {
-        event.preventDefault();
-        if (cookies.get("nasty-boy")) {
-            cookies.remove("nasty-boy");
-            setLoggedState(false);
-        }
-    }
     //render
     let registerFormClasses = `popUpWindow ${isRegisterVisible ? "windowVisible" : "windowHidden"}`;
     let loginFormClasses = `popUpWindow ${isLoginVisible ? "windowVisible" : "windowHidden"}`;
     let buttons = <></>;
-    if (isLoogedIn) {
+    if (authContext.isLoggedIn) {
         buttons = <a href="/logout" className="navLink" onClick={logout}>Выход</a>
     }
     else {
@@ -131,11 +85,11 @@ function LoginControl(props) {
     return <>
         <div className="menu" id="logon">
             <div id="loginWindow" className={loginFormClasses}>
-                <LoginForm submitHandler={submitLoginForm} requestForm={loginRequestRef.current} />
+                <LoginForm submitHandler={submitLoginForm} requestForm={loginRequest} />
                 <button onClick={toggleLoginFormVisibility}>Закрыть</button>
             </div>
             <div id="registerWindow" className={registerFormClasses}>
-                <RegisterForm submitHandler={submitRegisterForm} requestForm={registerRequestRef.current} />
+                <RegisterForm submitHandler={submitRegisterForm} requestForm={registerRequest} />
                 <button onClick={toggleRigisterFormVisibility}>Закрыть</button>
             </div>
             {buttons}

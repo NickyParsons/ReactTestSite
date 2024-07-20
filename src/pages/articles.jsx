@@ -6,7 +6,7 @@ function Articles(props) {
     //fields
     const pageTitle = "Статьи";
     //context
-    let context = useContext(AuthContext);
+    let authContext = useContext(AuthContext);
     //effects
     useEffect(setTitle, []);
     //handlers
@@ -15,10 +15,20 @@ function Articles(props) {
         document.getElementById("pageTitle").innerText = pageTitle;
     }
     //render
+    let addArticle = <></>;
+    if (authContext.isLoggedIn) {
+        addArticle = <Link to="/createArticle" className="textLink">Добавить статью</Link>;
+    }
+    else {
+        addArticle = <span>Войдите чтобы добавить статью</span>;
+    }
     return <>
         <h3>{pageTitle}</h3>
-        <p>Welcome, {context.userName}!</p>
-        <Link to="/createArticle" className="textLink">Добавить статью</Link>
+        <p>Login status: {authContext.isLoggedIn.toString()}</p>
+        <p>ID: {authContext.id}</p>
+        <p>User: {authContext.email}</p>
+        <p>Role: {authContext.role}</p>
+        {addArticle}
     </>;
 }
   

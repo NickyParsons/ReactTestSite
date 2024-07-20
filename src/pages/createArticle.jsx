@@ -1,10 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
-import "../styles/createArticle.css"
-  
+import React, { useState, useRef, useEffect, useContext } from "react";
+import { AuthContext } from "../hocs/AuthProvider.jsx";
+import "../styles/createArticle.css";
+
 function CreateArticle(props) {
     //fields
     const pageTitle = "Создание новой статьи";
     //refs
+    //context
+    let authContext = useContext(AuthContext);
     //states
     //effects
     useEffect(setTitle, []);
@@ -21,6 +24,7 @@ function CreateArticle(props) {
         data.append("description", form.description.value);
         data.append("text", form.text.value);
         data.append("image", form.image.files[0]);
+        data.append("AuthorId", authContext.id);
         let hostString = `http://localhost:5214/articles/new`;
         try {
             let response = await fetch(`${hostString}`, {
