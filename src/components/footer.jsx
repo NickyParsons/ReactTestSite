@@ -9,17 +9,14 @@ class Footer extends React.Component{
         return `Copyright © ${new Date().getFullYear()}`;
     }
     render() {
-        return <footer>
-            <h2>FOOTER</h2>
-            <div id="footer">
-                <p>
-                    Telegram: <a className="textLink" href="https://t.me/NickyParsons">@NickyParsons</a>.
-                </p>
-                <p>
-                    {this.getCopyright()}
-                </p>
-            </div>
-        </footer>
+        return <>
+            <p>
+                Telegram: <a href="https://t.me/NickyParsons">@NickyParsons</a>.
+            </p>
+            <p>
+                {this.getCopyright()}
+            </p>
+        </>
     }
 }
   

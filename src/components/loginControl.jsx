@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect, useLayoutEffect, useContext } from "react";
 
-import { RegisterForm } from "./registerForm.jsx";
-import { LoginForm } from "./loginForm.jsx";
+import RegisterForm from "./registerForm.jsx";
+import LoginForm from "./loginForm.jsx";
 import { AuthContext } from "../hocs/AuthProvider.jsx";
+
+import "../styles/popUpWindow.css";
 
 function LoginControl(props) {
     //fields
@@ -17,12 +19,12 @@ function LoginControl(props) {
         password: ""
     }
     //refs
-    let renderCount = useRef(1);
+    const renderCount = useRef(1);
     //context
-    let authContext = useContext(AuthContext);
+    const authContext = useContext(AuthContext);
     //states
-    let [isRegisterVisible, setRegisterVisibility] = useState(false);
-    let [isLoginVisible, setLoginVisibility] = useState(false);
+    const [isRegisterVisible, setRegisterVisibility] = useState(false);
+    const [isLoginVisible, setLoginVisibility] = useState(false);
     //effects
     //useEffect(showRenderState);
     //handlers
@@ -33,6 +35,7 @@ function LoginControl(props) {
     async function submitLoginForm(event) {
         event.preventDefault();
         authContext.signIn(loginRequest);
+        event.target.reset();
         setLoginVisibility(false);
     }
     async function submitRegisterForm(event) {
@@ -49,6 +52,7 @@ function LoginControl(props) {
         catch (error) {
             console.log(`Something goes wrong: ${error}`);
         }
+        event.target.reset();
         setRegisterVisibility(false);
     }
     function logout(event) {
@@ -70,8 +74,8 @@ function LoginControl(props) {
         setLoginVisibility(isLoginVisible === true ? false : true);
     }
     //render
-    let registerFormClasses = `popUpWindow ${isRegisterVisible ? "windowVisible" : "windowHidden"}`;
-    let loginFormClasses = `popUpWindow ${isLoginVisible ? "windowVisible" : "windowHidden"}`;
+    const registerFormClasses = `popUpWindow ${isRegisterVisible ? "windowVisible" : "windowHidden"}`;
+    const loginFormClasses = `popUpWindow ${isLoginVisible ? "windowVisible" : "windowHidden"}`;
     let buttons = <></>;
     if (authContext.isLoggedIn) {
         buttons = <a href="/logout" className="navLink" onClick={logout}>Выход</a>

@@ -2,10 +2,24 @@
     display: flex;
     flex-direction: column;
 }
+
 .formRow {
-    display: flex;
-    justify-content: space-between;
-}
-.formRow input{
-    width:stretch;
-}
+        display: flex;
+        justify-content: center;
+    }
+    .formRow label {
+        min-width: 150px;
+    }
+    .formRow input {
+        font-weight: bold;
+        color: #172323;
+        background-color: lightgrey;
+        border-radius: 3px;
+        flex-grow: 1;
+    }
+    .formRow button {
+        min-width: 100px;
+    }
+    .formRow #text {
+        height: 100px;
+    }

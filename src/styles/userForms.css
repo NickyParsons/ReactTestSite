@@ -1,0 +1,32 @@
+﻿.validFormField {
+    display: flex;
+    justify-content: space-between;
+}
+    .validFormField label {
+        display:block;
+        width: 200px;
+    }
+    .validFormField input {
+        font-weight: bold;
+        color: #172323;
+        background-color: lightgrey;
+        border-radius: 3px;
+    }
+.invalidFormField {
+    display: flex;
+    justify-content: space-between;
+}
+
+    .invalidFormField label {
+        display: block;
+        width: 200px;
+        color: red;
+    }
+
+    .invalidFormField input {
+        font-weight: bold;
+        color: #172323;
+        background-color: #ad8686;
+        border: 2px solid #b53030;
+        border-radius: 3px;
+    }

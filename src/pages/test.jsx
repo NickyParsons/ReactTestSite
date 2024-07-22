@@ -1,48 +1,49 @@
-const React = require("react");
+import React, { useState, useRef, useEffect, useContext, useLayoutEffect } from "react";
+import { AuthContext } from "../hocs/AuthProvider.jsx";
   
-class Test extends React.Component{
- 
-    constructor(props){
-        super(props);
-        this.state = {message: "This is state"};
-    }
-    async getData() {
-        //let hostString = "http://192.168.1.2:5214";
-        let hostString = "http://localhost:5214";
-        try {
-            let response = await fetch(`${hostString}/test3`, {
-                method: "GET",
-                headers: {
-                    "Accept": "*/*",
-                    "Content-Type": "*/*"
-                },
-                mode: "cors",
-                credentials: "include"
-            });
-            if (response.status === 200) {
-                console.log(`date: ${await response.text()}`);
-            }
-            else {
-                console.log(response.statusText);
-            }
+async function getData() {
+    //let hostString = "http://192.168.1.2:5214";
+    let hostString = "http://localhost:5214";
+    try {
+        let response = await fetch(`${hostString}/test3`, {
+            method: "GET",
+            headers: {
+                "Accept": "*/*",
+                "Content-Type": "*/*"
+            },
+            mode: "cors",
+            credentials: "include"
+        });
+        if (response.status === 200) {
+            console.log(`date: ${await response.text()}`);
         }
-        catch (error) {
-            console.log(`Something goes wrong: ${error}`);
+        else {
+            console.log(response.statusText);
         }
     }
-    componentDidMount() {
-        const pageTitle = "Test Page";
+    catch (error) {
+        console.log(`Something goes wrong: ${error}`);
+    }
+}
+export default function Test(props) {
+    //fields
+    const pageTitle = "Тестовая страница";
+    //context
+    let authContext = useContext(AuthContext);
+    //effects
+    useLayoutEffect(setTitle, []);
+    //handlers
+    function setTitle() {
         document.title = `NickyParsons Site | ${pageTitle}`;
         document.getElementById("pageTitle").innerText = pageTitle;
     }
-    render() {
-        return <>
-                <h3>Test Component</h3>
-                <p>{this.state.message}</p>
-                <p>Props: {this.props.content}</p>
-            <button onClick={this.getData}>TEST FETCH SEE CONSOLE</button>
-            </>
-    }
+    //render
+    return <>
+        <p>Props: {props.content}</p>
+        <p>Login status: {authContext.isLoggedIn.toString()}</p>
+        <p>ID: {authContext.id}</p>
+        <p>User: {authContext.email}</p>
+        <p>Role: {authContext.role}</p>
+        <button onClick={getData}>TEST FETCH SEE CONSOLE</button>
+    </>
 }
-  
-export { Test };

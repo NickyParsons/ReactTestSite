@@ -1,88 +1,44 @@
-const React = require("react");
-  
-class RegisterForm extends React.Component{
- 
-    constructor(props) {
-        super(props);
-        this.changeEmail = this.changeEmail.bind(this);
-        this.changeFirstName = this.changeFirstName.bind(this);
-        this.changeLastName = this.changeLastName.bind(this);
-        this.changePassword = this.changePassword.bind(this);
-        this.changePasswordRepeat = this.changePasswordRepeat.bind(this);
-        this.state = {
-            email: "",
-            emailValid: true,
-            firstname: "",
-            firstnameValid: true,
-            lastname: "", password: "",
-            lastnameValid: true,
-            password: "",
-            passwordValid: true,
-            repeatPassword: "",
-            repeatPasswordValid: true,
-            isFormSended: false,
-            isError: false
-        };
-        this.passwordInput = React.createRef();
-        this.repeatPasswordInput = React.createRef();
+import React, { useState, useRef } from "react";
+import "../styles/userForms.css";
+
+export default function RegisterForm(props) {
+    //refs
+    const formRef = useRef();
+    //states
+    const [isEmailValid, setEmailValid] = useState(true);
+    const [isFirstName, setFirstNameValid] = useState(true);
+    const [isLastName, setLastNameValid] = useState(true);
+    const [isPasswordValid, setPasswordValid] = useState(true);
+    const [isRepeatPasswordValid, setRepeatPasswordValid] = useState(true);
+    //handlers
+    function changeEmail(event) {
+        props.requestForm.email = event.target.value;
+        event.target.validity.valid ? setEmailValid(true) : setEmailValid(false);
     }
-    changeEmail(event) {
-        let value = event.target.value;
-        this.setState({ email: value });
-        this.props.requestForm.email = event.target.value;
-        if (event.target.validity.valid === true) {
-            this.setState({ emailValid: true });
-        }
-        else {
-            this.setState({ emailValid: false });
-        }
-    }
-    changeFirstName(event) {
-        let value = event.target.value;
-        this.setState({ firstname: value })
-        this.props.requestForm.firstName = event.target.value;
-        if (value.length > 20) {
+    function changeFirstName(event) {
+        props.requestForm.firstName = event.target.value;
+        if (event.target.value.length > 20) {
             event.target.setCustomValidity("Не более 20 символов");
         }
         else {
             event.target.setCustomValidity("");
         }
-        if (event.target.validity.valid === true) {
-            this.setState({ firstnameValid: true });
-        }
-        else {
-            this.setState({ firstnameValid: false });
-        }
+        event.target.validity.valid ? setFirstNameValid(true) : setFirstNameValid(false);
     }
-    changeLastName(event) {
-        let value = event.target.value;
-        this.setState({ lastname: value })
-        this.props.requestForm.lastName = event.target.value;
-        if (value.length > 20) {
+    function changeLastName(event) {
+        props.requestForm.lastName = event.target.value;
+        if (event.target.value.length > 20) {
             event.target.setCustomValidity("Не более 20 символов");
         }
         else {
             event.target.setCustomValidity("");
         }
-        if (event.target.validity.valid === true) {
-            this.setState({ lastnameValid: true });
-        }
-        else {
-            this.setState({ lastnameValid: false });
-        }
+        event.target.validity.valid ? setLastNameValid(true) : setLastNameValid(false);
     }
-    changePassword(event) {
-        this.setState({ password: event.target.value })
-        this.props.requestForm.password = event.target.value;
-        this.validatePassword();
-    }
-    changePasswordRepeat(event) {
-        this.setState({ repeatPassword: event.target.value })
-        this.validatePassword();
-    }
-    validatePassword(){
-        let password = this.passwordInput.current;
-        let repeatPassword = this.repeatPasswordInput.current;
+    function validatePassword(){
+        const password = formRef.current.password;
+        props.requestForm.password = password.value;
+        const repeatPassword = formRef.current.repeatPassword;
         if (password.value.length < 6) {
             password.setCustomValidity("Слишком короткий");
         }
@@ -95,66 +51,38 @@ class RegisterForm extends React.Component{
         else {
             repeatPassword.setCustomValidity("");
         }
-        if (password.validity.valid === true) {
-            this.setState({ passwordValid: true });
-        }
-        else {
-            this.setState({ passwordValid: false });
-        }
-        if (repeatPassword.validity.valid === true) {
-            this.setState({ repeatPasswordValid: true });
-        }
-        else {
-            this.setState({ repeatPasswordValid: false });
-        }
+        password.validity.valid ? setPasswordValid(true) : setPasswordValid(false);
+        repeatPassword.validity.valid ? setRepeatPasswordValid(true) : setRepeatPasswordValid(false);
     }
-
-    render() {
-        if (this.state.isFormSended === true) {
-            if (this.state.isError === false) {
-                return <>
-                    <p>Форма отправлена</p>
-                </>
-            }
-            else {
-                return <>
-                    <p>Something goes wrong</p>
-                </>
-            }
-        }
-        else {
-            let emailClass = this.state.emailValid === true ? "validFormField" : "invalidFormField";
-            let firstNameClass = this.state.firstnameValid === true ? "validFormField" : "invalidFormField";
-            let lastNameClass = this.state.lastnameValid === true ? "validFormField" : "invalidFormField";
-            let passwordClass = this.state.passwordValid === true ? "validFormField" : "invalidFormField";
-            let repeatPasswordClass = this.state.repeatPasswordValid === true ? "validFormField" : "invalidFormField";
-            return <>
-                <form id="registerForm" method="post" action="http://localhost:5214/register" onSubmit={this.props.submitHandler}>
-                    <div className={emailClass}>
-                        <label htmlFor="email">E-Mail:</label>
-                        <input type="email" id="email" name="email" ref={this.emailInput} value={this.state.name} onChange={this.changeEmail} required />
-                    </div>
-                    <div className={firstNameClass}>
-                        <label htmlFor="firstname">Имя:</label>
-                        <input type="text" id="firstname" name="firstname" value={this.state.firstname} onChange={this.changeFirstName} />
-                    </div>
-                    <div className={lastNameClass}>
-                        <label htmlFor="lastname">Фамилия:</label>
-                        <input type="text" id="lastname" name="lastname" value={this.state.lastname} onChange={this.changeLastName} />
-                    </div>
-                    <div className={passwordClass}>
-                        <label htmlFor="password">Пароль:</label>
-                        <input type="password" ref={this.passwordInput} id="password" name="password" value={this.state.password} onChange={this.changePassword} required />
-                    </div>
-                    <div className={repeatPasswordClass}>
-                        <label htmlFor="repeatPassword">Повторите пароль:</label>
-                        <input type="password" ref={this.repeatPasswordInput} id="repeatPassword" value={this.state.repeatPassword} onChange={this.changePasswordRepeat} required />
-                    </div>
-                    <p><input type="submit" value="Регистрация" /></p>
-                </form>
-            </>
-        }
-    }
+    //render
+    const emailClass = isEmailValid ? "validFormField" : "invalidFormField";
+    const firstNameClass = isFirstName ? "validFormField" : "invalidFormField";
+    const lastNameClass = isLastName ? "validFormField" : "invalidFormField";
+    const passwordClass = isPasswordValid ? "validFormField" : "invalidFormField";
+    const repeatPasswordClass = isRepeatPasswordValid ? "validFormField" : "invalidFormField";
+    return <>
+        <form id="registerForm" method="post" ref={formRef} action="http://localhost:5214/register" onSubmit={props.submitHandler}>
+            <div className={emailClass}>
+                <label htmlFor="email">E-Mail:</label>
+                <input type="email" id="email" name="email" onChange={changeEmail} required />
+            </div>
+            <div className={firstNameClass}>
+                <label htmlFor="firstname">Имя:</label>
+                <input type="text" id="firstname" name="firstname" onChange={changeFirstName} />
+            </div>
+            <div className={lastNameClass}>
+                <label htmlFor="lastname">Фамилия:</label>
+                <input type="text" id="lastname" name="lastname" onChange={changeLastName} />
+            </div>
+            <div className={passwordClass}>
+                <label htmlFor="password">Пароль:</label>
+                <input type="password" id="password" name="password" onChange={validatePassword} required />
+            </div>
+            <div className={repeatPasswordClass}>
+                <label htmlFor="repeatPassword">Повторите пароль:</label>
+                <input type="password" id="repeatPassword" onChange={validatePassword} required />
+            </div>
+            <button type="submit">Регистрация</button>
+        </form>
+    </>
 }
-  
-export { RegisterForm };

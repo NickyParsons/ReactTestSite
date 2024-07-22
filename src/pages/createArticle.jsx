@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useRef, useEffect, useContext, useLayoutEffect } from "react";
 import { AuthContext } from "../hocs/AuthProvider.jsx";
 import "../styles/createArticle.css";
 
@@ -7,10 +7,10 @@ function CreateArticle(props) {
     const pageTitle = "Создание новой статьи";
     //refs
     //context
-    let authContext = useContext(AuthContext);
+    const authContext = useContext(AuthContext);
     //states
     //effects
-    useEffect(setTitle, []);
+    useLayoutEffect(setTitle, []);
     //handlers
     function setTitle() {
         document.title = `NickyParsons Site | ${pageTitle}`;
@@ -66,7 +66,9 @@ function CreateArticle(props) {
                 <label htmlFor="text">Текст статьи:</label>
                 <input type="text" id="text"></input>
             </div>
-            <input type="submit" value="Отправить"></input>
+            <div className="formRow">
+                <button type="submit">Отправить</button>
+            </div>
         </form>
     </>;
 }

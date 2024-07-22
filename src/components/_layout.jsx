@@ -10,14 +10,26 @@ class Layout extends React.Component{
     }
     render() {
         return <>
-            <Header/>
+
+            <header id="header">
+                <Header />
+            </header>
+            
             <main>
-                <h2>MAIN</h2>
+                <div id="leftSideBar">
+                Left side bar
+                </div>
                 <div id="pageContent">
-                    <Outlet/>
+                    <Outlet />
+                </div>
+                <div id="rightSideBar">
+                    Right side bar
                 </div>
             </main>
-            <Footer/>
+
+            <footer id="footer">
+                <Footer />
+            </footer>
         </>
     }
 }

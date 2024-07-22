@@ -4,13 +4,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Layout }  from "./components/_layout.jsx";
 import { NotFound } from "./components/notFound.jsx";
-import { Test } from "./pages/test.jsx";
+import Test from "./pages/test.jsx";
 import { Counter } from "./pages/counter.jsx";
 import { Articles } from "./pages/articles.jsx";
 import { CreateArticle } from "./pages/createArticle.jsx";
 import { AuthProvider } from "./hocs/AuthProvider.jsx";
 
-import "./styles/main.css";
+import "./styles/_style.css";
   
 ReactDOM.createRoot(
     document.getElementById("app")

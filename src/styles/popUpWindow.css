@@ -1,0 +1,23 @@
+﻿.popUpWindow {
+    top: 45px;
+    right: 20px;
+    display: block;
+    position: absolute;
+    padding: 10px;
+
+    box-shadow: 10px 10px 5px rgb(0, 0, 0, .5);
+    border: 2px solid #2fd8d8;
+    border-radius: 6px;
+    background-color: #375a5a;
+}
+
+.windowVisible {
+    transition-property: opacity;
+    transition-duration: 500ms;
+    opacity: 1;
+    visibility: visible;
+}
+.windowHidden {
+    opacity: 0;
+    visibility: hidden;
+}
