@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import React, { useState, useRef, useEffect, useContext, useLayoutEffect } from "react";
 import ArticleCard from "../components/articleCard.jsx";
 import { AuthContext } from "../hocs/AuthProvider.jsx";
+import UserControl from "../components/userControl.jsx";
 import "../styles/articles.css";
 
 const BASE_URL = "http://localhost:5214";
@@ -11,6 +12,7 @@ function Articles(props) {
     //states
     const [articles, setArticles] = useState([]);
     const [isLoading, setLoadingState] = useState(false);
+    const [error, setError] = useState();
     //context
     let authContext = useContext(AuthContext);
     //effects
@@ -25,6 +27,7 @@ function Articles(props) {
         document.getElementById("pageTitle").innerText = pageTitle;
     }
     async function getArticles() {
+        setLoadingState(true);
         try {
             const response = await fetch(`${BASE_URL}/articles`, {
                 method: "GET",
@@ -44,31 +47,46 @@ function Articles(props) {
             }
         }
         catch (error) {
-            console.log(`Something goes wrong: ${error}`);
+            setError(error);
+        }
+        finally {
+            setLoadingState(false);
         }
     }
     //render
-    let addArticle = <></>;
+    let addArticleDom = <></>;
     if (authContext.isLoggedIn) {
-        addArticle = <Link to="/createArticle" className="navLink">Добавить статью</Link>;
+        addArticleDom = <Link to="/createArticle" className="navLink">Добавить статью</Link>;
     }
     else {
-        addArticle = <span>Войдите чтобы добавить статью</span>;
+        addArticleDom = <span>Войдите чтобы добавить статью</span>;
     }
-
-    let articlesList = articles.map(a => {
-        return <h4 key={a.id}>{a.name} {a.description}</h4>;
-    });
-
+    let articlesDom = <></>;
+    if (isLoading) {
+        articlesDom = <p>Loading...</p>
+    }
+    else {
+        if (error) {
+            articlesDom = <p>{error.toString()}</p>
+        }
+        else {
+            articlesDom = <>
+                <div id="articlesContainer">
+                    {articles.map((article) => {
+                        //console.log(article);
+                        return <div className="articleContainer" key={article.id}>
+                            <UserControl id={article.authorId} />
+                            <ArticleCard article={article} />
+                        </div>;
+                    })}
+                </div>
+            </>;
+        }
+    }
     return <>
-        {addArticle}
-        <div id="articleContainer">
-            {articles.map((article) => {
-                console.log(article);
-                return <ArticleCard key={article.id} article={article} />;
-            })}
-        </div>
-    </>;
+        {addArticleDom}
+        {articlesDom}
+    </>
 }
   
 export { Articles };

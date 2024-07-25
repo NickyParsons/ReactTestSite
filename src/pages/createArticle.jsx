@@ -42,29 +42,31 @@ function CreateArticle(props) {
         catch (error) {
             console.log(`Something goes wrong: ${error}`);
         }
+
     }
-    function onNameChange(event) {
-    }
-    function onFileChange(event) {
+    function onTextAreaChange(event) {
+        const textArea = event.target
+        let scrollHeight = textArea.scrollHeight;
+        textArea.style.height = `${scrollHeight+4}px`;
     }
     //render
     return <>
         <form encType="multipart/form-data" method="POST" onSubmit={submitForm} id="createArticleForm">
             <div className="formRow">
                 <label htmlFor="name">Заголовок:</label>
-                <input type="text" id="name" onChange={onNameChange}></input>
+                <textarea placeholder="Введите название" id="name" rows="1" className="input" onChange={onTextAreaChange} required></textarea>
             </div>
             <div className="formRow">
                 <label htmlFor="description">Подзаголовок:</label>
-                <input type="text" id="description"></input>
+                <textarea placeholder="Введите краткое описание" id="description" rows="3" className="input" onChange={onTextAreaChange}></textarea>
             </div>
             <div className="formRow">
                 <label htmlFor="image">Изображение:</label>
-                <input type="file" id="image" onChange={onFileChange}></input>
+                <input type="file" id="image" className="input"></input>
             </div>
             <div className="formRow">
                 <label htmlFor="text">Текст статьи:</label>
-                <input type="text" id="text"></input>
+                <textarea placeholder="Введите текст статьи" id="text" rows="10" className="input" onChange={onTextAreaChange}></textarea>
             </div>
             <div className="formRow">
                 <button type="submit">Отправить</button>

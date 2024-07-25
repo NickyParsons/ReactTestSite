@@ -6,6 +6,7 @@ const AuthContext = createContext();
 function AuthProvider(props) {
     //fields
     const cookies = new Cookies();
+    const BACKEND_URL = "http://localhost:5214";
     //refs
     let renderCount = useRef(1);
     //states
@@ -14,23 +15,20 @@ function AuthProvider(props) {
     let [email, setEmail] = useState("");
     let [role, setRole] = useState("");
     //effects
-    //useEffect(showRenderState);
+    React.useEffect(() => {
+        console.log(`Auth Provider render count: ${renderCount.current}`);
+        renderCount.current = renderCount.current + 1;
+    });
     useLayoutEffect(checkLoginState, []);
     //handlers
-    function showRenderState() {
-        console.log(`Render auth provider count: ${renderCount.current}`);
-        renderCount.current = renderCount.current + 1;
-    }
     function checkLoginState() {
         const cookie = cookies.get("nasty-boy");
         if (cookie) {
             setLoginStatus(true);
-            console.log(`Found cookie`);
             decodeToken(cookie);
         }
         else {
             setLoginStatus(false);
-            console.log(`cookie not found`);
         }
     }
     function decodeToken(token) {
@@ -42,7 +40,7 @@ function AuthProvider(props) {
         setRole(decodedToken[roleKey]);
     }
     async function signIn(loginRequestForm) {
-        let hostString = `http://localhost:5214/login`;
+        let hostString = `${BACKEND_URL}/login`;
         let queryString = `email=${loginRequestForm.email}&password=${loginRequestForm.password}`;
         console.log(`request: ${hostString}?${queryString}`)
         try {
@@ -83,7 +81,7 @@ function AuthProvider(props) {
         }
     }
     //render
-    let contextValues = { isLoggedIn, signIn, signOut, id, email, role }
+    let contextValues = { BACKEND_URL, isLoggedIn, signIn, signOut, id, email, role }
     return <AuthContext.Provider value={contextValues}>
         {props.children}
     </AuthContext.Provider>

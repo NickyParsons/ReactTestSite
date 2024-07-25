@@ -10,7 +10,7 @@ class Header extends React.Component{
     }
     render() {
         return <>
-            <LoginControl></LoginControl>
+            <LoginControl/>
             <div className="menu" id="navMenu">
                 <NavLink to="/" className="navLink">Test</NavLink>
                 <NavLink to="/counter" className="navLink">Counter</NavLink>

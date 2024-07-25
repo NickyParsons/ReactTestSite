@@ -3,27 +3,34 @@
 }
 div {
     /*Это временная граница для разработки*/
-    border: 1px solid #4b6872;
+    outline: 1px dashed #4b6872;
     /**/
     margin: 0px;
     padding: 0px;
 }
 body {
-    margin: 3px;
-    padding: 5px;
-    background-color: #172323;
+    margin: 0px;
+    padding: 0px;
+    /*background: linear-gradient(#e66465, #9198e5);*/
+    background-color: #081313;
+    /*background: linear-gradient(#081313, #617890);*/
+
     color: lightgrey;
     font-family: Verdana, Arial;
+    font-weight: bold;
 }
 #app {
+    background: linear-gradient(#2e4242, #081313);
+    height: 99vh;
     border: none;
 }
 #header {
-    box-shadow: 5px 2px 10px 3px #888;
-    background-color: #375a5a;
+    /*box-shadow: 5px 2px 10px 3px #888;*/
+    /*background-color: #375a5a;*/
+    background-color: #375a5a90;
     border-radius: 5px;
     padding: 5px;
-    flex-grow: 1;
+    min-height: 60px;
 }
 main {
     display: flex;
@@ -32,23 +39,25 @@ main {
 }
 #pageContent {
     flex-grow: 1;
-    box-shadow: 5px 2px 10px 3px #888;
-    background-color: #375a5a;
+    /*box-shadow: 5px 2px 10px 3px #888;*/
+    background-color: #375a5a90;
     border-radius: 5px;
     padding: 10px;
-    min-height: 50vh;
+    /*min-height: 50vh;*/
 }
 #leftSideBar {
     margin-right: 15px;
-    width: 15%;
+    min-width: 15%;
+    align-self: flex-start;
 }
 #rightSideBar {
     margin-left: 15px;
-    width: 15%;
+    min-width: 15%;
+    align-self: flex-start;
 }
 #footer {
-    box-shadow: 5px 2px 10px 3px #888;
-    background-color: #375a5a;
+    /*box-shadow: 5px 2px 10px 3px #888;*/
+    background-color: #375a5a90;
     border-radius: 5px;
     padding: 5px;
     justify-content:center;

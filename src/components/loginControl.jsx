@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect, useLayoutEffect, useContext } from 
 import RegisterForm from "./registerForm.jsx";
 import LoginForm from "./loginForm.jsx";
 import { AuthContext } from "../hocs/AuthProvider.jsx";
+import UserControl from "./userControl.jsx";
 
 import "../styles/popUpWindow.css";
 
@@ -26,10 +27,10 @@ function LoginControl(props) {
     const [isRegisterVisible, setRegisterVisibility] = useState(false);
     const [isLoginVisible, setLoginVisibility] = useState(false);
     //effects
-    //useEffect(showRenderState);
+    useEffect(showRenderState);
     //handlers
     function showRenderState() {
-        console.log(`Render login control count: ${renderCount.current}`);
+        console.log(`Login Control render count: ${renderCount.current}`);
         renderCount.current = renderCount.current + 1;
     }
     async function submitLoginForm(event) {
@@ -78,7 +79,10 @@ function LoginControl(props) {
     const loginFormClasses = `popUpWindow ${isLoginVisible ? "windowVisible" : "windowHidden"}`;
     let buttons = <></>;
     if (authContext.isLoggedIn) {
-        buttons = <a href="/logout" className="navLink" onClick={logout}>Выход</a>
+        buttons = <>
+            <a href="/logout" className="navLink" onClick={logout}>Выход</a>
+            <UserControl id={authContext.id} />
+        </>
     }
     else {
         buttons = <>

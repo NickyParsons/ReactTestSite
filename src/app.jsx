@@ -3,7 +3,7 @@ const React = require("react");
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Layout }  from "./components/_layout.jsx";
-import { NotFound } from "./components/notFound.jsx";
+import { NotFound } from "./pages/notFound.jsx";
 import Test from "./pages/test.jsx";
 import { Counter } from "./pages/counter.jsx";
 import { Articles } from "./pages/articles.jsx";
