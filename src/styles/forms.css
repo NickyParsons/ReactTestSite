@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: column;
 }*/
-
 .formRow {
     display: flex;
     flex-direction: row;
@@ -27,5 +26,9 @@
         min-width: 100px;
         margin-left: auto;
         margin-right: auto;
+    }
+    .formRow img {
+        width: 100%;
+        height: auto;
     }
 

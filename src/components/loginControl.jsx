@@ -3,31 +3,32 @@ import React, { useState, useRef, useEffect, useLayoutEffect, useContext } from 
 import RegisterForm from "./registerForm.jsx";
 import LoginForm from "./loginForm.jsx";
 import { AuthContext } from "../hocs/AuthProvider.jsx";
-import UserControl from "./userControl.jsx";
+import UserControl from "../hocs/userControl.jsx";
+import LoggedUserMenu from "./loggedUserMenu.jsx";
 
 import "../styles/popUpWindow.css";
 
 function LoginControl(props) {
     //fields
-    let loginRequest = {
+    //refs
+    const renderCount = useRef(1);
+    const loginRequestRef = React.useRef({
         email: "",
         password: ""
-    }
-    let registerRequest = {
+    });
+    const registerRequestRef = React.useRef({
         email: "",
         firstName: "",
         lastName: "",
         password: ""
-    }
-    //refs
-    const renderCount = useRef(1);
+    });
     //context
     const authContext = useContext(AuthContext);
     //states
     const [isRegisterVisible, setRegisterVisibility] = useState(false);
     const [isLoginVisible, setLoginVisibility] = useState(false);
     //effects
-    useEffect(showRenderState);
+    /*useEffect(showRenderState);*/
     //handlers
     function showRenderState() {
         console.log(`Login Control render count: ${renderCount.current}`);
@@ -35,14 +36,14 @@ function LoginControl(props) {
     }
     async function submitLoginForm(event) {
         event.preventDefault();
-        authContext.signIn(loginRequest);
+        authContext.signIn(loginRequestRef.current);
         event.target.reset();
         setLoginVisibility(false);
     }
     async function submitRegisterForm(event) {
         event.preventDefault();
         let hostString = `http://localhost:5214/register`;
-        let queryString = `email=${registerRequest.email}&firstname=${registerRequest.firstName}&lastname=${registerRequest.lastName}&password=${registerRequest.password}`;
+        let queryString = `email=${registerRequestRef.current.email}&firstname=${registerRequestRef.current.firstName}&lastname=${registerRequestRef.current.lastName}&password=${registerRequestRef.current.password}`;
         console.log(`request: ${hostString}?${queryString}`)
         try {
             let response = await fetch(`${hostString}?${queryString}`, {
@@ -80,8 +81,10 @@ function LoginControl(props) {
     let buttons = <></>;
     if (authContext.isLoggedIn) {
         buttons = <>
-            <a href="/logout" className="navLink" onClick={logout}>Выход</a>
-            <UserControl id={authContext.id} />
+            <p>{authContext.email}</p>
+            <UserControl id={authContext.id}>
+                <LoggedUserMenu />
+            </UserControl>
         </>
     }
     else {
@@ -93,12 +96,12 @@ function LoginControl(props) {
     return <>
         <div className="menu" id="logon">
             <div id="loginWindow" className={loginFormClasses}>
-                <LoginForm submitHandler={submitLoginForm} requestForm={loginRequest} />
-                <button onClick={toggleLoginFormVisibility}>Закрыть</button>
+                <LoginForm submitHandler={submitLoginForm} requestForm={loginRequestRef.current} />
+                <button onClick={toggleLoginFormVisibility} className="neon-button">Закрыть</button>
             </div>
             <div id="registerWindow" className={registerFormClasses}>
-                <RegisterForm submitHandler={submitRegisterForm} requestForm={registerRequest} />
-                <button onClick={toggleRigisterFormVisibility}>Закрыть</button>
+                <RegisterForm submitHandler={submitRegisterForm} requestForm={registerRequestRef.current} />
+                <button onClick={toggleRigisterFormVisibility} className="neon-button">Закрыть</button>
             </div>
             {buttons}
         </div>

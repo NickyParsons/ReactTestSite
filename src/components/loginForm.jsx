@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import "../styles/createArticle.css";
+import React from "react";
+import "../styles/forms.css";
 
 export default function LoginForm(props) {
     //states
-    const [isEmailValid, setEmailValid] = useState(true);
-    const [isPasswordValid, setPasswordValid] = useState(true);
+    const [isEmailValid, setEmailValid] = React.useState(true);
+    const [isPasswordValid, setPasswordValid] = React.useState(true);
     //handlers
     function changeEmail(event) {
         props.requestForm.email = event.target.value;
@@ -28,7 +28,7 @@ export default function LoginForm(props) {
                 <label htmlFor="loginPassword">Пароль:</label>
                 <input type="password" id="loginPassword" name="password" required onChange={changePassword} />
             </div>
-            <button type="submit">Войти</button>
+            <button type="submit" className="neon-button">Войти</button>
         </form>
     </>
 }

@@ -1,9 +1,8 @@
 import React from "react";
 import { AuthContext } from "../hocs/AuthProvider.jsx";
 import "../styles/userControl.css";
-export default function UserControl(props) {
+export default function UserControl({ id, children }, ...props) {
     //fields
-    const { id } = props;
     //states
     const [image, setImage] = React.useState("content/profiles/default.png");
     const [isPopUpVisible, setPopUpVisible] = React.useState(false);
@@ -12,17 +11,17 @@ export default function UserControl(props) {
     //context
     const authContext = React.useContext(AuthContext);
     //effects
-    React.useEffect(() => {
-        console.log(`User Control [${id}] render count: ${renderCount.current}`);
-        renderCount.current = renderCount.current + 1;
-    });
+    //React.useEffect(() => {
+    //    console.log(`User Control [${id}] render count: ${renderCount.current}`);
+    //    renderCount.current = renderCount.current + 1;
+    //});
     React.useEffect(() => {
         fetchUserData();
     }, []);
     //handlers
     async function fetchUserData() {
         let requestString = `${authContext.BACKEND_URL}/users/${id}`;
-        console.log(`request: ${requestString}`)
+        //console.log(`request: ${requestString}`)
         try {
             let response = await fetch(`${requestString}`, {
                 method: "GET",
@@ -55,9 +54,9 @@ export default function UserControl(props) {
         <a href={authContext.BACKEND_URL + "/users/" + id} onClick={togglePopUpVisibility}>
             <img src={`${authContext.BACKEND_URL}/${image}`}></img>
         </a>
-        <div id="registerWindow" className={popUpWindowClasses}>
-            <span> МОЙ CUM</span>
-            <button onClick={togglePopUpVisibility}>Закрыть</button>
+        <div className={popUpWindowClasses}>
+            <span>{children}</span>
+            <button className="neon-button" onClick={togglePopUpVisibility}>Закрыть</button>
         </div>
     </div>;
 

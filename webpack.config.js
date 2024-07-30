@@ -2,10 +2,11 @@ const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
    
 module.exports = {
-    entry: "./src/app.jsx", // входная точка - исходный файл
+    entry: "./app.jsx", // входная точка - исходный файл
+    context: path.resolve(__dirname, 'src'),
     output:{
         path: path.resolve(__dirname, "./dist"),     // путь к каталогу выходных файлов
-        //publicPath: "/dist/",
+        publicPath: "/",
         filename: "bundle.js"       // название создаваемого файла
     },
     devtool: "source-map",
@@ -41,7 +42,7 @@ module.exports = {
     plugins: [
         new HtmlWebPackPlugin({
             title: "NickyParsons Site",
-            template: "./src/template.html"
+            template: "./template.html"
         })
     ]
 }

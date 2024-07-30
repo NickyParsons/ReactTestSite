@@ -42,7 +42,6 @@ function AuthProvider(props) {
     async function signIn(loginRequestForm) {
         let hostString = `${BACKEND_URL}/login`;
         let queryString = `email=${loginRequestForm.email}&password=${loginRequestForm.password}`;
-        console.log(`request: ${hostString}?${queryString}`)
         try {
             let response = await fetch(`${hostString}?${queryString}`, {
                 method: "POST",
@@ -56,7 +55,9 @@ function AuthProvider(props) {
             });
             if (response.status === 200) {
                 let data = await response.json();
-                cookies.set("nasty-boy", data.token);
+                cookies.set("nasty-boy", data.token, {
+                    path: "/"
+                });
                 setLoginStatus(true);
                 decodeToken(data.token);
             }

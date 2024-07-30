@@ -42,9 +42,9 @@ class Counter extends React.Component{
     render() {
         return <>
             <h3>Counter Component</h3>
-            <button id="minus-buuton" onClick={this.reduceToCounter}>-</button>
-            <button id="count-buuton" onClick={this.testHandler}>{this.state.count}</button>
-            <button id="plus-buuton" onClick={this.addToCounter}>+</button>
+            <button id="minus-buuton" className="neon-button" onClick={this.reduceToCounter}>-</button>
+            <button id="count-buuton" className="neon-button" onClick={this.testHandler}>{this.state.count}</button>
+            <button id="plus-buuton" className="neon-button" onClick={this.addToCounter}>+</button>
         </>
     }
 }

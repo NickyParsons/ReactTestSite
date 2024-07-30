@@ -44,6 +44,8 @@ export default function Test(props) {
         <p>ID: {authContext.id}</p>
         <p>User: {authContext.email}</p>
         <p>Role: {authContext.role}</p>
-        <button onClick={getData}>TEST FETCH SEE CONSOLE</button>
+        <button onClick={getData}>TEST FETCH SEE CONSOLE</button><br/>
+        <button className="menu-button">Menu button 1</button><hr></hr>
+        <button className="menu-button">Menu button 2</button>
     </>
 }

@@ -34,9 +34,16 @@
     color: #34a4ac;
     font-size: 12px;
 }
-.articleCardContent {
+.articleCardDescription {
     padding: 5px;
 }
-    .articleCardContent p{
+    .articleCardDescription p {
+        margin: 0px;
+        font-weight: bold;
+    }
+.articleCardText {
+    padding: 5px;
+}
+    .articleCardText p {
         margin: 0px;
     }

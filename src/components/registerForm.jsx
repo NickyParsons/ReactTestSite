@@ -82,7 +82,7 @@ export default function RegisterForm(props) {
                 <label htmlFor="repeatPassword">Повторите пароль:</label>
                 <input type="password" id="repeatPassword" onChange={validatePassword} required />
             </div>
-            <button type="submit">Регистрация</button>
+            <button type="submit" className="neon-button">Регистрация</button>
         </form>
     </>
 }

@@ -1,5 +1,5 @@
 const ReactDOM = require("react-dom/client");
-const React = require("react");
+import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Layout }  from "./components/_layout.jsx";
@@ -7,8 +7,11 @@ import { NotFound } from "./pages/notFound.jsx";
 import Test from "./pages/test.jsx";
 import { Counter } from "./pages/counter.jsx";
 import { Articles } from "./pages/articles.jsx";
+import Article from "./pages/article.jsx";
 import { CreateArticle } from "./pages/createArticle.jsx";
 import { AuthProvider } from "./hocs/AuthProvider.jsx";
+import EditProfile from "./pages/editProfile.jsx"
+import AuthRequired from "./hocs/AuthRequired.jsx";
 
 import "./styles/_style.css";
   
@@ -24,8 +27,17 @@ ReactDOM.createRoot(
                         <Route index element={<Test content="Some text" />} />
                         <Route path="/counter" element={<Counter count={7} />} />
                         <Route path="/articles" element={<Articles />} />
-                        <Route path="/articles/:guid" element={<Articles />} />  {/*UseParams() hook*/}
-                        <Route path="/createArticle" element={<CreateArticle />} />
+                        <Route path="/articles/:articleId" element={<Article />}/>
+                        <Route path="/articles/new" element={
+                            <AuthRequired>
+                                <CreateArticle />
+                            </AuthRequired>
+                        } />
+                        <Route path="/profiles/edit" element={
+                            <AuthRequired>
+                                <EditProfile />
+                            </AuthRequired>
+                        } />
                         <Route path="*" element={<NotFound />} />
                     </Route>
                 </Routes>

@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 import React, { useState, useRef, useEffect, useContext, useLayoutEffect } from "react";
 import ArticleCard from "../components/articleCard.jsx";
 import { AuthContext } from "../hocs/AuthProvider.jsx";
-import UserControl from "../components/userControl.jsx";
-import "../styles/articles.css";
+import UserControl from "../hocs/userControl.jsx";
+import UserMenu from "../components/UserMenu.jsx";
 
-const BASE_URL = "http://localhost:5214";
+import "../styles/articles.css";
 function Articles(props) {
     //fields
     const pageTitle = "Статьи";
@@ -29,7 +29,7 @@ function Articles(props) {
     async function getArticles() {
         setLoadingState(true);
         try {
-            const response = await fetch(`${BASE_URL}/articles`, {
+            const response = await fetch(`${authContext.BACKEND_URL}/articles`, {
                 method: "GET",
                 headers: {
                     "Accept": "*/*",
@@ -56,7 +56,13 @@ function Articles(props) {
     //render
     let addArticleDom = <></>;
     if (authContext.isLoggedIn) {
-        addArticleDom = <Link to="/createArticle" className="navLink">Добавить статью</Link>;
+        addArticleDom = <>
+            <Link to="/articles/new">
+                <button className="neon-button">
+                    Добавить статью
+                </button>
+            </Link>
+        </>;
     }
     else {
         addArticleDom = <span>Войдите чтобы добавить статью</span>;
@@ -75,7 +81,9 @@ function Articles(props) {
                     {articles.map((article) => {
                         //console.log(article);
                         return <div className="articleContainer" key={article.id}>
-                            <UserControl id={article.authorId} />
+                            <UserControl id={article.authorId}>
+                                <UserMenu></UserMenu>
+                            </UserControl>
                             <ArticleCard article={article} />
                         </div>;
                     })}

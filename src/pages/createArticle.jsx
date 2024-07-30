@@ -1,21 +1,22 @@
-import React, { useState, useRef, useEffect, useContext, useLayoutEffect } from "react";
+import React, {useContext, useLayoutEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../hocs/AuthProvider.jsx";
-import "../styles/createArticle.css";
+import "../styles/forms.css";
 
 function CreateArticle(props) {
     //fields
-    const pageTitle = "Создание новой статьи";
+    const navigate = useNavigate();
     //refs
     //context
     const authContext = useContext(AuthContext);
     //states
     //effects
-    useLayoutEffect(setTitle, []);
-    //handlers
-    function setTitle() {
+    React.useEffect(() => {
+        const pageTitle = "Создание новой статьи";
         document.title = `NickyParsons Site | ${pageTitle}`;
         document.getElementById("pageTitle").innerText = pageTitle;
-    }
+    }, []);
+    //handlers
     async function submitForm(event) {
         event.preventDefault();
         let form = event.target;
@@ -25,9 +26,8 @@ function CreateArticle(props) {
         data.append("text", form.text.value);
         data.append("image", form.image.files[0]);
         data.append("AuthorId", authContext.id);
-        let hostString = `http://localhost:5214/articles/new`;
         try {
-            let response = await fetch(`${hostString}`, {
+            let response = await fetch(`${authContext.BACKEND_URL}/articles/new`, {
                 method: "POST",
                 headers: {
                     "Accept": "*/*"
@@ -37,13 +37,13 @@ function CreateArticle(props) {
                 mode: "cors",
                 credentials: "include"
             });
-            console.log(`${response.status} ${response.statusText}`);
+            navigate("/articles");
         }
         catch (error) {
             console.log(`Something goes wrong: ${error}`);
         }
-
     }
+    const goBack = () => { navigate(-1) };
     function onTextAreaChange(event) {
         const textArea = event.target
         let scrollHeight = textArea.scrollHeight;
@@ -51,6 +51,7 @@ function CreateArticle(props) {
     }
     //render
     return <>
+        <button className="neon-button" onClick={goBack}>Назад</button>
         <form encType="multipart/form-data" method="POST" onSubmit={submitForm} id="createArticleForm">
             <div className="formRow">
                 <label htmlFor="name">Заголовок:</label>
@@ -62,14 +63,14 @@ function CreateArticle(props) {
             </div>
             <div className="formRow">
                 <label htmlFor="image">Изображение:</label>
-                <input type="file" id="image" className="input"></input>
+                <input type="file" id="image" className="input" accept="image/*"></input>
             </div>
             <div className="formRow">
                 <label htmlFor="text">Текст статьи:</label>
                 <textarea placeholder="Введите текст статьи" id="text" rows="10" className="input" onChange={onTextAreaChange}></textarea>
             </div>
             <div className="formRow">
-                <button type="submit">Отправить</button>
+                <button type="submit" className="neon-button">Отправить</button>
             </div>
         </form>
     </>;
