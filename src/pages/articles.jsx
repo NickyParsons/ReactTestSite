@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import React, { useState, useRef, useEffect, useContext, useLayoutEffect } from "react";
 import ArticleCard from "../components/articleCard.jsx";
 import { AuthContext } from "../hocs/AuthProvider.jsx";
-import UserControl from "../hocs/userControl.jsx";
-import UserMenu from "../components/UserMenu.jsx";
+import UserControl from "../hocs/UserControl.jsx";
+import UserMenu from "../components/userMenu.jsx";
 
 import "../styles/articles.css";
 function Articles(props) {

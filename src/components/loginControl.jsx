@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect, useLayoutEffect, useContext } from 
 import RegisterForm from "./registerForm.jsx";
 import LoginForm from "./loginForm.jsx";
 import { AuthContext } from "../hocs/AuthProvider.jsx";
-import UserControl from "../hocs/userControl.jsx";
+import UserControl from "../hocs/UserControl.jsx";
 import LoggedUserMenu from "./loggedUserMenu.jsx";
 
 import "../styles/popUpWindow.css";
