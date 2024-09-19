@@ -51,8 +51,8 @@ export default function UserControl({ id, children }, ...props) {
 
     const popUpWindowClasses = `popUpWindow ${isPopUpVisible ? "windowVisible" : "windowHidden"}`;
     renderValue = <div id="userControl">
-        <a href={authContext.BACKEND_URL + "/users/" + id} onClick={togglePopUpVisibility}>
-            <img src={`${authContext.BACKEND_URL}/${image}`}></img>
+        <a href={"/api/users/" + id} onClick={togglePopUpVisibility}>
+            <img src={`/api/${image}`}></img>
         </a>
         <div className={popUpWindowClasses}>
             <span>{children}</span>
