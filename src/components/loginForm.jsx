@@ -18,7 +18,7 @@ export default function LoginForm(props) {
     const emailClass = isEmailValid ? "validFormField" : "invalidFormField";
     const passwordClass = isPasswordValid ? "validFormField" : "invalidFormField";
     return <>
-        <form id="loginForm" method="post" action="http://localhost:5214/login" onSubmit={props.submitHandler}>
+        <form id="loginForm" method="post" action="/api/login" onSubmit={props.submitHandler}>
             <div className={emailClass}>
                 <label htmlFor="loginEmail">E-Mail:</label>
                 <input type="email" id="loginEmail" name="email" onChange={changeEmail} required />

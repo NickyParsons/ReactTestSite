@@ -29,7 +29,7 @@ function Articles(props) {
     async function getArticles() {
         setLoadingState(true);
         try {
-            const response = await fetch(`${authContext.BACKEND_URL}/articles`, {
+            const response = await fetch(`/api/articles`, {
                 method: "GET",
                 headers: {
                     "Accept": "*/*",

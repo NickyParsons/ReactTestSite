@@ -42,7 +42,7 @@ function LoginControl(props) {
     }
     async function submitRegisterForm(event) {
         event.preventDefault();
-        let hostString = `http://localhost:5214/register`;
+        let hostString = `/api/register`;
         let queryString = `email=${registerRequestRef.current.email}&firstname=${registerRequestRef.current.firstName}&lastname=${registerRequestRef.current.lastName}&password=${registerRequestRef.current.password}`;
         console.log(`request: ${hostString}?${queryString}`)
         try {

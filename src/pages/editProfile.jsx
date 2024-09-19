@@ -29,7 +29,7 @@ export default function EditProfile(props) {
     const goBack = () => { navigate(-1) };
     
     async function fetchUserData() {
-        let requestString = `${authContext.BACKEND_URL}/users/${authContext.id}`;
+        let requestString = `$/api/users/${authContext.id}`;
         //console.log(`request: ${requestString}`)
         try {
             let response = await fetch(`${requestString}`, {
@@ -68,7 +68,7 @@ export default function EditProfile(props) {
             data.append("isPasswordChanging", false);
         }
         try {
-            let response = await fetch(`${authContext.BACKEND_URL}/users/${authContext.id}/edit`, {
+            let response = await fetch(`/api/users/${authContext.id}/edit`, {
                 method: "POST",
                 headers: {
                     "Accept": "*/*"

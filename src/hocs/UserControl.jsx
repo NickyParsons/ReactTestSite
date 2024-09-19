@@ -20,7 +20,7 @@ export default function UserControl({ id, children }, ...props) {
     }, []);
     //handlers
     async function fetchUserData() {
-        let requestString = `${authContext.BACKEND_URL}/users/${id}`;
+        let requestString = `$/api/users/${id}`;
         //console.log(`request: ${requestString}`)
         try {
             let response = await fetch(`${requestString}`, {

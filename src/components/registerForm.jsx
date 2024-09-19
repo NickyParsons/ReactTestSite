@@ -61,7 +61,7 @@ export default function RegisterForm(props) {
     const passwordClass = isPasswordValid ? "validFormField" : "invalidFormField";
     const repeatPasswordClass = isRepeatPasswordValid ? "validFormField" : "invalidFormField";
     return <>
-        <form id="registerForm" method="post" ref={formRef} action="http://localhost:5214/register" onSubmit={props.submitHandler}>
+        <form id="registerForm" method="post" ref={formRef} action="/api/register" onSubmit={props.submitHandler}>
             <div className={emailClass}>
                 <label htmlFor="email">E-Mail:</label>
                 <input type="email" id="email" name="email" onChange={changeEmail} required />

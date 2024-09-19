@@ -40,7 +40,7 @@ function AuthProvider(props) {
         setRole(decodedToken[roleKey]);
     }
     async function signIn(loginRequestForm) {
-        let hostString = `${BACKEND_URL}/login`;
+        let hostString = `/api/login`;
         let queryString = `email=${loginRequestForm.email}&password=${loginRequestForm.password}`;
         try {
             let response = await fetch(`${hostString}?${queryString}`, {

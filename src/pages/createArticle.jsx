@@ -27,7 +27,7 @@ function CreateArticle(props) {
         data.append("image", form.image.files[0]);
         data.append("AuthorId", authContext.id);
         try {
-            let response = await fetch(`${authContext.BACKEND_URL}/articles/new`, {
+            let response = await fetch(`/api/articles/new`, {
                 method: "POST",
                 headers: {
                     "Accept": "*/*"

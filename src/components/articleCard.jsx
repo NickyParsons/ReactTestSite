@@ -21,7 +21,7 @@ export default function ArticleCard(props) {
     //render
     let image = <></>;
     if (props.article.imageUrl) {
-        image = <img src={`${authContext.BACKEND_URL}/${props.article.imageUrl}`}></img>
+        image = <img src={`/api/${props.article.imageUrl}`}></img>
     }
 
     const articleLink = `/articles/${props.article.id}`;
