@@ -12,9 +12,9 @@ class Header extends React.Component{
         return <>
             <LoginControl/>
             <div className="menu" id="navMenu">
-                <NavLink to="/" className="navLink">Test</NavLink>
+                <NavLink to="/" className="navLink">Статьи</NavLink>
+                <NavLink to="/test" className="navLink">Test</NavLink>
                 <NavLink to="/counter" className="navLink">Counter</NavLink>
-                <NavLink to="/articles" className="navLink">Статьи</NavLink>
             </div>
             <h3 id="pageTitle">Page Title</h3>
         </>

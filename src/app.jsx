@@ -12,6 +12,7 @@ import { CreateArticle } from "./pages/createArticle.jsx";
 import { AuthProvider } from "./hocs/AuthProvider.jsx";
 import EditProfile from "./pages/editProfile.jsx"
 import AuthRequired from "./hocs/AuthRequired.jsx";
+import VerifyEmail from "./pages/verify-email.jsx";
 
 import "./styles/_style.css";
   
@@ -24,9 +25,9 @@ ReactDOM.createRoot(
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Layout />}>
-                        <Route index element={<Test content="Some text" />} />
+                        <Route index element={<Articles />} />
                         <Route path="/counter" element={<Counter count={7} />} />
-                        <Route path="/articles" element={<Articles />} />
+                        <Route path="/test" element={<Test content="Some text" />} />
                         <Route path="/articles/:articleId" element={<Article />}/>
                         <Route path="/articles/new" element={
                             <AuthRequired>
@@ -38,6 +39,7 @@ ReactDOM.createRoot(
                                 <EditProfile />
                             </AuthRequired>
                         } />
+                        <Route path="/verify-email" element={<VerifyEmail />} />
                         <Route path="*" element={<NotFound />} />
                     </Route>
                 </Routes>

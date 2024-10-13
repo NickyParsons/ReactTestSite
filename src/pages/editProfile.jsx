@@ -29,8 +29,8 @@ export default function EditProfile(props) {
     const goBack = () => { navigate(-1) };
     
     async function fetchUserData() {
-        let requestString = `$/api/users/${authContext.id}`;
-        //console.log(`request: ${requestString}`)
+        let requestString = `/api/users/${authContext.id}`;
+        console.log(`request: ${requestString}`)
         try {
             let response = await fetch(`${requestString}`, {
                 method: "GET",

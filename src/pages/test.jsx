@@ -15,7 +15,7 @@ export default function Test(props) {
     }
     async function getData() {
         try {
-            let response = await fetch(`/api/test3`, {
+            let response = await fetch(`/api/test2`, {
                 method: "GET",
                 headers: {
                     "Accept": "*/*",

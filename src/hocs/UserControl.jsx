@@ -2,25 +2,27 @@ import React from "react";
 import { AuthContext } from "../hocs/AuthProvider.jsx";
 import "../styles/userControl.css";
 export default function UserControl({ id, children }, ...props) {
+    //show render count
+    const renderCount = React.useRef(1);
+    React.useEffect(() => {
+        console.log(`User Control (id: ${id}) render count: ${renderCount.current}`);
+        renderCount.current = renderCount.current + 1;
+    });
     //fields
     //states
     const [image, setImage] = React.useState("content/profiles/default.png");
     const [isPopUpVisible, setPopUpVisible] = React.useState(false);
     //refs
-    const renderCount = React.useRef(1);
+    const controlRef = React.useRef();
     //context
     const authContext = React.useContext(AuthContext);
     //effects
-    //React.useEffect(() => {
-    //    console.log(`User Control [${id}] render count: ${renderCount.current}`);
-    //    renderCount.current = renderCount.current + 1;
-    //});
     React.useEffect(() => {
         fetchUserData();
     }, []);
     //handlers
     async function fetchUserData() {
-        let requestString = `$/api/users/${id}`;
+        let requestString = `/api/users/${id}`;
         //console.log(`request: ${requestString}`)
         try {
             let response = await fetch(`${requestString}`, {
@@ -42,20 +44,33 @@ export default function UserControl({ id, children }, ...props) {
             console.log(`Something goes wrong: ${error}`);
         }
     }
+    const clickOutside = React.useCallback((event) => {
+        if (!event.composedPath().includes(controlRef.current)) {
+            setPopUpVisible(false);
+            document.body.removeEventListener("click", clickOutside);
+        }
+    } , []);
     function togglePopUpVisibility(event) {
         event.preventDefault();
-        setPopUpVisible(isPopUpVisible ? false : true);
+        if (isPopUpVisible) {
+            setPopUpVisible(false);
+            document.body.removeEventListener("click", clickOutside);
+        }
+        else {
+            setPopUpVisible(true);
+            document.body.addEventListener("click", clickOutside);
+        }
     }
     //render
     let renderValue = <></>;
 
     const popUpWindowClasses = `popUpWindow ${isPopUpVisible ? "windowVisible" : "windowHidden"}`;
-    renderValue = <div id="userControl">
+    renderValue = <div id="userControl" ref={controlRef}>
         <a href={"/api/users/" + id} onClick={togglePopUpVisibility}>
             <img src={`/api/${image}`}></img>
         </a>
         <div className={popUpWindowClasses}>
-            <span>{children}</span>
+            <>{children}</>
             <button className="neon-button" onClick={togglePopUpVisibility}>Закрыть</button>
         </div>
     </div>;

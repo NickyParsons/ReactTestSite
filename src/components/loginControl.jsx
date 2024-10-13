@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useLayoutEffect, useContext } from "react";
+import React from "react";
 
 import RegisterForm from "./registerForm.jsx";
 import LoginForm from "./loginForm.jsx";
@@ -9,9 +9,14 @@ import LoggedUserMenu from "./loggedUserMenu.jsx";
 import "../styles/popUpWindow.css";
 
 function LoginControl(props) {
+    //show render count
+    const renderCount = React.useRef(1);
+    React.useEffect(() => {
+        console.log(`Login Control render count: ${renderCount.current}`);
+        renderCount.current = renderCount.current + 1;
+    });
     //fields
     //refs
-    const renderCount = useRef(1);
     const loginRequestRef = React.useRef({
         email: "",
         password: ""
@@ -22,63 +27,100 @@ function LoginControl(props) {
         lastName: "",
         password: ""
     });
+    const registerWindowRef = React.useRef();
+    const loginWindowRef = React.useRef();
+    const registerButtonRef = React.useRef();
+    const loginButtonRef = React.useRef();
     //context
-    const authContext = useContext(AuthContext);
+    const authContext = React.useContext(AuthContext);
     //states
-    const [isRegisterVisible, setRegisterVisibility] = useState(false);
-    const [isLoginVisible, setLoginVisibility] = useState(false);
+    const [isRegisterVisible, setRegisterVisibility] = React.useState(false);
+    const [isLoginVisible, setLoginVisibility] = React.useState(false);
+    const [registerResponseMessage, setRegisterResponseMessage] = React.useState("");
     //effects
-    /*useEffect(showRenderState);*/
     //handlers
-    function showRenderState() {
-        console.log(`Login Control render count: ${renderCount.current}`);
-        renderCount.current = renderCount.current + 1;
-    }
-    async function submitLoginForm(event) {
+    const submitLoginForm = React.useCallback((event) => {
         event.preventDefault();
         authContext.signIn(loginRequestRef.current);
         event.target.reset();
-        setLoginVisibility(false);
-    }
-    async function submitRegisterForm(event) {
+        //setLoginVisibility(false);
+    }, []);
+    const submitRegisterForm = React.useCallback(async (event) => {
         event.preventDefault();
         let hostString = `/api/register`;
         let queryString = `email=${registerRequestRef.current.email}&firstname=${registerRequestRef.current.firstName}&lastname=${registerRequestRef.current.lastName}&password=${registerRequestRef.current.password}`;
-        console.log(`request: ${hostString}?${queryString}`)
         try {
             let response = await fetch(`${hostString}?${queryString}`, {
                 method: "POST",
-                mode: "no-cors"
+                headers: {
+                    "Accept": "*/*",
+                    "Content-Type": "*/*"
+                },
+                mode: "cors",
+                credentials: "include"
             });
+            if (response.status === 200) {
+                setRegisterResponseMessage("Пользователь успешно зарегистрирован!");
+            }
+            else if (response.status === 400) {
+                setRegisterResponseMessage(`Ошибка! ${await response.text()}!`);
+            }
+            else {
+                setRegisterResponseMessage(`[${response.status}] ${response.statusText}: ${await response.text()}`);
+            }
         }
         catch (error) {
+            setRegisterResponseMessage(`Непредвиденная ошибка! ${error}`);
             console.log(`Something goes wrong: ${error}`);
         }
         event.target.reset();
-        setRegisterVisibility(false);
-    }
+        //setRegisterVisibility(false);
+    }, []);
     function logout(event) {
         event.preventDefault();
         authContext.signOut();
     }
-    function toggleRigisterFormVisibility(event) {
-        event.preventDefault();
-        if (isLoginVisible) {
-            setLoginVisibility(false);
+    const registerClickOutside = React.useCallback((event) => {
+        if (!(event.composedPath().includes(registerWindowRef.current) || event.composedPath().includes(registerButtonRef.current))) {
+            setRegisterVisibility(false);
+            document.body.removeEventListener("click", registerClickOutside);
         }
-        setRegisterVisibility(isRegisterVisible === true ? false : true);
-    }
-    function toggleLoginFormVisibility(event) {
-        event.preventDefault();
+    }, []);
+    const loginClickOutside = React.useCallback((event) => {
+        if (!(event.composedPath().includes(loginWindowRef.current) || event.composedPath().includes(loginButtonRef.current))) {
+            setLoginVisibility(false);
+            document.body.removeEventListener("click", loginClickOutside);
+        }
+    }, []);
+    function toggleRegisterFormVisibility() {
+        if (isLoginVisible) {
+            toggleLoginFormVisibility();
+        }
         if (isRegisterVisible) {
             setRegisterVisibility(false);
+            document.body.removeEventListener("click", registerClickOutside);
         }
-        setLoginVisibility(isLoginVisible === true ? false : true);
+        else {
+            setRegisterVisibility(true);
+            document.body.addEventListener("click", registerClickOutside);
+        }
+    }
+    function toggleLoginFormVisibility() {
+        if (isRegisterVisible) {
+            toggleRegisterFormVisibility();
+        }
+        if (isLoginVisible) {
+            setLoginVisibility(false);
+            document.body.removeEventListener("click", loginClickOutside);
+        }
+        else {
+            setLoginVisibility(true);
+            document.body.addEventListener("click", loginClickOutside);
+        }
     }
     //render
-    const registerFormClasses = `popUpWindow ${isRegisterVisible ? "windowVisible" : "windowHidden"}`;
-    const loginFormClasses = `popUpWindow ${isLoginVisible ? "windowVisible" : "windowHidden"}`;
     let buttons = <></>;
+
     if (authContext.isLoggedIn) {
         buttons = <>
             <p>{authContext.email}</p>
@@ -88,21 +130,26 @@ function LoginControl(props) {
         </>
     }
     else {
+        const registerFormClasses = `popUpWindow ${isRegisterVisible ? "windowVisible" : "windowHidden"}`;
+        const loginFormClasses = `popUpWindow ${isLoginVisible ? "windowVisible" : "windowHidden"}`;
+
         buttons = <>
-            <a href="/register" id="openRegisterBtn" className="navLink" onClick={toggleRigisterFormVisibility}>Регистрация</a>
-            <a href="/login" id="openLoginBtn" className="navLink" onClick={toggleLoginFormVisibility}>Вход</a>
+            <button id="openRegisterBtn" className="navLink" onClick={toggleRegisterFormVisibility} ref={registerButtonRef}>Регистрация</button>
+            <button id="openLoginBtn" className="navLink" onClick={toggleLoginFormVisibility} ref={loginButtonRef}>Вход</button>
+            <div id="loginWindow" className={loginFormClasses} ref={loginWindowRef}>
+                <LoginForm submitHandler={submitLoginForm} requestForm={loginRequestRef.current} />
+                <span>{authContext.loginResponseMessage}</span><br/>
+                <button onClick={toggleLoginFormVisibility} className="neon-button">Закрыть</button>
+            </div>
+            <div id="registerWindow" className={registerFormClasses} ref={registerWindowRef}>
+                <RegisterForm submitHandler={submitRegisterForm} requestForm={registerRequestRef.current} />
+                <span>{registerResponseMessage }</span><br/>
+                <button onClick={toggleRegisterFormVisibility} className="neon-button">Закрыть</button>
+            </div>
         </>
     }
     return <>
         <div className="menu" id="logon">
-            <div id="loginWindow" className={loginFormClasses}>
-                <LoginForm submitHandler={submitLoginForm} requestForm={loginRequestRef.current} />
-                <button onClick={toggleLoginFormVisibility} className="neon-button">Закрыть</button>
-            </div>
-            <div id="registerWindow" className={registerFormClasses}>
-                <RegisterForm submitHandler={submitRegisterForm} requestForm={registerRequestRef.current} />
-                <button onClick={toggleRigisterFormVisibility} className="neon-button">Закрыть</button>
-            </div>
             {buttons}
         </div>
         

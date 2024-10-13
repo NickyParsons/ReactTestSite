@@ -4,21 +4,22 @@ import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
 function AuthProvider(props) {
+    //show render count
+    const renderCount = React.useRef(1);
+    React.useEffect(() => {
+        console.log(`Auth Provider render count: ${renderCount.current}`);
+        renderCount.current = renderCount.current + 1;
+    });
     //fields
     const cookies = new Cookies();
-    const BACKEND_URL = "http://localhost:5214";
     //refs
-    let renderCount = useRef(1);
     //states
     let [isLoggedIn, setLoginStatus] = useState(false);
     let [id, setId] = useState("");
     let [email, setEmail] = useState("");
     let [role, setRole] = useState("");
+    const [loginResponseMessage, setLoginResponseMessage] = React.useState("");
     //effects
-    React.useEffect(() => {
-        console.log(`Auth Provider render count: ${renderCount.current}`);
-        renderCount.current = renderCount.current + 1;
-    });
     useLayoutEffect(checkLoginState, []);
     //handlers
     function checkLoginState() {
@@ -49,7 +50,6 @@ function AuthProvider(props) {
                     "Accept": "*/*",
                     "Content-Type": "*/*"
                 },
-                cache: "no-cache",
                 mode: "cors",
                 credentials: "include"
             });
@@ -61,14 +61,15 @@ function AuthProvider(props) {
                 setLoginStatus(true);
                 decodeToken(data.token);
             }
-            else if (response.status === 401) {
-                console.log("Email or password incorrect");
+            else if (response.status === 400) {
+                setLoginResponseMessage(`Ошибка! ${await response.text()}!`);
             }
             else {
-                console.log("Unexpected status code");
+                setLoginResponseMessage(`[${response.status}] ${response.statusText}: ${await response.text()}`);
             }
         }
         catch (error) {
+            setLoginResponseMessage(`Непредвиденная ошибка! ${error}`);
             console.log(`Something goes wrong: ${error}`);
         }
     }
@@ -82,7 +83,7 @@ function AuthProvider(props) {
         }
     }
     //render
-    let contextValues = { BACKEND_URL, isLoggedIn, signIn, signOut, id, email, role }
+    let contextValues = { isLoggedIn, signIn, signOut, id, email, role, loginResponseMessage }
     return <AuthContext.Provider value={contextValues}>
         {props.children}
     </AuthContext.Provider>

@@ -1,7 +1,12 @@
 import React, { useState, useRef } from "react";
 import "../styles/userForms.css";
-
-export default function RegisterForm(props) {
+export default React.memo(function RegisterForm(props) {
+    //show render count
+    const renderCount = React.useRef(1);
+    React.useEffect(() => {
+        console.log(`Register form render count: ${renderCount.current}`);
+        renderCount.current = renderCount.current + 1;
+    });
     //refs
     const formRef = useRef();
     //states
@@ -35,7 +40,7 @@ export default function RegisterForm(props) {
         }
         event.target.validity.valid ? setLastNameValid(true) : setLastNameValid(false);
     }
-    function validatePassword(){
+    function validatePassword() {
         const password = formRef.current.password;
         props.requestForm.password = password.value;
         const repeatPassword = formRef.current.repeatPassword;
@@ -85,4 +90,4 @@ export default function RegisterForm(props) {
             <button type="submit" className="neon-button">Регистрация</button>
         </form>
     </>
-}
+})
