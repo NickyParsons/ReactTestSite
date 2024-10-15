@@ -37,7 +37,7 @@ function CreateArticle(props) {
                 mode: "cors",
                 credentials: "include"
             });
-            navigate("/articles");
+            navigate("/");
         }
         catch (error) {
             console.log(`Something goes wrong: ${error}`);

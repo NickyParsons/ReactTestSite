@@ -6,10 +6,7 @@ const AuthContext = createContext();
 function AuthProvider(props) {
     //show render count
     const renderCount = React.useRef(1);
-    React.useEffect(() => {
-        console.log(`Auth Provider render count: ${renderCount.current}`);
-        renderCount.current = renderCount.current + 1;
-    });
+    React.useEffect(() => {console.log(`Auth Provider render count: ${renderCount.current++}`);});
     //fields
     const cookies = new Cookies();
     //refs

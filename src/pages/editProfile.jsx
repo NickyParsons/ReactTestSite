@@ -1,13 +1,14 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../hocs/AuthProvider.jsx";
-import "../styles/forms.css";
 
 export default function EditProfile(props) {
+    //show render count
+    const renderCount = React.useRef(1);
+    React.useEffect(() => {console.log(`Edit profile page render count: ${renderCount.current++}`);});
     //fields
     const navigate = useNavigate();
     //refs
-    let renderCount = React.useRef(1);
     //context
     const authContext = React.useContext(AuthContext);
     //states
@@ -21,16 +22,9 @@ export default function EditProfile(props) {
     React.useEffect(() => {
         fetchUserData();
     }, []);
-    React.useEffect(() => {
-        console.log(`Edit profile page render count: ${renderCount.current}`);
-        renderCount.current = renderCount.current + 1;
-    });
     //handlers
-    const goBack = () => { navigate(-1) };
-    
     async function fetchUserData() {
         let requestString = `/api/users/${authContext.id}`;
-        console.log(`request: ${requestString}`)
         try {
             let response = await fetch(`${requestString}`, {
                 method: "GET",
@@ -85,63 +79,115 @@ export default function EditProfile(props) {
         }
     }
     //render
-    let imageDom = <></>;
-    if (userState.imageUrl != "" && userState.imageUrl != null) {
-        imageDom = <img src={`${authContext.BACKEND_URL}/${userState.imageUrl}`}></img>
+    //profile image
+    let imageDom;
+    if (userState?.imageUrl != "" && userState.imageUrl != null) {
+        imageDom = <>
+            <div className="contentRow">
+                <div className="contentColumn">
+                    <img id="profilePhoto" src={`/api/${userState.imageUrl}`}></img>
+                </div>
+            </div>
+        </>;
+    //verified email check
     }
-    else <p>Нет фото профиля</p>;
-    const returnDom = <>
-        <button className="neon-button" onClick={goBack}>Назад</button>
+    let verifiedEmailDom;
+    if (userState?.verifiedAt == null) {
+        verifiedEmailDom = <>
+            <div className="contentRow">
+                <div className="contentColumn">
+                    <span className="red-text">Ваш E-mail не подтвержден!</span>
+                </div>
+            </div>
+            <div className="contentRow">
+                <div className="contentColumn">
+                    <button className="neon-button" onClick={() => { navigate("/verify-email") } }>Подтвердить</button>
+                </div>
+            </div>
+        </>;
+    }
+    else {
+        verifiedEmailDom = <>
+            <div className="contentRow">
+                <div className="contentColumn">
+                    <span className="green-text">Ваш E-mail подтвержден!</span>
+                </div>
+            </div>
+        </>;
+    }
+    //DOM
+    return <>
+        <button className="neon-button" onClick={() => { navigate(-1)}}>Назад</button><br />
+        <div className="contentContainer">
+            {imageDom}
+            <div className="contentRow">
+                <div className="contentColumn1">ID:</div>
+                <div className="contentColumn2">
+                    <input type="text" className="disabled-input" defaultValue={userState?.id} disabled></input>
+                </div>
+            </div>
+            <div className="contentRow">
+                <div className="contentColumn1">Роль:</div>
+                <div className="contentColumn2">
+                    <input type="text" className="disabled-input" defaultValue={userState?.role?.description} disabled></input>
+                </div>
+            </div>
+            <div className="contentRow">
+                <div className="contentColumn1">E-mail:</div>
+                <div className="contentColumn2">
+                    <input type="text" className="disabled-input" defaultValue={userState?.email} disabled></input>
+                </div>
+            </div>
+            {verifiedEmailDom}
+            <div className="contentRow">
+                <div className="contentColumn">
+                    <button className="neon-button" onClick={() => { navigate("/change-email")}}>Изменить e-mail</button>
+                </div>
+            </div>
+            <br />
 
-        <form encType="multipart/form-data" method="POST" onSubmit={submitForm}>
-            <p>Служебная информация</p>
-            <div className="formRow">
-                <label htmlFor="userId">ID:</label>
-                <input name="userId" id="userId" type="text" className="input" defaultValue={userState.id} required readOnly></input>
-            </div>
-            <div className="formRow">
-                <label htmlFor="userEmail">E-Mail:</label>
-                <input name="userEmail" id="userEmail" type="text" className="input" defaultValue={userState.email} required readOnly></input>
-            </div>
-            <div className="formRow">
-                <label htmlFor="userRole">Роль:</label>
-                <input name="userRole" id="userRole" type="text" className="input" defaultValue={userState.roleId} required readOnly></input>
-            </div>
-            <p>Общая информация</p>
-            <div className="formRow">
-                <label htmlFor="firstName">Имя:</label>
-                <input name="firstName" id="firstName" type="text" className="input" defaultValue={userState.firstName}></input>
-            </div>
-            <div className="formRow">
-                <label htmlFor="lastName">Фамилия:</label>
-                <input name="lastName" id="lastName" type="text" className="input" defaultValue={userState.lastName}></input>
-            </div>
-            <p>Фото профиля</p>
-            <div className="formRow">
-                {imageDom}
-            </div>
-            <div className="formRow">
-                <label htmlFor="userPhoto">Изображение:</label>
-                <input type="file" name="userPhoto" id="userPhoto" className="input" accept="image/*"></input>
-            </div>
-            <p>Смена пароля</p>
-            <div className="formRow">
-                <label htmlFor="userNewPassword">Новый пароль:</label>
-                <input name="userNewPassword" id="userNewPassword" type="text" className="input"></input>
-            </div>
-            <div className="formRow">
-                <label htmlFor="userRepeatPassword">Повторите пароль:</label>
-                <input name="userRepeatPassword" id="userRepeatPassword" type="text" className="input"></input>
-            </div>
-            <div className="formRow">
-                <label htmlFor="userOldPassword">Введите текущий пароль:</label>
-                <input name="userOldPassword" id="userOldPassword" type="text" className="input"></input>
-            </div>
-            <div className="formRow">
-                <button type="submit" className="neon-button">Отправить</button>
-            </div>
-        </form>
-    </>;
+            <form encType="multipart/form-data" method="POST" onSubmit={submitForm }>
+                <div className="contentRow">
+                    <div className="contentColumn1">Имя:</div>
+                    <div className="contentColumn2">
+                        <input type="text" name="firstName" className="active-input" defaultValue={userState?.firstName}></input>
+                    </div>
+                </div>
+                <div className="contentRow">
+                    <div className="contentColumn1">Фамилия:</div>
+                    <div className="contentColumn2">
+                        <input type="text" name="lastName" className="active-input" defaultValue={userState?.lastName}></input>
+                    </div>
+                </div>
+                <div className="contentRow">
+                    <div className="contentColumn1">Сменить фото профиля:</div>
+                    <div className="contentColumn2">
+                        <input type="file" name="userPhoto" className="active-input" accept="image/*"></input>
+                    </div>
+                </div>
 
-    return returnDom;
+                <div className="contentRow">
+                    <div className="contentColumn1">Новый пароль:</div>
+                    <div className="contentColumn2">
+                        <input type="password" name="userNewPassword" className="active-input"></input>
+                    </div>
+                </div><div className="contentRow">
+                    <div className="contentColumn1">Повторите пароль:</div>
+                    <div className="contentColumn2">
+                        <input type="password" name="userRepeatPassword" className="active-input" defaultValue={userState?.lastName}></input>
+                    </div>
+                </div><div className="contentRow">
+                    <div className="contentColumn1">Введите текущий пароль:</div>
+                    <div className="contentColumn2">
+                        <input type="password" name="userOldPassword" className="active-input" defaultValue={userState?.lastName}></input>
+                    </div>
+                </div>
+                <div className="contentRow">
+                    <div className="contentColumn">
+                        <button type="submit" className="neon-button">Сохранить изменения</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </>
 }
