@@ -16,4 +16,12 @@ const GreenMessage = ({text}) => {
     </div>
 }
 
-export { RedMessage, GreenMessage }
+const WhiteMessage = ({ text }) => {
+    return <div className="contentRow">
+        <div className="contentColumn">
+            <span className="white-text">{text}</span>
+        </div>
+    </div>
+}
+
+export { RedMessage, GreenMessage, WhiteMessage }

@@ -1,45 +1,31 @@
 import React from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Container, Row, Column, Column1, Column2, BackButton } from "../hocs/ContentContainer.jsx";
 import { GreenMessage, RedMessage, WhiteMessage } from "../components/containedColorMessage.jsx";
-//import { AuthContext } from "../hocs/AuthProvider.jsx";
 
-export default function VerifyEmail(props) {
+export default function ForgotPassword(props) {
     //show render count
     const renderCount = React.useRef(1);
-    React.useEffect(() => { console.log(`Verify email page render count: ${renderCount.current++}`); });
+    React.useEffect(() => { console.log(`Forgot password page render count: ${renderCount.current++}`); });
     //page title
-    const pageTitle = "Подтверждение E-mail";
+    const pageTitle = "Восстановление пароля";
     React.useLayoutEffect(() => {
         document.title = `NickyParsons Site | ${pageTitle}`;
         document.getElementById("pageTitle").innerText = pageTitle;
     }, []);
     //fields
-    const [searchParams, setSearchParams] = useSearchParams();
-    const token = searchParams.get("token");
     const navigate = useNavigate();
     //context
     //const authContext = React.useContext(AuthContext);
     //states
     const [message, setMessage] = React.useState(<></>);
     //effects
-    
-    React.useLayoutEffect(() => { initPage()}, []);
     //handlers
-    function initPage() {
-        if (token != null) {
-            verifyEmail(token)
-        }
-    }
-    function submitToken(event) {
+    async function submit(event) {
         event.preventDefault();
-        verifyEmail(event.target.token.value);
-        
-    }
-    async function verifyEmail(token) {
         try {
             setMessage(<Container><WhiteMessage text="Loading..." /></Container>);
-            let response = await fetch(`/api/verify-email?token=${encodeURIComponent(token)}`, {
+            let response = await fetch(`/api/forgot-password?email=${event.target.email.value}`, {
                 method: "POST",
                 headers: {
                     "Accept": "*/*",
@@ -49,10 +35,10 @@ export default function VerifyEmail(props) {
                 credentials: "include"
             });
             if (response.status === 200) {
-                setMessage(<GreenMessage text="Email успешно подтвержден!" />);
+                setMessage(<GreenMessage text="Письмо с инструкциями по восстановлению запрошено. Проверьте почту." />);
             }
             else {
-                setMessage(<RedMessage text="Что то пошло не так" />);
+                setMessage(<RedMessage text="Не удалось восстановить пароль. Проверьте правильность e-mail." />);
             }
             console.log(`[${response.status}] ${response.statusText}: ${await response.text()}`);
 
@@ -66,10 +52,10 @@ export default function VerifyEmail(props) {
     return <>
         <BackButton/>
         <Container>
-            <form onSubmit={submitToken}>
+            <form onSubmit={submit}>
                 <Row>
-                    <Column1>Token:</Column1>
-                    <Column2><input name="token" type="text" className="active-input" defaultValue={token}></input></Column2>
+                    <Column1>E-mail</Column1>
+                    <Column2><input name="email" type="email" className="active-input"></input></Column2>
                 </Row>
                 <Row>
                     <Column><button type="submit" className="neon-button">Отправить</button></Column>

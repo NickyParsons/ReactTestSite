@@ -70,14 +70,14 @@ function AuthProvider(props) {
             console.log(`Something goes wrong: ${error}`);
         }
     }
-    async function signOut() {
+    function signOut() {
         if (cookies.get("nasty-boy")) {
             cookies.remove("nasty-boy");
-            setLoginStatus(false);
-            setId("");
-            setEmail("");
-            setRole("");
         }
+        setLoginStatus(false);
+        setId("");
+        setEmail("");
+        setRole("");
     }
     //render
     let contextValues = { isLoggedIn, signIn, signOut, id, email, role, loginResponseMessage }

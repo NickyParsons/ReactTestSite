@@ -120,6 +120,9 @@ a {
 .red-text {
     color: red;
 }
+.white-text {
+    color: white;
+}
 .active-input {
     color: #172323;
     background-color: lightgrey;

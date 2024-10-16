@@ -14,6 +14,7 @@ import EditProfile from "./pages/editProfile.jsx"
 import AuthRequired from "./hocs/AuthRequired.jsx";
 import VerifyEmail from "./pages/verify-email.jsx";
 import ChangeEmail from "./pages/change-email.jsx";
+import ForgotPassword from "./pages/forgot-password.jsx";
 
 import "./styles/_style.css";
 import "./styles/contentContainer.css";
@@ -42,7 +43,12 @@ ReactDOM.createRoot(
                             </AuthRequired>
                         } />
                         <Route path="/verify-email" element={<VerifyEmail />} />
-                        <Route path="/change-email" element={<ChangeEmail />} />
+                        <Route path="/forgot-password" element={<ForgotPassword />} />
+                        <Route path="/change-email" element={
+                            <AuthRequired>
+                                <ChangeEmail />
+                            </AuthRequired>
+                        } />
                         <Route path="*" element={<NotFound />} />
                     </Route>
                 </Routes>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Row, Column, Column1, Column2, BackButton } from "../hocs/ContentContainer.jsx";
-import { GreenMessage, RedMessage } from "../components/containedColorMessage.jsx";
+import { GreenMessage, RedMessage, WhiteMessage } from "../components/containedColorMessage.jsx";
 import { AuthContext } from "../hocs/AuthProvider.jsx";
 
 export default function() {
@@ -17,12 +17,11 @@ export default function() {
     //handlers
     const submitForm = (event) => {
         event.preventDefault();
-        console.log(`Event: ${event.target.email.value}`);
         changeEmail(event.target.email.value);
     }
     async function changeEmail(newEmail) {
         try {
-            setMessage("Loading...");
+            setMessage(<WhiteMessage text="Loading..."/>);
             let response = await fetch(`/api/change-email?email=${authContext.email}&newemail=${newEmail}`, {
                 method: "POST",
                 headers: {
@@ -33,7 +32,8 @@ export default function() {
                 credentials: "include"
             });
             if (response.status === 200) {
-                setMessage(<GreenMessage text="Email успешно подтвержден!" />);
+                setMessage(<GreenMessage text="Email успешно изменен!" />);
+                setTimeout(authContext.signOut, 2000);
             }
             else {
                 setMessage(<RedMessage text="Что то пошло не так" />);

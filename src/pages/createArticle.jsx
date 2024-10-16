@@ -1,7 +1,6 @@
 import React, {useContext, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../hocs/AuthProvider.jsx";
-import "../styles/forms.css";
 
 function CreateArticle(props) {
     //fields

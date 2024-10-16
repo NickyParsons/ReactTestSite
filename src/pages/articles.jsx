@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import React, { useState, useRef, useEffect, useContext, useLayoutEffect } from "react";
+import { GreenMessage, RedMessage, WhiteMessage } from "../components/containedColorMessage.jsx";
 import ArticleCard from "../components/articleCard.jsx";
 import { AuthContext } from "../hocs/AuthProvider.jsx";
 import UserControl from "../hocs/UserControl.jsx";
