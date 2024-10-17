@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../hocs/AuthProvider.jsx";
+import { useAuthContext } from "../hooks/useAuthContext.js";
 export default function LoggedUserMenu(props) {
     //fields
     //states
     //context
-    const authContext = React.useContext(AuthContext);
+    const authContext = useAuthContext();
     //effects
     //handlers
     //render

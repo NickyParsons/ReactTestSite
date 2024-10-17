@@ -4,14 +4,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Layout }  from "./components/_layout.jsx";
 import NotFound from "./pages/notFound.jsx";
-import Test from "./pages/test.jsx";
+import { Test } from "./pages/test.jsx";
 import { Counter } from "./pages/counter.jsx";
 import { Articles } from "./pages/articles.jsx";
 import Article from "./pages/article.jsx";
 import { CreateArticle } from "./pages/createArticle.jsx";
-import { AuthProvider } from "./hocs/AuthProvider.jsx";
+import { AuthProvider } from "./context/authContext.jsx";
 import EditProfile from "./pages/editProfile.jsx"
-import AuthRequired from "./hocs/AuthRequired.jsx";
 import VerifyEmail from "./pages/verify-email.jsx";
 import ChangeEmail from "./pages/change-email.jsx";
 import ForgotPassword from "./pages/forgot-password.jsx";
@@ -32,23 +31,11 @@ ReactDOM.createRoot(
                         <Route path="/counter" element={<Counter count={7} />} />
                         <Route path="/test" element={<Test content="Some text" />} />
                         <Route path="/articles/:articleId" element={<Article />}/>
-                        <Route path="/articles/new" element={
-                            <AuthRequired>
-                                <CreateArticle />
-                            </AuthRequired>
-                        } />
-                        <Route path="/profiles/edit" element={
-                            <AuthRequired>
-                                <EditProfile />
-                            </AuthRequired>
-                        } />
+                        <Route path="/articles/new" element={<CreateArticle />} />
+                        <Route path="/profiles/edit" element={<EditProfile />} />
                         <Route path="/verify-email" element={<VerifyEmail />} />
                         <Route path="/forgot-password" element={<ForgotPassword />} />
-                        <Route path="/change-email" element={
-                            <AuthRequired>
-                                <ChangeEmail />
-                            </AuthRequired>
-                        } />
+                        <Route path="/change-email" element={<ChangeEmail />} />
                         <Route path="*" element={<NotFound />} />
                     </Route>
                 </Routes>

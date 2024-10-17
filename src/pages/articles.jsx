@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import React, { useState, useRef, useEffect, useContext, useLayoutEffect } from "react";
 import { GreenMessage, RedMessage, WhiteMessage } from "../components/containedColorMessage.jsx";
 import ArticleCard from "../components/articleCard.jsx";
-import { AuthContext } from "../hocs/AuthProvider.jsx";
-import UserControl from "../hocs/UserControl.jsx";
+import { useAuthContext } from "../hooks/useAuthContext.js";
+import UserControl from "../components/userControl.jsx";
 import UserMenu from "../components/userMenu.jsx";
 
 import "../styles/articles.css";
@@ -15,7 +15,7 @@ function Articles(props) {
     const [isLoading, setLoadingState] = useState(false);
     const [error, setError] = useState();
     //context
-    let authContext = useContext(AuthContext);
+    let authContext = useAuthContext();
     //effects
     useLayoutEffect(setTitle, []);
     useEffect(() => {

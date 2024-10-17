@@ -1,11 +1,16 @@
-import React, { useState, useRef, useEffect, useContext, useLayoutEffect } from "react";
-import { AuthContext } from "../hocs/AuthProvider.jsx";
+import React, { useLayoutEffect } from "react";
+import { useAuthContext } from "../hooks/useAuthContext.js";
+import { withAuth } from "../hocs/withAuth.jsx";
+import { Container } from "../components/contentContainer.jsx";
 
-export default function Test(props) {
+
+export default withAuth(Test);
+//export default Test;
+export function Test(props) {
     //fields
     const pageTitle = "Тестовая страница";
     //context
-    const authContext = useContext(AuthContext);
+    const authContext = useAuthContext();
     //effects
     useLayoutEffect(setTitle, []);
     //handlers
@@ -44,6 +49,7 @@ export default function Test(props) {
         <p>Role: {authContext.role}</p>
         <button onClick={getData}>TEST FETCH SEE CONSOLE</button><br/>
         <button className="menu-button">Menu button 1</button><hr></hr>
-        <button className="menu-button">Menu button 2</button>
+        <button className="menu-button">Menu button 2</button><br />
+        
     </>
 }

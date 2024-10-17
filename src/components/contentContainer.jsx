@@ -2,33 +2,33 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/contentContainer.css";
 
-export function Container({ children }, ...props) {
+export function Container(props) {
     return <div className="contentContainer">
-        {children}
+        {props.children}
     </div>;
 }
 
-export function Row({ children }, ...props) {
+export function Row(props) {
     return <div className="contentRow">
-        {children}
+        {props.children}
     </div>;
 }
 
-export function Column({ children }, ...props) {
+export function Column(props) {
     return <div className="contentColumn">
-        {children}
+        {props.children}
     </div>;
 }
 
-export function Column1({ children }, ...props) {
+export function Column1(props) {
     return <div className="contentColumn1">
-        {children}
+        {props.children}
     </div>;
 }
 
-export function Column2({ children }, ...props) {
+export function Column2(props) {
     return <div className="contentColumn2">
-        {children}
+        {props.children}
     </div>;
 }
 

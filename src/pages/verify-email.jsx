@@ -1,8 +1,8 @@
 import React from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { Container, Row, Column, Column1, Column2, BackButton } from "../hocs/ContentContainer.jsx";
+import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
 import { GreenMessage, RedMessage, WhiteMessage } from "../components/containedColorMessage.jsx";
-//import { AuthContext } from "../hocs/AuthProvider.jsx";
+//import { useAuthContext } from "../hooks/useAuthContext.jsx";
 
 export default function VerifyEmail(props) {
     //show render count
@@ -19,7 +19,7 @@ export default function VerifyEmail(props) {
     const token = searchParams.get("token");
     const navigate = useNavigate();
     //context
-    //const authContext = React.useContext(AuthContext);
+    //const authContext = useAuthContext();
     //states
     const [message, setMessage] = React.useState(<></>);
     //effects

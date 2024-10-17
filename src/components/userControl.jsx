@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthContext } from "../hocs/AuthProvider.jsx";
+import { useAuthContext } from "../hooks/useAuthContext.js";
 import "../styles/userControl.css";
 export default function UserControl({ id, children }, ...props) {
     //show render count
@@ -15,7 +15,7 @@ export default function UserControl({ id, children }, ...props) {
     //refs
     const controlRef = React.useRef();
     //context
-    const authContext = React.useContext(AuthContext);
+    const authContext = useAuthContext();
     //effects
     React.useEffect(() => {
         fetchUserData();
@@ -70,7 +70,7 @@ export default function UserControl({ id, children }, ...props) {
             <img src={`/api/${image}`}></img>
         </a>
         <div className={popUpWindowClasses}>
-            <>{children}</>
+            {children}
             <button className="neon-button" onClick={togglePopUpVisibility}>Закрыть</button>
         </div>
     </div>;

@@ -1,13 +1,15 @@
 import React, {useContext, useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../hocs/AuthProvider.jsx";
+import { useAuthContext } from "../hooks/useAuthContext.js";
+import { withAuth } from "../hocs/withAuth.jsx";
 
+export default withAuth(CreateArticle);
 function CreateArticle(props) {
     //fields
     const navigate = useNavigate();
     //refs
     //context
-    const authContext = useContext(AuthContext);
+    const authContext = useAuthContext();
     //states
     //effects
     React.useEffect(() => {

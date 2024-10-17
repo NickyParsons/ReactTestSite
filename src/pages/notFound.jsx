@@ -1,5 +1,5 @@
 const React = require("react");
-import { Container, Row, Column, Column1, Column2, BackButton } from "../hocs/ContentContainer.jsx";
+import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
 import { GreenMessage, RedMessage, WhiteMessage } from "../components/containedColorMessage.jsx";
   
 export default function NotFound(props) {

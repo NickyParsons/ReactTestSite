@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../hocs/AuthProvider.jsx";
+import { useAuthContext } from "../hooks/useAuthContext.js";
 export default function ArticleCard(props) {
     //fields
     //refs
@@ -11,7 +11,7 @@ export default function ArticleCard(props) {
     //states
     const [isShowMore, setShowMore] = React.useState(false);
     //context
-    const authContext = React.useContext(AuthContext);
+    const authContext = useAuthContext();
     //effects
     //handlers
     function toggleShowMore(event) {

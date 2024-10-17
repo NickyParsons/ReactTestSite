@@ -1,12 +1,12 @@
 import React from "react";
-import { AuthContext } from "../hocs/AuthProvider.jsx";
+import { useAuthContext } from "../hooks/useAuthContext.js";
 import NotAuthorized from "../pages/notAuthorized.jsx";
 export default function AuthRequired({children }, ...props) {
     //fields
     //states
     //refs
     //context
-    const authContext = React.useContext(AuthContext);
+    const authContext = useAuthContext();
     //effects
     //handlers
     //render

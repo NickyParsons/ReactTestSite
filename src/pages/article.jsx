@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { AuthContext } from "../hocs/AuthProvider.jsx";
+import { useAuthContext } from "../hooks/useAuthContext.js";
 import ArticleCard from "../components/articleCard.jsx";
 
 import "../styles/articles.css";
@@ -12,7 +12,7 @@ export default function Article(props) {
     //states
     
     //context
-    const authContext = React.useContext(AuthContext);
+    const authContext = useAuthContext();
     //effects
     React.useEffect(() => {
         const pageTitle = "Статья";

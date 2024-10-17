@@ -1,9 +1,11 @@
 import React from "react";
-import { Container, Row, Column, Column1, Column2, BackButton } from "../hocs/ContentContainer.jsx";
+import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
 import { GreenMessage, RedMessage, WhiteMessage } from "../components/containedColorMessage.jsx";
-import { AuthContext } from "../hocs/AuthProvider.jsx";
+import { useAuthContext } from "../hooks/useAuthContext.js";
+import { withAuth } from "../hocs/withAuth.jsx";
 
-export default function() {
+export default withAuth(ChangeEmail);
+export function ChangeEmail() {
     //page title
     const pageTitle = "Смена E-mail";
     React.useLayoutEffect(() => {
@@ -11,7 +13,7 @@ export default function() {
         document.getElementById("pageTitle").innerText = pageTitle;
     }, []);
     //context
-    const authContext = React.useContext(AuthContext);
+    const authContext = useAuthContext();
     //states
     const [message, setMessage] = React.useState(<></>);
     //handlers

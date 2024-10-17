@@ -2,8 +2,8 @@ import React from "react";
 
 import RegisterForm from "./registerForm.jsx";
 import LoginForm from "./loginForm.jsx";
-import { AuthContext } from "../hocs/AuthProvider.jsx";
-import UserControl from "../hocs/UserControl.jsx";
+import { useAuthContext } from "../hooks/useAuthContext.js";
+import UserControl from "../components/userControl.jsx";
 import LoggedUserMenu from "./loggedUserMenu.jsx";
 
 import "../styles/popUpWindow.css";
@@ -29,7 +29,7 @@ function LoginControl(props) {
     const registerButtonRef = React.useRef();
     const loginButtonRef = React.useRef();
     //context
-    const authContext = React.useContext(AuthContext);
+    const authContext = useAuthContext();
     //states
     const [isRegisterVisible, setRegisterVisibility] = React.useState(false);
     const [isLoginVisible, setLoginVisibility] = React.useState(false);

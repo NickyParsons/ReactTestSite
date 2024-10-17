@@ -1,8 +1,10 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { AuthContext } from "../hocs/AuthProvider.jsx";
+import { useAuthContext } from "../hooks/useAuthContext.js";
+import { withAuth } from "../hocs/withAuth.jsx";
 
-export default function EditProfile(props) {
+export default withAuth(EditProfile);
+export function EditProfile(props) {
     //show render count
     const renderCount = React.useRef(1);
     React.useEffect(() => {console.log(`Edit profile page render count: ${renderCount.current++}`);});
@@ -10,7 +12,7 @@ export default function EditProfile(props) {
     const navigate = useNavigate();
     //refs
     //context
-    const authContext = React.useContext(AuthContext);
+    const authContext = useAuthContext();
     //states
     const [userState, setUser] = React.useState({});
     //effects

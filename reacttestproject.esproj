@@ -16,7 +16,4 @@
     <None Remove=".gitignore" />
     <None Remove="README.md" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="src\hooks\" />
-  </ItemGroup>
 </Project>
