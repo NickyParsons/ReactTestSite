@@ -10,8 +10,8 @@ import "../styles/popUpWindow.css";
 
 function LoginControl(props) {
     //show render count
-    const renderCount = React.useRef(1);
-    React.useEffect(() => {console.log(`Login Control render count: ${renderCount.current++}`);});
+    // const renderCount = React.useRef(1);
+    // React.useEffect(() => {console.log(`Login Control render count: ${renderCount.current++}`);});
     //fields
     //refs
     const loginRequestRef = React.useRef({

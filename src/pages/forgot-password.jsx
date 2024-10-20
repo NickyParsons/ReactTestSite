@@ -1,7 +1,7 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
-import { GreenMessage, RedMessage, WhiteMessage } from "../components/containedColorMessage.jsx";
+import { useFetchOnTrigger } from "../hooks/useFetchData.js";
+import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
 
 export default function ForgotPassword(props) {
     //show render count
@@ -14,39 +14,11 @@ export default function ForgotPassword(props) {
         document.getElementById("pageTitle").innerText = pageTitle;
     }, []);
     //fields
-    const navigate = useNavigate();
-    //context
-    //const authContext = React.useContext(AuthContext);
-    //states
-    const [message, setMessage] = React.useState(<></>);
-    //effects
+    const {handler, isLoading, statusCode, data, error} = useFetchOnTrigger();
     //handlers
     async function submit(event) {
         event.preventDefault();
-        try {
-            setMessage(<Container><WhiteMessage text="Loading..." /></Container>);
-            let response = await fetch(`/api/forgot-password?email=${event.target.email.value}`, {
-                method: "POST",
-                headers: {
-                    "Accept": "*/*",
-                    "Content-Type": "*/*"
-                },
-                mode: "cors",
-                credentials: "include"
-            });
-            if (response.status === 200) {
-                setMessage(<GreenMessage text="Письмо с инструкциями по восстановлению запрошено. Проверьте почту." />);
-            }
-            else {
-                setMessage(<RedMessage text="Не удалось восстановить пароль. Проверьте правильность e-mail." />);
-            }
-            console.log(`[${response.status}] ${response.statusText}: ${await response.text()}`);
-
-        }
-        catch (error) {
-            setMessage(<RedMessage text="Что то пошло не так" />);
-            console.log(`Something goes wrong: ${error}`);
-        }
+        handler(`/api/forgot-password?email=${event.target.email.value}`, "POST", false)
     }
     //render
     return <>
@@ -61,7 +33,11 @@ export default function ForgotPassword(props) {
                     <Column><button type="submit" className="neon-button">Отправить</button></Column>
                 </Row>
             </form>
-            {message}
+            <Row>
+                <LoadDataPlaceholder isLoading={isLoading} error={error}>
+                    <ResponseMessagePlaceholder statusCode={statusCode} data={data} successMessage="Письмо с инструкциями по восстановлению запрошено. Проверьте почту."/>
+                </LoadDataPlaceholder>
+            </Row>
         </Container>
     </>
 }

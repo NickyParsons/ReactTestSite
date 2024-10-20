@@ -1,0 +1,8 @@
+.responseMessagePlaceholder .success-code{
+    border-radius: 5px;
+    border: 2px solid green;
+}
+.responseMessagePlaceholder .fault-code{
+    border-radius: 5px;
+    border: 2px solid red  ;
+}

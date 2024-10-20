@@ -1,8 +1,8 @@
 import React from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
-import { GreenMessage, RedMessage, WhiteMessage } from "../components/containedColorMessage.jsx";
-//import { useAuthContext } from "../hooks/useAuthContext.jsx";
+import { useFetchOnTrigger } from "../hooks/useFetchData.js";
+import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
 
 export default function VerifyEmail(props) {
     //show render count
@@ -17,50 +17,17 @@ export default function VerifyEmail(props) {
     //fields
     const [searchParams, setSearchParams] = useSearchParams();
     const token = searchParams.get("token");
-    const navigate = useNavigate();
-    //context
-    //const authContext = useAuthContext();
-    //states
-    const [message, setMessage] = React.useState(<></>);
+    const {handler, isLoading, statusCode, data, error} = useFetchOnTrigger();
     //effects
-    
-    React.useLayoutEffect(() => { initPage()}, []);
-    //handlers
-    function initPage() {
+    React.useLayoutEffect(() => { 
         if (token != null) {
-            verifyEmail(token)
+            handler(`/api/verify-email?token=${encodeURIComponent(token)}`, "POST", false);
         }
-    }
+    }, [token]);
+    //handlers
     function submitToken(event) {
         event.preventDefault();
-        verifyEmail(event.target.token.value);
-        
-    }
-    async function verifyEmail(token) {
-        try {
-            setMessage(<Container><WhiteMessage text="Loading..." /></Container>);
-            let response = await fetch(`/api/verify-email?token=${encodeURIComponent(token)}`, {
-                method: "POST",
-                headers: {
-                    "Accept": "*/*",
-                    "Content-Type": "*/*"
-                },
-                mode: "cors",
-                credentials: "include"
-            });
-            if (response.status === 200) {
-                setMessage(<GreenMessage text="Email успешно подтвержден!" />);
-            }
-            else {
-                setMessage(<RedMessage text="Что то пошло не так" />);
-            }
-            console.log(`[${response.status}] ${response.statusText}: ${await response.text()}`);
-
-        }
-        catch (error) {
-            setMessage(<RedMessage text="Что то пошло не так" />);
-            console.log(`Something goes wrong: ${error}`);
-        }
+        setSearchParams(`token=${encodeURIComponent(event.target.token.value)}`);
     }
     //render
     return <>
@@ -75,7 +42,11 @@ export default function VerifyEmail(props) {
                     <Column><button type="submit" className="neon-button">Отправить</button></Column>
                 </Row>
             </form>
-            {message}
+            <Row>
+                <LoadDataPlaceholder isLoading={isLoading} error={error}>
+                    <ResponseMessagePlaceholder statusCode={statusCode} data={data} successMessage="Email успешно подтвержден!"/>
+                </LoadDataPlaceholder>
+            </Row>
         </Container>
     </>
 }

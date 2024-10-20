@@ -1,8 +1,9 @@
 import React from "react";
 import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
-import { GreenMessage, RedMessage, WhiteMessage } from "../components/containedColorMessage.jsx";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import { withAuth } from "../hocs/withAuth.jsx";
+import { useFetchOnTrigger } from "../hooks/useFetchData.js";
+import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
 
 export default withAuth(ChangeEmail);
 export function ChangeEmail() {
@@ -14,39 +15,14 @@ export function ChangeEmail() {
     }, []);
     //context
     const authContext = useAuthContext();
-    //states
-    const [message, setMessage] = React.useState(<></>);
+    //fields
+    const {handler, isLoading, statusCode, data, error} = useFetchOnTrigger();
     //handlers
     const submitForm = (event) => {
         event.preventDefault();
-        changeEmail(event.target.email.value);
-    }
-    async function changeEmail(newEmail) {
-        try {
-            setMessage(<WhiteMessage text="Loading..."/>);
-            let response = await fetch(`/api/change-email?email=${authContext.email}&newemail=${newEmail}`, {
-                method: "POST",
-                headers: {
-                    "Accept": "*/*",
-                    "Content-Type": "*/*"
-                },
-                mode: "cors",
-                credentials: "include"
-            });
-            if (response.status === 200) {
-                setMessage(<GreenMessage text="Email успешно изменен!" />);
-                setTimeout(authContext.signOut, 2000);
-            }
-            else {
-                setMessage(<RedMessage text="Что то пошло не так" />);
-            }
-            console.log(`[${response.status}] ${response.statusText}: ${await response.text()}`);
-
-        }
-        catch (error) {
-            setMessage(<RedMessage text="Что то пошло не так" />);
-            console.log(`Something goes wrong: ${error}`);
-        }
+        handler(`/api/change-email?email=${authContext.email}&newemail=${event.target.email.value}`, "POST", false, ()=>{
+            setTimeout(authContext.signOut, 2000);
+        });
     }
     //render
     return <>
@@ -64,7 +40,11 @@ export function ChangeEmail() {
                         <button type="submit" className="neon-button">Отправить</button>
                     </Column>
                 </Row>
-                { message }
+                <Row>
+                    <LoadDataPlaceholder isLoading={isLoading} error={error}>
+                        <ResponseMessagePlaceholder statusCode={statusCode} data={data} successMessage="Email успешно изменен!"/>
+                    </LoadDataPlaceholder>
+                </Row>
             </form>
         </Container>
     </>;
