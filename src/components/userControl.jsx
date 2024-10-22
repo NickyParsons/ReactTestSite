@@ -3,11 +3,8 @@ import { useAuthContext } from "../hooks/useAuthContext.js";
 import "../styles/userControl.css";
 export default function UserControl({ id, children }, ...props) {
     //show render count
-    const renderCount = React.useRef(1);
-    React.useEffect(() => {
-        console.log(`User Control (id: ${id}) render count: ${renderCount.current}`);
-        renderCount.current = renderCount.current + 1;
-    });
+    // const renderCount = React.useRef(1);
+    // React.useEffect(() => { console.log(`User Control (id: ${id}) render count: ${renderCount.current++}`); });
     //fields
     //states
     const [image, setImage] = React.useState("content/profiles/default.png");

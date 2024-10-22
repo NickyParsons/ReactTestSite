@@ -2,194 +2,208 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import { withAuth } from "../hocs/withAuth.jsx";
+import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
+import { useGetFetchOnLoad, usePostFetchOnTrigger } from "../hooks/useFetchData.js";
+import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
 
 export default withAuth(EditProfile);
 export function EditProfile(props) {
-    //show render count
-    const renderCount = React.useRef(1);
-    React.useEffect(() => {console.log(`Edit profile page render count: ${renderCount.current++}`);});
-    //fields
-    const navigate = useNavigate();
-    //refs
-    //context
-    const authContext = useAuthContext();
-    //states
-    const [userState, setUser] = React.useState({});
-    //effects
-    React.useEffect(() => {
-        const pageTitle = `Редактирование профиля`;
+    //page title
+    const pageTitle = "Редактирование профиля";
+    React.useLayoutEffect(() => {
         document.title = `NickyParsons Site | ${pageTitle}`;
         document.getElementById("pageTitle").innerText = pageTitle;
     }, []);
-    React.useEffect(() => {
-        fetchUserData();
-    }, []);
+    //show render count
+    // const renderCount = React.useRef(1);
+    // React.useEffect(() => {console.log(`Edit profile page render count: ${renderCount.current++}`);});
+    //context
+    const authContext = useAuthContext();
+    //states
+    const [isPasswordValid, setPasswordValid] = React.useState(true);
+    const [isRepeatPasswordValid, setRepeatPasswordValid] = React.useState(true);
+    const [isCurrentPasswordValid, setCurrentPasswordValid] = React.useState(true);
+    //fields
+    const navigate = useNavigate();
+    const getProfile = useGetFetchOnLoad(`/api/users/${authContext.id}`, true);
+    const postProfile = usePostFetchOnTrigger();
     //handlers
-    async function fetchUserData() {
-        let requestString = `/api/users/${authContext.id}`;
-        try {
-            let response = await fetch(`${requestString}`, {
-                method: "GET",
-                headers: {
-                    "Accept": "*/*",
-                    "Content-Type": "*/*"
-                },
-                cache: "no-cache",
-                mode: "cors",
-                credentials: "include"
-            });
-            setUser(await response.json());
+    function validatePassword(event){
+        const password = event.target.form.userNewPassword;
+        const repeatPassword = event.target.form.userRepeatPassword;
+        const oldPassword = event.target.form.userOldPassword;
+        if (password.value.length > 0) {
+            if (oldPassword.value.length > 0) {
+                oldPassword.setCustomValidity("");
+            }
+            else {
+                oldPassword.setCustomValidity("Введите текущий пароль");
+            }
+            if (password.value.length < 6) {
+                password.setCustomValidity("Слишком короткий");
+            }
+            else {
+                password.setCustomValidity("");
+            }
+            if (password.value !== repeatPassword.value) {
+                repeatPassword.setCustomValidity("Пароли не совпадают");
+            }
+            else {
+                repeatPassword.setCustomValidity("");
+            }
+        } else {
+            password.setCustomValidity("");
+            repeatPassword.setCustomValidity("");
+            oldPassword.setCustomValidity("");
         }
-        catch (error) {
-            console.log(`Something goes wrong: ${error}`);
-        }
+        password.validity.valid ? setPasswordValid(true) : setPasswordValid(false);
+        repeatPassword.validity.valid ? setRepeatPasswordValid(true) : setRepeatPasswordValid(false);
+        oldPassword.validity.valid ? setCurrentPasswordValid(true) : setCurrentPasswordValid(false);
     }
     async function submitForm(event) {
         event.preventDefault();
         let form = event.target;
-        let data = new FormData();
-        data.append("id", authContext.id);
-        data.append("email", authContext.email);
-        data.append("firstName", form.firstName.value);
-        data.append("lastName", form.lastName.value);
+        let formData = new FormData();
+        formData.append("id", authContext.id);
+        formData.append("email", authContext.email);
+        formData.append("firstName", form.firstName.value);
+        formData.append("lastName", form.lastName.value);
         if (form.userPhoto.files.length > 0) {
-            data.append("image", form.userPhoto.files[0]);
+            formData.append("image", form.userPhoto.files[0]);
         }
         if (form.userNewPassword.value.length > 0) {
-            data.append("isPasswordChanging", true);
-            data.append("newPassword", form.userNewPassword.value);
-            data.append("oldPassword", form.userOldPassword.value);
+            formData.append("isPasswordChanging", true);
+            formData.append("newPassword", form.userNewPassword.value);
+            formData.append("oldPassword", form.userOldPassword.value);
         }
         else {
-            data.append("isPasswordChanging", false);
+            formData.append("isPasswordChanging", false);
         }
-        try {
-            let response = await fetch(`/api/users/${authContext.id}/edit`, {
-                method: "POST",
-                headers: {
-                    "Accept": "*/*"
-                },
-                body: data,
-                cache: "no-cache",
-                mode: "cors",
-                credentials: "include"
-            });
-            setUser(await response.json());
-        }
-        catch (error) {
-            console.log(`Something goes wrong: ${error}`);
-        }
+        postProfile.handler(`/api/users/${authContext.id}/edit`, {
+            isResponseJson: true,
+            formData: formData,
+            setDataHandler: getProfile.setData
+        });
     }
     //render
     //profile image
     let imageDom;
-    if (userState?.imageUrl != "" && userState.imageUrl != null) {
+    if (getProfile?.data?.imageUrl != "" && getProfile?.data?.imageUrl != null) {
         imageDom = <>
-            <div className="contentRow">
-                <div className="contentColumn">
-                    <img id="profilePhoto" src={`/api/${userState.imageUrl}`}></img>
-                </div>
-            </div>
+            <Row>
+                <Column>
+                    <img id="profilePhoto" src={`/api/${getProfile?.data?.imageUrl}`}></img>
+                </Column>
+            </Row>
         </>;
     //verified email check
     }
     let verifiedEmailDom;
-    if (userState?.verifiedAt == null) {
+    if (getProfile?.data?.verifiedAt == null) {
         verifiedEmailDom = <>
-            <div className="contentRow">
-                <div className="contentColumn">
+            <Row>
+                <Column>
                     <span className="red-text">Ваш E-mail не подтвержден!</span>
-                </div>
-            </div>
-            <div className="contentRow">
-                <div className="contentColumn">
+                </Column>
+            </Row>
+            <Row>
+                <Column>
                     <button className="neon-button" onClick={() => { navigate("/verify-email") } }>Подтвердить</button>
-                </div>
-            </div>
+                </Column>
+            </Row>
         </>;
     }
     else {
         verifiedEmailDom = <>
-            <div className="contentRow">
-                <div className="contentColumn">
+            <Row>
+                <Column>
                     <span className="green-text">Ваш E-mail подтвержден!</span>
-                </div>
-            </div>
+                </Column>
+            </Row>
         </>;
     }
     //DOM
+    const passwordClass = isPasswordValid ? "active-input" : "invalid-active-input";
+    const repeatPasswordClass = isRepeatPasswordValid ? "active-input" : "invalid-active-input";
+    const currentPasswordClass = isCurrentPasswordValid ? "active-input" : "invalid-active-input";
     return <>
-        <button className="neon-button" onClick={() => { navigate(-1)}}>Назад</button><br />
-        <div className="contentContainer">
-            {imageDom}
-            <div className="contentRow">
-                <div className="contentColumn1">ID:</div>
-                <div className="contentColumn2">
-                    <input type="text" className="disabled-input" defaultValue={userState?.id} disabled></input>
-                </div>
-            </div>
-            <div className="contentRow">
-                <div className="contentColumn1">Роль:</div>
-                <div className="contentColumn2">
-                    <input type="text" className="disabled-input" defaultValue={userState?.role?.description} disabled></input>
-                </div>
-            </div>
-            <div className="contentRow">
-                <div className="contentColumn1">E-mail:</div>
-                <div className="contentColumn2">
-                    <input type="text" className="disabled-input" defaultValue={userState?.email} disabled></input>
-                </div>
-            </div>
-            {verifiedEmailDom}
-            <div className="contentRow">
-                <div className="contentColumn">
-                    <button className="neon-button" onClick={() => { navigate("/change-email")}}>Изменить e-mail</button>
-                </div>
-            </div>
-            <br />
-
-            <form encType="multipart/form-data" method="POST" onSubmit={submitForm }>
-                <div className="contentRow">
-                    <div className="contentColumn1">Имя:</div>
-                    <div className="contentColumn2">
-                        <input type="text" name="firstName" className="active-input" defaultValue={userState?.firstName}></input>
-                    </div>
-                </div>
-                <div className="contentRow">
-                    <div className="contentColumn1">Фамилия:</div>
-                    <div className="contentColumn2">
-                        <input type="text" name="lastName" className="active-input" defaultValue={userState?.lastName}></input>
-                    </div>
-                </div>
-                <div className="contentRow">
-                    <div className="contentColumn1">Сменить фото профиля:</div>
-                    <div className="contentColumn2">
-                        <input type="file" name="userPhoto" className="active-input" accept="image/*"></input>
-                    </div>
-                </div>
-
-                <div className="contentRow">
-                    <div className="contentColumn1">Новый пароль:</div>
-                    <div className="contentColumn2">
-                        <input type="password" name="userNewPassword" className="active-input"></input>
-                    </div>
-                </div><div className="contentRow">
-                    <div className="contentColumn1">Повторите пароль:</div>
-                    <div className="contentColumn2">
-                        <input type="password" name="userRepeatPassword" className="active-input" defaultValue={userState?.lastName}></input>
-                    </div>
-                </div><div className="contentRow">
-                    <div className="contentColumn1">Введите текущий пароль:</div>
-                    <div className="contentColumn2">
-                        <input type="password" name="userOldPassword" className="active-input" defaultValue={userState?.lastName}></input>
-                    </div>
-                </div>
-                <div className="contentRow">
-                    <div className="contentColumn">
-                        <button type="submit" className="neon-button">Сохранить изменения</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+        <BackButton/>
+        <LoadDataPlaceholder isLoading={getProfile.isLoading} error={getProfile.error}>
+            <Container>
+                <ResponseMessagePlaceholder statusCode={getProfile.statusCode} data={getProfile.data} successMessage="Данные профиля загружены"/>
+                {imageDom}
+                <Row>
+                    <Column1>ID:</Column1>
+                    <Column2>
+                        <input type="text" className="disabled-input" defaultValue={getProfile?.data?.id} disabled></input>
+                    </Column2>
+                </Row>
+                <Row>
+                    <Column1>Роль:</Column1>
+                    <Column2>
+                        <input type="text" className="disabled-input" defaultValue={getProfile?.data?.role?.description} disabled></input>
+                    </Column2>
+                </Row>
+                <Row>
+                    <Column1>E-mail:</Column1>
+                    <Column2>
+                        <input type="text" className="disabled-input" defaultValue={getProfile?.data?.email} disabled></input>
+                    </Column2>
+                </Row>
+                {verifiedEmailDom}
+                <Row>
+                    <Column>
+                        <button className="neon-button" onClick={() => { navigate("/change-email")}}>Изменить e-mail</button>
+                    </Column>
+                </Row>
+                <br />
+                <form encType="multipart/form-data" method="POST" onSubmit={submitForm }>
+                    <Row>
+                        <Column1>Имя:</Column1>
+                        <Column2>
+                            <input type="text" name="firstName" className="active-input" defaultValue={getProfile?.data?.firstName}></input>
+                        </Column2>
+                    </Row>
+                    <Row>
+                        <Column1>Фамилия:</Column1>
+                        <Column2>
+                            <input type="text" name="lastName" className="active-input" defaultValue={getProfile?.data?.lastName}></input>
+                        </Column2>
+                    </Row>
+                    <Row>
+                        <Column1>Сменить фото профиля:</Column1>
+                        <Column2>
+                            <input type="file" name="userPhoto" className="active-input" accept="image/*"></input>
+                        </Column2>
+                    </Row>
+                    <Row>
+                        <Column1>Новый пароль:</Column1>
+                        <Column2>
+                            <input type="password" name="userNewPassword" className={passwordClass} onChange={validatePassword}></input>
+                        </Column2>
+                    </Row>
+                    <Row>
+                        <Column1>Повторите пароль:</Column1>
+                        <Column2>
+                            <input type="password" name="userRepeatPassword" className={repeatPasswordClass} onChange={validatePassword}></input>
+                        </Column2>
+                    </Row>
+                    <Row>
+                        <Column1>Введите текущий пароль:</Column1>
+                        <Column2>
+                            <input type="password" name="userOldPassword" className={currentPasswordClass} onChange={validatePassword}></input>
+                        </Column2>
+                    </Row>
+                    <Row>
+                        <Column>
+                            <button type="submit" className="neon-button">Сохранить изменения</button>
+                        </Column>
+                    </Row>
+                </form>
+                <LoadDataPlaceholder isLoading={postProfile.isLoading} error={postProfile.error}>
+                    <ResponseMessagePlaceholder statusCode={postProfile.statusCode} data={postProfile.data} successMessage="Профиль успешно обновлен"/>
+                </LoadDataPlaceholder>
+            </Container>
+        </LoadDataPlaceholder>
     </>
 }

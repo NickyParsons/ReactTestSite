@@ -2,7 +2,7 @@ import React, { useLayoutEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import { withAuth } from "../hocs/withAuth.jsx";
 import { Container } from "../components/contentContainer.jsx";
-import { useFetch, useFetchOnTrigger } from "../hooks/useFetchData.js";
+import { useFetchOnTrigger } from "../hooks/useFetchData.js";
 import { ResponseMessagePlaceholder } from "../components/fetchPlaceholders.jsx";
 
 

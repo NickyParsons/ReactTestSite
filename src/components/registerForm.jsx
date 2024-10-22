@@ -2,11 +2,8 @@ import React, { useState, useRef } from "react";
 import "../styles/userForms.css";
 export default React.memo(function RegisterForm(props) {
     //show render count
-    const renderCount = React.useRef(1);
-    React.useEffect(() => {
-        console.log(`Register form render count: ${renderCount.current}`);
-        renderCount.current = renderCount.current + 1;
-    });
+    // const renderCount = React.useRef(1);
+    // React.useEffect(() => {console.log(`Register form render count: ${renderCount.current++}`);});
     //refs
     const formRef = useRef();
     //states
@@ -17,11 +14,11 @@ export default React.memo(function RegisterForm(props) {
     const [isRepeatPasswordValid, setRepeatPasswordValid] = useState(true);
     //handlers
     function changeEmail(event) {
-        props.requestForm.email = event.target.value;
+        props.requestForm.current.email = event.target.value;
         event.target.validity.valid ? setEmailValid(true) : setEmailValid(false);
     }
     function changeFirstName(event) {
-        props.requestForm.firstName = event.target.value;
+        props.requestForm.current.firstName = event.target.value;
         if (event.target.value.length > 20) {
             event.target.setCustomValidity("Не более 20 символов");
         }
@@ -31,7 +28,7 @@ export default React.memo(function RegisterForm(props) {
         event.target.validity.valid ? setFirstNameValid(true) : setFirstNameValid(false);
     }
     function changeLastName(event) {
-        props.requestForm.lastName = event.target.value;
+        props.requestForm.current.lastName = event.target.value;
         if (event.target.value.length > 20) {
             event.target.setCustomValidity("Не более 20 символов");
         }
@@ -42,7 +39,7 @@ export default React.memo(function RegisterForm(props) {
     }
     function validatePassword() {
         const password = formRef.current.password;
-        props.requestForm.password = password.value;
+        props.requestForm.current.password = password.value;
         const repeatPassword = formRef.current.repeatPassword;
         if (password.value.length < 6) {
             password.setCustomValidity("Слишком короткий");

@@ -133,6 +133,16 @@ a {
     padding-right: 10px;
     width: 100%;
 }
+.invalid-active-input {
+    color: #172323;
+    background-color: #ad8686;
+    border-radius: 10px;
+    border: 2px solid #b53030;
+    font-size: 17px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+}
 .disabled-input {
     color: #172323;
     background-color: darkgrey;

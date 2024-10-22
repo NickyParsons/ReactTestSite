@@ -14,6 +14,7 @@ import EditProfile from "./pages/editProfile.jsx"
 import VerifyEmail from "./pages/verify-email.jsx";
 import ChangeEmail from "./pages/change-email.jsx";
 import ForgotPassword from "./pages/forgot-password.jsx";
+import ResetPassword from "./pages/reset-password.jsx";
 
 import "./styles/_style.css";
 import "./styles/contentContainer.css";
@@ -34,8 +35,9 @@ ReactDOM.createRoot(
                         <Route path="/articles/new" element={<CreateArticle />} />
                         <Route path="/profiles/edit" element={<EditProfile />} />
                         <Route path="/verify-email" element={<VerifyEmail />} />
-                        <Route path="/forgot-password" element={<ForgotPassword />} />
                         <Route path="/change-email" element={<ChangeEmail />} />
+                        <Route path="/forgot-password" element={<ForgotPassword />} />
+                        <Route path="/reset-password" element={<ResetPassword />} />
                         <Route path="*" element={<NotFound />} />
                     </Route>
                 </Routes>

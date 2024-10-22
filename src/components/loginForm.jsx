@@ -5,11 +5,8 @@ import { GreenMessage, RedMessage, WhiteMessage } from "../components/containedC
 
 export default React.memo((props) => {
     //show render count
-    const renderCount = React.useRef(1);
-    React.useEffect(() => {
-        console.log(`Login form render count: ${renderCount.current}`);
-        renderCount.current = renderCount.current + 1;
-    });
+    // const renderCount = React.useRef(1);
+    // React.useEffect(() => {console.log(`Login form render count: ${renderCount.current++}`);});
     //fields
     const navigate = useNavigate();
     //states
@@ -17,11 +14,11 @@ export default React.memo((props) => {
     const [isPasswordValid, setPasswordValid] = React.useState(true);
     //handlers
     function changeEmail(event) {
-        props.requestForm.email = event.target.value;
+        props.requestForm.current.email = event.target.value;
         event.target.validity.valid ? setEmailValid(true) : setEmailValid(false);
     }
     function changePassword(event) {
-        props.requestForm.password = event.target.value;
+        props.requestForm.current.password = event.target.value;
         event.target.validity.valid ? setPasswordValid(true) : setPasswordValid(false);
     }
     //render
@@ -51,6 +48,11 @@ export default React.memo((props) => {
             <Row>
                 <Column>
                     <button onClick={() => { navigate("/forgot-password") }} className="neon-button">Забыл пароль</button>
+                </Column>
+            </Row>
+            <Row>
+                <Column>
+                    <button onClick={() => { navigate("/reset-password") }} className="neon-button">Сбросить пароль</button>
                 </Column>
             </Row>
         </Container>

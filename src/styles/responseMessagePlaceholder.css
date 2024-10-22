@@ -1,8 +1,12 @@
 .responseMessagePlaceholder .success-code{
     border-radius: 5px;
     border: 2px solid green;
+    padding: 2px;
+    background-color: rgb(126, 201, 182);
 }
 .responseMessagePlaceholder .fault-code{
     border-radius: 5px;
     border: 2px solid red  ;
+    padding: 2px;
+    background-color: rgb(201, 137, 126);
 }

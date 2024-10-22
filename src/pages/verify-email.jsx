@@ -6,8 +6,8 @@ import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/f
 
 export default function VerifyEmail(props) {
     //show render count
-    const renderCount = React.useRef(1);
-    React.useEffect(() => { console.log(`Verify email page render count: ${renderCount.current++}`); });
+    // const renderCount = React.useRef(1);
+    // React.useEffect(() => { console.log(`Verify email page render count: ${renderCount.current++}`); });
     //page title
     const pageTitle = "Подтверждение E-mail";
     React.useLayoutEffect(() => {

@@ -134,12 +134,12 @@ function LoginControl(props) {
             <button id="openRegisterBtn" className="navLink" onClick={toggleRegisterFormVisibility} ref={registerButtonRef}>Регистрация</button>
             <button id="openLoginBtn" className="navLink" onClick={toggleLoginFormVisibility} ref={loginButtonRef}>Вход</button>
             <div id="loginWindow" className={loginFormClasses} ref={loginWindowRef}>
-                <LoginForm submitHandler={submitLoginForm} requestForm={loginRequestRef.current} />
+                <LoginForm submitHandler={submitLoginForm} requestForm={loginRequestRef} />
                 <span>{authContext.loginResponseMessage}</span><br/>
                 <button onClick={toggleLoginFormVisibility} className="neon-button">Закрыть</button>
             </div>
             <div id="registerWindow" className={registerFormClasses} ref={registerWindowRef}>
-                <RegisterForm submitHandler={submitRegisterForm} requestForm={registerRequestRef.current} />
+                <RegisterForm submitHandler={submitRegisterForm} requestForm={registerRequestRef} />
                 <span>{registerResponseMessage }</span><br/>
                 <button onClick={toggleRegisterFormVisibility} className="neon-button">Закрыть</button>
             </div>
