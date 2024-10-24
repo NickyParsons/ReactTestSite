@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import { withAuth } from "../hocs/withAuth.jsx";
-import { useFetchOnTrigger } from "../hooks/useFetchData.js";
+import { usePostFetchOnTrigger } from "../hooks/useFetchData.js";
 import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
 
 export default withAuth(ChangeEmail);
@@ -16,12 +16,16 @@ export function ChangeEmail() {
     //context
     const authContext = useAuthContext();
     //fields
-    const {handler, isLoading, statusCode, data, error} = useFetchOnTrigger();
+    const {handler, isLoading, statusCode, data, error} = usePostFetchOnTrigger();
     //handlers
     const submitForm = (event) => {
         event.preventDefault();
-        handler(`/api/change-email?email=${authContext.email}&newemail=${event.target.email.value}`, "POST", false, ()=>{
-            setTimeout(authContext.signOut, 2000);
+        let formData = new FormData();
+        formData.append("email", authContext.email);
+        formData.append("newemail", event.target.email.value);
+        handler("/api/change-email", {
+            formData: formData,
+            onSuccess: ()=>{setTimeout(authContext.signOut, 2000);}
         });
     }
     //render

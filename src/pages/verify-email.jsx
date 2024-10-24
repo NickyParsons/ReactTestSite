@@ -1,7 +1,7 @@
 import React from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
-import { useFetchOnTrigger } from "../hooks/useFetchData.js";
+import { usePostFetchOnTrigger } from "../hooks/useFetchData.js";
 import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
 
 export default function VerifyEmail(props) {
@@ -17,11 +17,15 @@ export default function VerifyEmail(props) {
     //fields
     const [searchParams, setSearchParams] = useSearchParams();
     const token = searchParams.get("token");
-    const {handler, isLoading, statusCode, data, error} = useFetchOnTrigger();
+    const {handler, isLoading, statusCode, data, error} = usePostFetchOnTrigger();
     //effects
     React.useLayoutEffect(() => { 
         if (token != null) {
-            handler(`/api/verify-email?token=${encodeURIComponent(token)}`, "POST", false);
+            let formData = new FormData();
+            formData.append("token", token);
+            handler("/api/verify-email", {
+                formData: formData
+            });
         }
     }, [token]);
     //handlers

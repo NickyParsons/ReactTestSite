@@ -1,24 +1,31 @@
 import React from "react";
 import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
-import { useFetchOnTrigger } from "../hooks/useFetchData.js";
+import { useFetch } from "../hooks/useFetchData.js";
 import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
 
 export default function ForgotPassword(props) {
     //show render count
-    const renderCount = React.useRef(1);
-    React.useEffect(() => { console.log(`Forgot password page render count: ${renderCount.current++}`); });
+    // const renderCount = React.useRef(1);
+    // React.useEffect(() => { console.log(`Forgot password page render count: ${renderCount.current++}`); });
     //page title
     const pageTitle = "Восстановление пароля";
     React.useLayoutEffect(() => {
         document.title = `NickyParsons Site | ${pageTitle}`;
         document.getElementById("pageTitle").innerText = pageTitle;
     }, []);
-    //fields
-    const {handler, isLoading, statusCode, data, error} = useFetchOnTrigger();
+    //states
+    const {fetchHandler, isLoading, statusCode, data, error} = useFetch({
+        url: "/api/forgot-password",
+        method: "POST",
+        isResponseJson: false,
+        executeOnLoad: false
+    });
     //handlers
     async function submit(event) {
         event.preventDefault();
-        handler(`/api/forgot-password?email=${event.target.email.value}`, "POST", false)
+        let formData = new FormData();
+        formData.append("email", event.target.email.value);
+        fetchHandler(formData);
     }
     //render
     return <>

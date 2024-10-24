@@ -1,97 +1,64 @@
 import { Link } from "react-router-dom";
-import React, { useState, useRef, useEffect, useContext, useLayoutEffect } from "react";
-import { GreenMessage, RedMessage, WhiteMessage } from "../components/containedColorMessage.jsx";
+import React from "react";
 import ArticleCard from "../components/articleCard.jsx";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import UserControl from "../components/userControl.jsx";
 import UserMenu from "../components/userMenu.jsx";
+import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
+import { useFetch } from "../hooks/useFetchData.js";
+import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
+import { Comments } from "../components/comments.jsx";
 
 import "../styles/articles.css";
 function Articles(props) {
-    //fields
+    //page title
     const pageTitle = "Статьи";
-    //states
-    const [articles, setArticles] = useState([]);
-    const [isLoading, setLoadingState] = useState(false);
-    const [error, setError] = useState();
-    //context
-    let authContext = useAuthContext();
-    //effects
-    useLayoutEffect(setTitle, []);
-    useEffect(() => {
-        getArticles();
-    }, []);
-    
-    //handlers
-    function setTitle() {
+    React.useLayoutEffect(() => {
         document.title = `NickyParsons Site | ${pageTitle}`;
         document.getElementById("pageTitle").innerText = pageTitle;
-    }
-    async function getArticles() {
-        setLoadingState(true);
-        try {
-            const response = await fetch(`/api/articles`, {
-                method: "GET",
-                headers: {
-                    "Accept": "*/*",
-                    "Content-Type": "*/*"
-                },
-                mode: "cors",
-                credentials: "include"
-            });
-            if (response.status === 200) {
-                const json = await response.json();
-                setArticles([...json]);
-            }
-            else {
-                console.log(response.statusText);
-            }
-        }
-        catch (error) {
-            setError(error);
-        }
-        finally {
-            setLoadingState(false);
-        }
-    }
+    }, []);
+    //states
+    const {fetchHandler, setData, isLoading, statusCode, data, error} = useFetch({
+        url: "/api/articles",
+        method: "GET",
+        isResponseJson: true,
+        executeOnLoad: true
+    });
+    //context
+    let authContext = useAuthContext();
     //render
+    //add article
     let addArticleDom = <></>;
     if (authContext.isLoggedIn) {
-        addArticleDom = <>
-            <Link to="/articles/new">
-                <button className="neon-button">
-                    Добавить статью
-                </button>
-            </Link>
-        </>;
-    }
-    else {
+        if (authContext.isVerified) {
+            addArticleDom = <Link to="/articles"><button className="neon-button">Добавить статью</button></Link>;
+        } else {
+            addArticleDom = <span>Подтвердите e-mail чтобы добавить статью</span>;
+        }
+    } else {
         addArticleDom = <span>Войдите чтобы добавить статью</span>;
     }
-    let articlesDom = <></>;
-    if (isLoading) {
-        articlesDom = <p>Loading...</p>
-    }
-    else {
-        if (error) {
-            articlesDom = <p>{error.toString()}</p>
-        }
-        else {
-            articlesDom = <>
-                <div id="articlesContainer">
-                    {articles.map((article) => {
-                        //console.log(article);
-                        return <div className="articleContainer" key={article.id}>
+    //DOM
+    let articlesDom = <>
+        <Container>
+            <ResponseMessagePlaceholder statusCode={statusCode} data={data} successMessage="Статьи загружены"/>
+            <LoadDataPlaceholder isLoading={isLoading} error={error}>
+                {data.map((article) => {
+                    return <Row key={article.id}>
+                        <Column1>
                             <UserControl id={article.authorId}>
                                 <UserMenu></UserMenu>
                             </UserControl>
+                        </Column1>
+                        <Column2>
                             <ArticleCard article={article} />
-                        </div>;
-                    })}
-                </div>
-            </>;
-        }
-    }
+                            <Comments articleId={article.id}/>
+                        </Column2>
+                    </Row>
+                })}
+            </LoadDataPlaceholder>
+        </Container>
+    </>;
     return <>
         {addArticleDom}
         {articlesDom}

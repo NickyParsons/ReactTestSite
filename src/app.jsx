@@ -8,7 +8,7 @@ import { Test } from "./pages/test.jsx";
 import { Counter } from "./pages/counter.jsx";
 import { Articles } from "./pages/articles.jsx";
 import Article from "./pages/article.jsx";
-import { CreateArticle } from "./pages/createArticle.jsx";
+import CreateArticle from "./pages/createArticle.jsx";
 import { AuthProvider } from "./context/authContext.jsx";
 import EditProfile from "./pages/editProfile.jsx"
 import VerifyEmail from "./pages/verify-email.jsx";

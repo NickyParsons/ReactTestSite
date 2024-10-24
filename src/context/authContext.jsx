@@ -11,10 +11,11 @@ function AuthProvider(props) {
     const cookies = new Cookies();
     //refs
     //states
-    let [isLoggedIn, setLoginStatus] = useState(false);
-    let [id, setId] = useState("");
-    let [email, setEmail] = useState("");
-    let [role, setRole] = useState("");
+    const [isLoggedIn, setLoginStatus] = useState(false);
+    const [id, setId] = useState("");
+    const [email, setEmail] = useState("");
+    const [role, setRole] = useState("");
+    const [isVerified, setVerified] = React.useState(false);
     const [loginResponseMessage, setLoginResponseMessage] = React.useState("");
     //effects
     useLayoutEffect(checkLoginState, []);
@@ -31,11 +32,10 @@ function AuthProvider(props) {
     }
     function decodeToken(token) {
         let decodedToken = jwtDecode(token);
-        const emailKey = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
-        const roleKey = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
         setId(decodedToken["id"]);
-        setEmail(decodedToken[emailKey]);
-        setRole(decodedToken[roleKey]);
+        setEmail(decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]);
+        setRole(decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]);
+        setVerified(decodedToken["verified"].toLowerCase() === "true");
     }
     async function signIn(loginRequestForm) {
         let hostString = `/api/login`;
@@ -80,7 +80,7 @@ function AuthProvider(props) {
         setRole("");
     }
     //render
-    let contextValues = { isLoggedIn, signIn, signOut, id, email, role, loginResponseMessage }
+    let contextValues = { isLoggedIn, signIn, signOut, id, email, role, isVerified, loginResponseMessage }
     return <AuthContext.Provider value={contextValues}>
         {props.children}
     </AuthContext.Provider>
