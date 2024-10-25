@@ -36,7 +36,7 @@ export function Test(props) {
         <p>Login status: {authContext.isLoggedIn.toString()}</p>
         <p>ID: {authContext.id}</p>
         <p>User: {authContext.email}</p>
-        <p>Role: {authContext.role}</p>
+        <p>Moder permissions: {authContext.isModerPermission.toString()}</p>
         <p>Verified: {authContext.isVerified.toString()}</p>
         <button onClick={()=>{fetchHandler()}}>TEST FETCH</button><br/>
         {/* {data.map((item) => {

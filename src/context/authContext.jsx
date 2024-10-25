@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { createContext, useLayoutEffect, useState } from "react";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
 
@@ -14,7 +14,8 @@ function AuthProvider(props) {
     const [isLoggedIn, setLoginStatus] = useState(false);
     const [id, setId] = useState("");
     const [email, setEmail] = useState("");
-    const [role, setRole] = useState("");
+    // const [role, setRole] = useState("");
+    const [isModerPermission, setModerPermission] = useState(false);
     const [isVerified, setVerified] = React.useState(false);
     const [loginResponseMessage, setLoginResponseMessage] = React.useState("");
     //effects
@@ -34,7 +35,11 @@ function AuthProvider(props) {
         let decodedToken = jwtDecode(token);
         setId(decodedToken["id"]);
         setEmail(decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]);
-        setRole(decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]);
+        let role = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"].toLowerCase();
+        if (role == "moder" || role == "admin") {
+            setModerPermission(true);
+        }
+        // setRole(decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]);
         setVerified(decodedToken["verified"].toLowerCase() === "true");
     }
     async function signIn(loginRequestForm) {
@@ -77,10 +82,11 @@ function AuthProvider(props) {
         setLoginStatus(false);
         setId("");
         setEmail("");
-        setRole("");
+        setVerified(false);
+        setModerPermission(false);
     }
     //render
-    let contextValues = { isLoggedIn, signIn, signOut, id, email, role, isVerified, loginResponseMessage }
+    let contextValues = { isLoggedIn, signIn, signOut, id, email, isVerified, isModerPermission, loginResponseMessage }
     return <AuthContext.Provider value={contextValues}>
         {props.children}
     </AuthContext.Provider>

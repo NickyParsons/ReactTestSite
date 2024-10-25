@@ -37,7 +37,7 @@ export function useFetch(fetchOptions = {
                 // Используем обработчик установки state извне или внутри хука
                 fetchOptions.setDataHandler === undefined ? setData(responseData) : fetchOptions.setDataHandler(responseData);
                 // если надо выполняем функцию извне
-                if (fetchOptions.onSuccess !== undefined) fetchOptions.onSuccess();
+                if (fetchOptions.onSuccess !== undefined) fetchOptions.onSuccess(responseData);
             } else {
                 setData(await response.text());
             }

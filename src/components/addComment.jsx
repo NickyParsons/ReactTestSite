@@ -13,9 +13,8 @@ export function AddComment(props){
         method: "POST",
         isResponseJson: true,
         executeOnLoad: false,
-        // setDataHandler: props.setDataHandler,
-        onSuccess: ()=>{
-            props.setDataHandler([...props.currentData, data]);
+        onSuccess: (response)=>{
+            props.setDataHandler([...props.currentData, response]);
         }
     });
     //handlers
@@ -25,6 +24,7 @@ export function AddComment(props){
         formData.append("AuthorId", authContext.id);
         formData.append("Text", event.target.text.value);
         fetchHandler(formData);
+        event.target.reset();
     }
     return <>
         <form onSubmit={submitForm}>
@@ -35,7 +35,7 @@ export function AddComment(props){
         </Row>
         <Row>
             <Column>
-                <button type="submit" className="neon-button">Добавить</button>
+                <button type="submit" className="neon-button">Отправить</button>
             </Column>
         </Row>
         <Row>

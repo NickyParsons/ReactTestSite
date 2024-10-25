@@ -1,0 +1,19 @@
+﻿.comment-card{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #2fd8d8;
+    border-radius: 6px;
+    height: 100%;
+    padding: 5px;
+}
+.comment-card-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+
+.comment-card-added-time {
+    color: #34a4ac;
+    font-size: 12px;
+}
