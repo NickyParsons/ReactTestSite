@@ -1,8 +1,9 @@
 import React from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
-import { usePostFetchOnTrigger } from "../hooks/useFetchData.js";
+import { usePostFetchOnTrigger, useFetch } from "../hooks/useFetchData.js";
 import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
+import { useAuthContext } from "../hooks/useAuthContext.js";
 
 export default function VerifyEmail(props) {
     //show render count
@@ -14,18 +15,25 @@ export default function VerifyEmail(props) {
         document.title = `NickyParsons Site | ${pageTitle}`;
         document.getElementById("pageTitle").innerText = pageTitle;
     }, []);
-    //fields
+    //context
+    const authContext = useAuthContext();
     const [searchParams, setSearchParams] = useSearchParams();
     const token = searchParams.get("token");
-    const {handler, isLoading, statusCode, data, error} = usePostFetchOnTrigger();
+    const {fetchHandler, isLoading, statusCode, data, error} = useFetch({
+        url: "/api/verify-email",
+        method: "POST",
+        isResponseJson: false,
+        onSuccess: ()=>{
+            authContext.refreshToken();
+        },
+        executeOnLoad: false
+    });
     //effects
     React.useLayoutEffect(() => { 
         if (token != null) {
             let formData = new FormData();
             formData.append("token", token);
-            handler("/api/verify-email", {
-                formData: formData
-            });
+            fetchHandler(formData);
         }
     }, [token]);
     //handlers
@@ -37,6 +45,7 @@ export default function VerifyEmail(props) {
     return <>
         <BackButton/>
         <Container>
+            <ResponseMessagePlaceholder statusCode={statusCode} data={data} successMessage="Email успешно подтвержден!"/>
             <form onSubmit={submitToken}>
                 <Row>
                     <Column1>Token:</Column1>
@@ -47,9 +56,9 @@ export default function VerifyEmail(props) {
                 </Row>
             </form>
             <Row>
-                <LoadDataPlaceholder isLoading={isLoading} error={error}>
-                    <ResponseMessagePlaceholder statusCode={statusCode} data={data} successMessage="Email успешно подтвержден!"/>
-                </LoadDataPlaceholder>
+                <Column>
+                    <LoadDataPlaceholder isLoading={isLoading} error={error}></LoadDataPlaceholder>
+                </Column>
             </Row>
         </Container>
     </>

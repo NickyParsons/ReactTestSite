@@ -82,6 +82,7 @@ export function EditProfile(props) {
         postProfile.handler(`/api/users/${authContext.id}/edit`, {
             isResponseJson: true,
             formData: formData,
+            // Переделать на новую версию useFetch по аналогии с комментариями
             setDataHandler: getProfile.setData
         });
     }

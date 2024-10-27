@@ -20,7 +20,7 @@ export function Test(props) {
     }, []);
     //fields
     const {fetchHandler, isLoading, statusCode, data, error} = useFetch({
-        url: "/api/articles",
+        url: "/api/test3",
         method: "GET",
         isResponseJson: true
     });
@@ -42,9 +42,10 @@ export function Test(props) {
         {/* {data.map((item) => {
             return <li key={item.name}>{item.name}</li>;
         })} */}
-        {console.log(data)}
+        {/* {console.log(data)} */}
         <ResponseMessagePlaceholder statusCode={statusCode} data={data} successMessage="Что то выполнено успешно)"/>
         <button className="menu-button">Menu button 1</button><hr></hr>
         <button className="menu-button">Menu button 2</button><br />
+        <button onClick={()=>{authContext.refreshToken()}}>REFRESH FETCH</button><br/>
     </>
 }

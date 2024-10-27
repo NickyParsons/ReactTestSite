@@ -5,6 +5,7 @@ import LoginForm from "./loginForm.jsx";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import UserControl from "../components/userControl.jsx";
 import LoggedUserMenu from "./loggedUserMenu.jsx";
+import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
 
 import "../styles/popUpWindow.css";
 
@@ -135,7 +136,7 @@ function LoginControl(props) {
             <button id="openLoginBtn" className="navLink" onClick={toggleLoginFormVisibility} ref={loginButtonRef}>Вход</button>
             <div id="loginWindow" className={loginFormClasses} ref={loginWindowRef}>
                 <LoginForm submitHandler={submitLoginForm} requestForm={loginRequestRef} />
-                <span>{authContext.loginResponseMessage}</span><br/>
+                <ResponseMessagePlaceholder statusCode={authContext.loginFetch.statusCode} data={authContext.loginFetch.data} successMessage="Успешный вход"/>
                 <button onClick={toggleLoginFormVisibility} className="neon-button">Закрыть</button>
             </div>
             <div id="registerWindow" className={registerFormClasses} ref={registerWindowRef}>
