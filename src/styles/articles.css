@@ -39,3 +39,9 @@
     .articleCardText p {
         margin: 0px;
     }
+.articleImage {
+    /* float: right; */
+    width: 100%;
+    height: auto;
+    /* border-radius: 10px; */
+}

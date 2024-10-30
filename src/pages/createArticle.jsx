@@ -29,7 +29,7 @@ function CreateArticle(props) {
         formData.append("text", event.target.text.value);
         formData.append("image", event.target.image.files[0]);
         formData.append("AuthorId", authContext.id);
-        handler("/api/articles/new", {
+        handler("/api/articles", {
             formData: formData
         });
     }

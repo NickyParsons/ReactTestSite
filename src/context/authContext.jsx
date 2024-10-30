@@ -53,7 +53,12 @@ function AuthProvider(props) {
         }
     });
     //effects
-    useLayoutEffect(()=>{if (!decodeToken(cookies.get("nasty-boy"))) refreshToken();}, []);
+    useLayoutEffect(()=>{
+        let cookie = cookies.get("nasty-boy");
+        if (cookie) {
+            if (!decodeToken(cookie)) refreshToken();
+        }
+    }, []);
     function signIn(loginRequestForm) {
         let formData = new FormData();
         formData.append("email", loginRequestForm.email);
@@ -72,6 +77,7 @@ function AuthProvider(props) {
         if (cookies.get("passion-flowers")) {
             cookies.remove("passion-flowers");
         }
+        // Надо бы наверно все таки на бэкэнд обращаться выходить
         setLoginStatus(false);
         setId("");
         setEmail("");

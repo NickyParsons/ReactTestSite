@@ -2,8 +2,7 @@ import { Link } from "react-router-dom";
 import React from "react";
 import ArticleCard from "../components/articleCard.jsx";
 import { useAuthContext } from "../hooks/useAuthContext.js";
-import UserControl from "../components/userControl.jsx";
-import UserMenu from "../components/userMenu.jsx";
+import { OtherUserControl } from "../components/otherUserControl.jsx";
 import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
 import { useFetch } from "../hooks/useFetchData.js";
 import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
@@ -31,7 +30,7 @@ function Articles(props) {
     let addArticleDom = <></>;
     if (authContext.isLoggedIn) {
         if (authContext.isVerified) {
-            addArticleDom = <Link to="/articles"><button className="neon-button">Добавить статью</button></Link>;
+            addArticleDom = <Link to="/articles/new"><button className="neon-button">Добавить статью</button></Link>;
         } else {
             addArticleDom = <span>Подтвердите e-mail чтобы добавить статью</span>;
         }
@@ -41,14 +40,12 @@ function Articles(props) {
     //DOM
     let articlesDom = <>
         <Container>
-            <ResponseMessagePlaceholder statusCode={statusCode} data={data} successMessage="Статьи загружены"/>
+            <ResponseMessagePlaceholder statusCode={statusCode} error={error} successMessage="Статьи загружены"/>
             <LoadDataPlaceholder isLoading={isLoading} error={error}>
                 {data.map((article) => {
                     return <Row key={article.id}>
                         <Column1>
-                            <UserControl id={article.authorId}>
-                                <UserMenu></UserMenu>
-                            </UserControl>
+                            <OtherUserControl id={article.authorId}/>
                         </Column1>
                         <Column2>
                             <ArticleCard article={article} />

@@ -1,11 +1,11 @@
 import React from "react";
-
+import { useNavigate } from "react-router-dom";
 import RegisterForm from "./registerForm.jsx";
 import LoginForm from "./loginForm.jsx";
 import { useAuthContext } from "../hooks/useAuthContext.js";
-import UserControl from "../components/userControl.jsx";
-import LoggedUserMenu from "./loggedUserMenu.jsx";
+import { LoggedUserControl } from "./loggedUserControl.jsx";
 import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
+import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
 
 import "../styles/popUpWindow.css";
 
@@ -14,6 +14,7 @@ function LoginControl(props) {
     // const renderCount = React.useRef(1);
     // React.useEffect(() => {console.log(`Login Control render count: ${renderCount.current++}`);});
     //fields
+    const navigate = useNavigate();
     //refs
     const loginRequestRef = React.useRef({
         email: "",
@@ -78,6 +79,13 @@ function LoginControl(props) {
         event.preventDefault();
         authContext.signOut();
     }
+    function goTo(page){
+        setRegisterVisibility(false);
+        document.body.removeEventListener("click", registerClickOutside);
+        setLoginVisibility(false);
+        document.body.removeEventListener("click", loginClickOutside);
+        navigate(page);
+    }
     const registerClickOutside = React.useCallback((event) => {
         if (!(event.composedPath().includes(registerWindowRef.current) || event.composedPath().includes(registerButtonRef.current))) {
             setRegisterVisibility(false);
@@ -122,9 +130,7 @@ function LoginControl(props) {
     if (authContext.isLoggedIn) {
         buttons = <>
             <p>{authContext.email}</p>
-            <UserControl id={authContext.id}>
-                <LoggedUserMenu />
-            </UserControl>
+            <LoggedUserControl/>
         </>
     }
     else {
@@ -135,9 +141,13 @@ function LoginControl(props) {
             <button id="openRegisterBtn" className="navLink" onClick={toggleRegisterFormVisibility} ref={registerButtonRef}>Регистрация</button>
             <button id="openLoginBtn" className="navLink" onClick={toggleLoginFormVisibility} ref={loginButtonRef}>Вход</button>
             <div id="loginWindow" className={loginFormClasses} ref={loginWindowRef}>
-                <LoginForm submitHandler={submitLoginForm} requestForm={loginRequestRef} />
-                <ResponseMessagePlaceholder statusCode={authContext.loginFetch.statusCode} data={authContext.loginFetch.data} successMessage="Успешный вход"/>
-                <button onClick={toggleLoginFormVisibility} className="neon-button">Закрыть</button>
+                <Container>
+                    <LoginForm submitHandler={submitLoginForm} requestForm={loginRequestRef} />
+                    <ResponseMessagePlaceholder statusCode={authContext.loginFetch.statusCode} data={authContext.loginFetch.data} successMessage="Успешный вход"/>
+                    <button onClick={() => { goTo("/forgot-password") }} className="neon-button">Забыл пароль</button>
+                    <button onClick={() => { goTo("/reset-password") }} className="neon-button">Сбросить пароль</button>
+                    <button onClick={toggleLoginFormVisibility} className="neon-button">Закрыть</button>
+                </Container>
             </div>
             <div id="registerWindow" className={registerFormClasses} ref={registerWindowRef}>
                 <RegisterForm submitHandler={submitRegisterForm} requestForm={registerRequestRef} />

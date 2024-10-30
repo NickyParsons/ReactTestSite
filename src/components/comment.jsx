@@ -1,11 +1,8 @@
 import React from "react";
-import UserControl from "../components/userControl.jsx";
-import UserMenu from "../components/userMenu.jsx";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
 import { useFetch } from "../hooks/useFetchData.js";
-// import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
-// import { AddComment } from "../components/addComment.jsx";
+import { OtherUserControl } from "./otherUserControl.jsx";
 
 export function Comment(props){
     //context
@@ -71,9 +68,7 @@ export function Comment(props){
     return <>
         <Row key={props.comment.id}>
             <Column1>
-                <UserControl id={props.comment.authorId}>
-                    <UserMenu></UserMenu>
-                </UserControl>
+                <OtherUserControl id={props.comment.authorId}/>
             </Column1>
             <Column2>
                 <div className="comment-card">

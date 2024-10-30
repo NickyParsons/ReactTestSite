@@ -32,14 +32,16 @@ export function useFetch(fetchOptions = {
             setStatusCode(response.status);
             if(response.status === 200){
                 let responseData;
-                // Принимаем JSON или текст
+                // // Принимаем JSON или текст
                 fetchOptions.isResponseJson ? responseData = await response.json() : responseData = await response.text();
-                // Используем обработчик установки state извне или внутри хука
+                // // Используем обработчик установки state извне или внутри хука
                 fetchOptions.setDataHandler === undefined ? setData(responseData) : fetchOptions.setDataHandler(responseData);
-                // если надо выполняем функцию извне
+                // // если надо выполняем функцию извне
                 if (fetchOptions.onSuccess !== undefined) fetchOptions.onSuccess(responseData);
-            } else {
-                setData(await response.text());
+            } 
+            else 
+            {
+                setError(await response.text());
             }
         } catch (error) {
             setError(error);

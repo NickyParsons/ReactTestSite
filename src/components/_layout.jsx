@@ -17,13 +17,11 @@ class Layout extends React.Component{
             
             <main>
                 <div id="leftSideBar">
-                Left side bar
                 </div>
                 <div id="pageContent">
                     <Outlet />
                 </div>
                 <div id="rightSideBar">
-                    Right side bar
                 </div>
             </main>
 

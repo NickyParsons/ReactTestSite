@@ -43,7 +43,7 @@ export function Test(props) {
             return <li key={item.name}>{item.name}</li>;
         })} */}
         {/* {console.log(data)} */}
-        <ResponseMessagePlaceholder statusCode={statusCode} data={data} successMessage="Что то выполнено успешно)"/>
+        <ResponseMessagePlaceholder statusCode={statusCode} error={error} successMessage="Что то выполнено успешно)"/>
         <button className="menu-button">Menu button 1</button><hr></hr>
         <button className="menu-button">Menu button 2</button><br />
         <button onClick={()=>{authContext.refreshToken()}}>REFRESH FETCH</button><br/>

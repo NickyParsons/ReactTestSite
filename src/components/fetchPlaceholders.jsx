@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/responseMessagePlaceHolder.css";
-export function ResponseMessagePlaceholder({statusCode, data, successMessage}, ...props) {
+export function ResponseMessagePlaceholder({statusCode, error, successMessage}, ...props) {
     if (statusCode != null && statusCode != undefined) {
         //  console.log(`Placeholder: ${statusCode}`)
         let message;
@@ -8,10 +8,12 @@ export function ResponseMessagePlaceholder({statusCode, data, successMessage}, .
         if (statusCode === 200) {
             message = `${successMessage}`;
             codeStyle = "success-code";
-        } else if (statusCode === 401) {
-            message = `Вы не авторизованы!`;
-        } else {
-            message = `${data}`;
+        } 
+        else if (statusCode === 401) message = `Вы не авторизованы!`;
+        else if (statusCode === 502) message = `Ошибка сервера`;
+        else message = `Произошла непредвиденная ошибка`;
+        if (error !== undefined) {
+            console.log(`Ошибка: ${error}`);
         }
         return <>
                 <div className="responseMessagePlaceholder">
@@ -27,7 +29,6 @@ export function LoadDataPlaceholder({isLoading, error, children}) {
         showData = <span>Пожалуйста подождите...</span>
     } else {
         if (error != undefined) {
-            console.log(error);
             showData = <span>В процессе обработки запроса произошла ошибка!</span>;
         } else {
             showData = children;
