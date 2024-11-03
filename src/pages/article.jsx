@@ -48,7 +48,7 @@ export default function Article(props) {
         formData.append("Name", event.target.name.value);
         formData.append("Description", event.target.description.value);
         formData.append("Text", event.target.text.value);
-        formData.append("AuthorId", getFetch.data.authorId);
+        formData.append("AuthorId", authContext.id);
         if (event.target.image.files.length > 0) {
             formData.append("image", event.target.image.files[0]);
         }

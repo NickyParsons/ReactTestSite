@@ -4,6 +4,7 @@ import { withAuth } from "../hocs/withAuth.jsx";
 import { Container } from "../components/contentContainer.jsx";
 import { useFetch } from "../hooks/useFetchData.js";
 import { ResponseMessagePlaceholder } from "../components/fetchPlaceholders.jsx";
+import { useElapsedTime } from "../hooks/useTime.js";
 
 
 export default withAuth(Test);
@@ -24,6 +25,9 @@ export function Test(props) {
         method: "GET",
         isResponseJson: true
     });
+    const time = useElapsedTime("2024-11-02T13:00:00.000000+00:00");
+    //2024-11-03T09:26:30.233447+00:00
+    // 1730627786
     // const {isLoading, statusCode, data, error} = useFetch("/api/test2", "GET");
     // const {isLoading, statusCode, data, error} = useFetch("/api/verify-email?token=123", "POST");
     //context
@@ -38,6 +42,7 @@ export function Test(props) {
         <p>User: {authContext.email}</p>
         <p>Moder permissions: {authContext.isModerPermission.toString()}</p>
         <p>Verified: {authContext.isVerified.toString()}</p>
+        <p>Elapsed time: {time}</p>
         <button onClick={()=>{fetchHandler()}}>TEST FETCH</button><br/>
         {/* {data.map((item) => {
             return <li key={item.name}>{item.name}</li>;

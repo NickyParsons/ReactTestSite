@@ -1,17 +1,25 @@
-﻿#userControl{
+﻿.user-control{
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    /* border: 1px dotted lightgrey; */
 }
-    #userControl img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        border: 2px solid #2fd8d899;
-        margin: 5px;
-        transition-property: border;
-        transition: 0.25s;
-    }
-        #userControl img:hover {
-            border: 2px solid #58ffff;
-            transition-property: border;
-            transition: 0.25s;
-        }
+.user-control-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #2fd8d899;
+    margin: 5px;
+    transition-property: border;
+    transition: 0.25s;
+}
+.user-control-image:hover {
+    border: 2px solid #58ffff;
+    transition-property: border;
+    transition: 0.25s;
+}
+.user-control-name{
+    font-size: 10px;
+    text-wrap: wrap;
+}

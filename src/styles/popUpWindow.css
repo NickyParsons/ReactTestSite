@@ -4,7 +4,7 @@
     display: block;
     position: absolute;
     padding: 10px;
-
+    max-width: 500px;
     box-shadow: 10px 10px 5px rgb(0, 0, 0, .5);
     border: 2px solid #2fd8d8;
     border-radius: 6px;

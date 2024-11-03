@@ -30,6 +30,7 @@
         /* border: 1px dotted rgb(110, 92, 92); */
         /*flex: 1;*/
         min-width: 10%;
+        /* max-width: 25%; */
         justify-content: flex-start;
         padding-right: 5px;
     }

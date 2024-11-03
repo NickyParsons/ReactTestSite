@@ -114,15 +114,6 @@ a {
     .menu-button:hover {
         background-color: #617890;
     }
-.green-text{
-    color: green;
-}
-.red-text {
-    color: red;
-}
-.white-text {
-    color: white;
-}
 .active-input {
     color: #172323;
     background-color: lightgrey;
@@ -132,6 +123,7 @@ a {
     padding-left: 10px;
     padding-right: 10px;
     width: 100%;
+    min-width: 300px;
 }
 .invalid-active-input {
     color: #172323;
@@ -142,6 +134,7 @@ a {
     padding-left: 10px;
     padding-right: 10px;
     width: 100%;
+    min-width: 300px; 
 }
 .disabled-input {
     color: #172323;
@@ -152,4 +145,5 @@ a {
     padding-left: 10px;
     padding-right: 10px;
     width: 100%;
+    min-width: 300px;
 }

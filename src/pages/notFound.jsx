@@ -1,12 +1,11 @@
 const React = require("react");
 import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
-import { GreenMessage, RedMessage, WhiteMessage } from "../components/containedColorMessage.jsx";
   
 export default function NotFound(props) {
     return <>
         <BackButton/>
         <Container>
-            <RedMessage text={"Component not found!"}></RedMessage>
+            <span>"Component not found!"</span>
         </Container>
     </>;
 }

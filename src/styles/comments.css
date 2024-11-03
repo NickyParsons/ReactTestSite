@@ -11,9 +11,16 @@
     flex-direction: row;
     justify-content: flex-end;
 }
-
+.comment-card-body{
+    display: block;
+    /* border: 1px dotted lightgrey; */
+}
 
 .comment-card-added-time {
     color: #34a4ac;
-    font-size: 12px;
+    font-size: 10px;
+}
+
+.comment-card-button{
+    float: right;
 }

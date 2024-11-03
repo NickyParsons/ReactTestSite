@@ -6,6 +6,7 @@ import { useAuthContext } from "../hooks/useAuthContext.js";
 import { LoggedUserControl } from "./loggedUserControl.jsx";
 import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
 import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
+import { useFetch } from "../hooks/useFetchData.js";
 
 import "../styles/popUpWindow.css";
 
@@ -16,16 +17,6 @@ function LoginControl(props) {
     //fields
     const navigate = useNavigate();
     //refs
-    const loginRequestRef = React.useRef({
-        email: "",
-        password: ""
-    });
-    const registerRequestRef = React.useRef({
-        email: "",
-        firstName: "",
-        lastName: "",
-        password: ""
-    });
     const registerWindowRef = React.useRef();
     const loginWindowRef = React.useRef();
     const registerButtonRef = React.useRef();
@@ -35,51 +26,9 @@ function LoginControl(props) {
     //states
     const [isRegisterVisible, setRegisterVisibility] = React.useState(false);
     const [isLoginVisible, setLoginVisibility] = React.useState(false);
-    const [registerResponseMessage, setRegisterResponseMessage] = React.useState("");
-    //effects
     //handlers
-    const submitLoginForm = React.useCallback((event) => {
-        event.preventDefault();
-        authContext.signIn(loginRequestRef.current);
-        event.target.reset();
-        //setLoginVisibility(false);
-    }, []);
-    const submitRegisterForm = React.useCallback(async (event) => {
-        event.preventDefault();
-        let hostString = `/api/register`;
-        let queryString = `email=${registerRequestRef.current.email}&firstname=${registerRequestRef.current.firstName}&lastname=${registerRequestRef.current.lastName}&password=${registerRequestRef.current.password}`;
-        try {
-            let response = await fetch(`${hostString}?${queryString}`, {
-                method: "POST",
-                headers: {
-                    "Accept": "*/*",
-                    "Content-Type": "*/*"
-                },
-                mode: "cors",
-                credentials: "include"
-            });
-            if (response.status === 200) {
-                setRegisterResponseMessage("Пользователь успешно зарегистрирован!");
-            }
-            else if (response.status === 400) {
-                setRegisterResponseMessage(`Ошибка! ${await response.text()}!`);
-            }
-            else {
-                setRegisterResponseMessage(`[${response.status}] ${response.statusText}: ${await response.text()}`);
-            }
-        }
-        catch (error) {
-            setRegisterResponseMessage(`Непредвиденная ошибка! ${error}`);
-            console.log(`Something goes wrong: ${error}`);
-        }
-        event.target.reset();
-        //setRegisterVisibility(false);
-    }, []);
-    function logout(event) {
-        event.preventDefault();
-        authContext.signOut();
-    }
     function goTo(page){
+        console.log("Попал куда надоы");
         setRegisterVisibility(false);
         document.body.removeEventListener("click", registerClickOutside);
         setLoginVisibility(false);
@@ -125,8 +74,7 @@ function LoginControl(props) {
         }
     }
     //render
-    let buttons = <></>;
-
+    let buttons;
     if (authContext.isLoggedIn) {
         buttons = <>
             <p>{authContext.email}</p>
@@ -141,18 +89,10 @@ function LoginControl(props) {
             <button id="openRegisterBtn" className="navLink" onClick={toggleRegisterFormVisibility} ref={registerButtonRef}>Регистрация</button>
             <button id="openLoginBtn" className="navLink" onClick={toggleLoginFormVisibility} ref={loginButtonRef}>Вход</button>
             <div id="loginWindow" className={loginFormClasses} ref={loginWindowRef}>
-                <Container>
-                    <LoginForm submitHandler={submitLoginForm} requestForm={loginRequestRef} />
-                    <ResponseMessagePlaceholder statusCode={authContext.loginFetch.statusCode} data={authContext.loginFetch.data} successMessage="Успешный вход"/>
-                    <button onClick={() => { goTo("/forgot-password") }} className="neon-button">Забыл пароль</button>
-                    <button onClick={() => { goTo("/reset-password") }} className="neon-button">Сбросить пароль</button>
-                    <button onClick={toggleLoginFormVisibility} className="neon-button">Закрыть</button>
-                </Container>
+                <LoginForm navigateHandler={goTo} toggleVisible={toggleLoginFormVisibility}/>
             </div>
             <div id="registerWindow" className={registerFormClasses} ref={registerWindowRef}>
-                <RegisterForm submitHandler={submitRegisterForm} requestForm={registerRequestRef} />
-                <span>{registerResponseMessage }</span><br/>
-                <button onClick={toggleRegisterFormVisibility} className="neon-button">Закрыть</button>
+                <RegisterForm toggleVisible={toggleLoginFormVisibility}/>
             </div>
         </>
     }
@@ -160,7 +100,6 @@ function LoginControl(props) {
         <div className="menu" id="logon">
             {buttons}
         </div>
-        
     </>
 }
 

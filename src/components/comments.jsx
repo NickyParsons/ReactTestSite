@@ -23,10 +23,10 @@ export function Comments(props){
         if (authContext.isVerified) {
             addCommentDom = <AddComment articleId={props.articleId} currentData={data} setDataHandler={setData}/>;
         } else {
-            addCommentDom = <span>Подтвердите e-mail чтобы добавить комментарий</span>;
+            addCommentDom = <textarea name="text" className="disabled-input" disabled defaultValue="Подтвердите e-mail чтобы добавить комментарий"></textarea>
         }
     } else {
-        addCommentDom = <span>Войдите чтобы добавить комментарий</span>;
+        addCommentDom = <textarea name="text" className="disabled-input" disabled defaultValue="Войдите чтобы добавить комментарий"></textarea>
     }
 
     return <>

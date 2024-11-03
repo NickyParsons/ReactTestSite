@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext.js";
+import { useElapsedTime } from "../hooks/useTime.js";
 export default function ArticleCard(props) {
     //fields
     //refs
@@ -47,10 +48,11 @@ export default function ArticleCard(props) {
             text = props.article.text;
         }
     }
+    const articleCreatedTime = useElapsedTime(props.article.updatedAt == null ? props.article.createdAt : props.article.updatedAt);
     return <div className="articleCard">
         <div className="articleCardHeader">
             <Link to={articleLink} className="articleName">{props.article.name}</Link>
-            <span className="addedTime">Добавлено: {props.article.createdAt}</span>
+            <span className="addedTime">{props.article.updatedAt == null ? `Создана: ${articleCreatedTime}` : `Изменена: ${articleCreatedTime}`}</span>
         </div>
         <div className="articleCardDescription">
             {image}

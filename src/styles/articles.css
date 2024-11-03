@@ -7,8 +7,9 @@
 }
     .articleCard img {
         float: right;
-        width: auto;
-        height: 200px;
+        max-width: 20%;
+        /* height: 200px; */
+        height: auto;
         border-radius: 10px;
     }
 .articleCardHeader {
@@ -41,7 +42,7 @@
     }
 .articleImage {
     /* float: right; */
-    width: 100%;
+    max-width: 100%;
     height: auto;
     /* border-radius: 10px; */
 }

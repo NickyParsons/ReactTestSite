@@ -44,10 +44,31 @@ export function OtherUserControl(props) {
     }
     //render
     const popUpWindowClasses = `popUpWindow ${isPopUpVisible ? "windowVisible" : "windowHidden"}`;
+    let nameDom;
+    let nameString;
+    if (profileFetch.data.firstName == null && profileFetch.data.lastName == null) {
+        const mailRegExp = new RegExp("^.*@");
+        const result = mailRegExp.exec(profileFetch.data.email);
+        if (result != null) {
+            nameString = result[0].slice(0, result[0].length-1);
+            nameDom = <>
+            <span className="user-control-name">{result[0].slice(0, result[0].length-1)}</span>
+            </>;
+        }
+    }
+    else{
+        nameString = `${profileFetch.data.firstName} ${profileFetch.data.lastName}`;
+        nameDom = <>
+            <span className="user-control-name">{profileFetch.data.firstName}</span>
+            <span className="user-control-name">{profileFetch.data.lastName}</span>
+            </>;
+    }
     return <>
-        <div id="userControl" ref={controlRef}>
+        <div className="user-control" ref={controlRef}>
+            {/* <span className="user-control-name">{nameString}</span> */}
+            {nameDom}
             <a href={"/api/users/" + props.id} onClick={togglePopUpVisibility}>
-                <img src={`/api/${image}`}></img>
+                <img className="user-control-image" src={`/api/${image}`}></img>
             </a>
             <div className={popUpWindowClasses}>
                 {/* <button className="menu-button" onClick={()=>{goTo("/profiles/edit")}}>Редактировать профиль</button>

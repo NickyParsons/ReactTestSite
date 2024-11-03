@@ -3,6 +3,7 @@ import { useAuthContext } from "../hooks/useAuthContext.js";
 import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
 import { useFetch } from "../hooks/useFetchData.js";
 import { OtherUserControl } from "./otherUserControl.jsx";
+import { useElapsedTime } from "../hooks/useTime.js";
 
 export function Comment(props){
     //context
@@ -25,7 +26,6 @@ export function Comment(props){
         isResponseJson: true,
         executeOnLoad: false,
         onSuccess: (response)=>{
-            // let editedComment = props.currentData.find((comment)=>comment.id == response.id);
             const editedArray = props.currentData.map((comment) =>{
                 if (comment.id == response.id) {
                     return response;
@@ -65,6 +65,7 @@ export function Comment(props){
         textCommentDom = <span>{props.comment.text}</span>;
     }
     //DOM
+    const commentCreatedTime = useElapsedTime(props.comment.updatedAt == null ? props.comment.createdAt : props.comment.updatedAt);
     return <>
         <Row key={props.comment.id}>
             <Column1>
@@ -73,13 +74,14 @@ export function Comment(props){
             <Column2>
                 <div className="comment-card">
                     <div className="comment-card-header">
-                        <span className="comment-card-added-time">{props.comment.updatedAt == null ? `Создан: ${props.comment.createdAt}` : `Изменен: ${props.comment.updatedAt}`}</span>
+                        <span className="comment-card-added-time">{props.comment.updatedAt == null ? `Создан: ${commentCreatedTime}` : `Изменен: ${commentCreatedTime}`}</span>
                     </div>
-                    <div className="comment-card-header">
-                        {(isAllowedToEdit) && <button className="neon-button" onClick={()=>{setEdit(!isEdit)}}>Редактировать</button>}
-                        {(isAllowedToEdit) && <button className="neon-button" onClick={deleteComment}>Удалить</button>}
+                    <div className="comment-card-body">
+                        {(isAllowedToEdit) && <button className="neon-button comment-card-button"onClick={()=>{setEdit(!isEdit)}}>Редактировать</button>}
+                        {(isAllowedToEdit) && <button className="neon-button comment-card-button" onClick={deleteComment}>Удалить</button>}
+                        {textCommentDom}
                     </div>
-                    {textCommentDom}
+                    
                 </div>
             </Column2>
         </Row>

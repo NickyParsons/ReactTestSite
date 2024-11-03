@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import "../styles/userControl.css";
+import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
 import { useFetch } from "../hooks/useFetchData.js";
 export function LoggedUserControl(props) {
     const [image, setImage] = React.useState("content/profiles/default.png");
@@ -46,14 +47,21 @@ export function LoggedUserControl(props) {
     //render
     const popUpWindowClasses = `popUpWindow ${isPopUpVisible ? "windowVisible" : "windowHidden"}`;
     return <>
-        <div id="userControl" ref={controlRef}>
+        <div className="user-control" ref={controlRef}>
             <a href={"/api/users/" + authContext.id} onClick={togglePopUpVisibility}>
-                <img src={`/api/${image}`}></img>
+                <img className="user-control-image" src={`/api/${image}`}></img>
             </a>
             <div className={popUpWindowClasses}>
-                <button className="menu-button" onClick={()=>{goTo("/profiles/edit")}}>Редактировать профиль</button>
-                <button className="menu-button" onClick={authContext.signOut}>Выход</button><br />
-                <button className="neon-button" onClick={togglePopUpVisibility}>Закрыть</button>
+                <Container>
+                    <button className="menu-button" onClick={()=>{goTo("/profiles/edit")}}>Редактировать профиль</button>
+                    <button className="menu-button" onClick={authContext.signOut}>Выход</button>
+                </Container>
+                <Row>
+                    <Column>
+                        <button className="neon-button" onClick={togglePopUpVisibility}>Закрыть</button>
+                    </Column>
+                </Row>
+                
             </div>
         </div>
     </>;

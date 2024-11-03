@@ -56,15 +56,10 @@ function AuthProvider(props) {
     useLayoutEffect(()=>{
         let cookie = cookies.get("nasty-boy");
         if (cookie) {
-            if (!decodeToken(cookie)) refreshToken();
+            // if (!decodeToken(cookie)) refreshToken();
+            refreshToken();
         }
     }, []);
-    function signIn(loginRequestForm) {
-        let formData = new FormData();
-        formData.append("email", loginRequestForm.email);
-        formData.append("password", loginRequestForm.password);
-        loginFetch.fetchHandler(formData);
-    }
     function refreshToken(){
         if (cookies.get("nasty-boy") && cookies.get("passion-flowers")) {
             refreshFetch.fetchHandler();
@@ -102,7 +97,7 @@ function AuthProvider(props) {
         }
     }
     //render
-    let contextValues = { isLoggedIn, signIn, refreshToken, signOut, id, email, isVerified, isModerPermission, loginFetch, refreshFetch }
+    let contextValues = { isLoggedIn, refreshToken, signOut, id, email, isVerified, isModerPermission, loginFetch, refreshFetch }
     return <AuthContext.Provider value={contextValues}>
         {props.children}
     </AuthContext.Provider>
