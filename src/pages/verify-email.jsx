@@ -33,7 +33,7 @@ export default function VerifyEmail(props) {
         if (token != null) {
             let formData = new FormData();
             formData.append("token", token);
-            fetchHandler(formData);
+            fetchHandler({formData: formData});
         }
     }, [token]);
     //handlers

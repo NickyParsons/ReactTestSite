@@ -3,10 +3,12 @@ export function useFetch(fetchOptions = {
     method: "GET",
     isResponseJson: true,
     formData: undefined,
+    queryData: undefined,
     onSuccess: undefined,
     setDataHandler: undefined,
     executeOnLoad: false
 }){
+    // Подставляем Form Data из fetchOptions
     if (fetchOptions.formData === undefined) {
         fetchOptions.formData = null;
     }
@@ -14,30 +16,58 @@ export function useFetch(fetchOptions = {
     const [error, setError] = React.useState(undefined);
     const [data, setData] = React.useState([]);
     const [statusCode, setStatusCode] = React.useState(undefined);
-    async function execute(formData) {
+    async function execute(executeOptions = {
+        formData: undefined,
+        queryData: undefined,
+        onSuccess: undefined
+    }) {
         try {
             setIsLoading(true);
-            if (formData === undefined) {
-                formData = fetchOptions.formData;
+            // Подставляем Form Data из executeOptions
+            if (executeOptions.formData === undefined) {
+                executeOptions.formData = fetchOptions.formData;
             }
-            let response = await fetch(fetchOptions.url, {
+            // Подставляем Query Data из fetchOptions
+            let url = fetchOptions.url;
+            if (fetchOptions.queryData !== undefined) {
+                url = `${fetchOptions.url}?`;
+                fetchOptions.queryData.forEach((value, key, map) => {
+                    url = `${url}${key}=${value}&`;
+                });
+            }
+            // Подставляем Query Data из executeOptions
+            if (executeOptions.queryData !== undefined) {
+                url = `${fetchOptions.url}?`;
+                executeOptions.queryData.forEach((value, key, map) => {
+                    url = `${url}${key}=${value}&`;
+                });
+            }
+            let response = await fetch(url, {
                 method: fetchOptions.method,
                 headers: {
                     "Accept": "*/*"
                 },
-                body: formData,
+                body: executeOptions.formData,
                 mode: "cors",
                 credentials: "include"
             });
             setStatusCode(response.status);
             if(response.status === 200){
                 let responseData;
-                // // Принимаем JSON или текст
+                // Принимаем JSON или текст
                 fetchOptions.isResponseJson ? responseData = await response.json() : responseData = await response.text();
-                // // Используем обработчик установки state извне или внутри хука
-                fetchOptions.setDataHandler === undefined ? setData(responseData) : fetchOptions.setDataHandler(responseData);
-                // // если надо выполняем функцию извне
-                if (fetchOptions.onSuccess !== undefined) fetchOptions.onSuccess(responseData);
+                // Смотрим есть ли функция извне
+                let onSuccess = undefined;
+                if (fetchOptions.onSuccess !== undefined) onSuccess = fetchOptions.onSuccess;
+                if (executeOptions.onSuccess !== undefined) onSuccess = executeOptions.onSuccess;
+                if (onSuccess !== undefined) {
+                    // если указано выполняем функцию извне
+                    onSuccess(responseData);
+                }
+                else {
+                    // Используем обработчик установки state извне или внутри хука
+                    fetchOptions.setDataHandler === undefined ? setData(responseData) : fetchOptions.setDataHandler(responseData);
+                }
             } 
             else 
             {
@@ -54,9 +84,9 @@ export function useFetch(fetchOptions = {
             execute();
         }, []);
     }
-    const fetchHandler = (formData)=> {
-        execute(formData);
-    };
+    function fetchHandler(executeOptions){
+        execute(executeOptions)
+    }
     return {fetchHandler, setData, isLoading, statusCode, data, error};
 }
 

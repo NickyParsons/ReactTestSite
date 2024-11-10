@@ -52,6 +52,12 @@ function AuthProvider(props) {
             decodeToken(response.accessToken);
         }
     });
+    const userDataFetch = useFetch({
+        url: `/api/users/${id}`,
+        method: "GET",
+        isResponseJson: true,
+        executeOnLoad: false
+    });
     //effects
     useLayoutEffect(()=>{
         let cookie = cookies.get("nasty-boy");
@@ -60,6 +66,12 @@ function AuthProvider(props) {
             refreshToken();
         }
     }, []);
+    React.useEffect(()=>{
+        if (id !== "") {
+            userDataFetch.fetchHandler();
+        }
+    }, [id])
+    //handlers
     function refreshToken(){
         if (cookies.get("nasty-boy") && cookies.get("passion-flowers")) {
             refreshFetch.fetchHandler();
@@ -97,7 +109,7 @@ function AuthProvider(props) {
         }
     }
     //render
-    let contextValues = { isLoggedIn, refreshToken, signOut, id, email, isVerified, isModerPermission, loginFetch, refreshFetch }
+    let contextValues = { isLoggedIn, refreshToken, signOut, id, email, isVerified, isModerPermission, loginFetch, refreshFetch, userDataFetch }
     return <AuthContext.Provider value={contextValues}>
         {props.children}
     </AuthContext.Provider>

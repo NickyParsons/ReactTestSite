@@ -29,6 +29,7 @@ export function LoadDataPlaceholder({isLoading, error, children}) {
         showData = <span>Пожалуйста подождите...</span>
     } else {
         if (error != undefined) {
+            console.log(error);
             showData = <span>В процессе обработки запроса произошла ошибка!</span>;
         } else {
             showData = children;

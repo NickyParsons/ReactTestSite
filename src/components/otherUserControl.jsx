@@ -2,24 +2,17 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import "../styles/userControl.css";
-import { useFetch } from "../hooks/useFetchData.js";
 export function OtherUserControl(props) {
     const [image, setImage] = React.useState("content/profiles/default.png");
     const [isPopUpVisible, setPopUpVisible] = React.useState(false);
     const controlRef = React.useRef();
     const authContext = useAuthContext();
     const navigate = useNavigate();
-    const profileFetch = useFetch({
-        url: `/api/users/${props.id}`,
-        method: "GET",
-        isResponseJson: true,
-        onSuccess: (response)=>{
-            if (response.imageUrl != null) {
-                setImage(response.imageUrl);
-            }
-        },
-        executeOnLoad: true
-    });
+    React.useEffect(()=>{
+        if (props.user?.imageUrl != null) {
+            setImage(props.user.imageUrl);
+        }
+    }, []);
     function goTo(page){
         setPopUpVisible(false);
         document.body.removeEventListener("click", clickOutside);
@@ -46,9 +39,9 @@ export function OtherUserControl(props) {
     const popUpWindowClasses = `popUpWindow ${isPopUpVisible ? "windowVisible" : "windowHidden"}`;
     let nameDom;
     let nameString;
-    if (profileFetch.data.firstName == null && profileFetch.data.lastName == null) {
+    if (props.user?.firstName == null && props.user?.lastName == null) {
         const mailRegExp = new RegExp("^.*@");
-        const result = mailRegExp.exec(profileFetch.data.email);
+        const result = mailRegExp.exec(props.user?.email);
         if (result != null) {
             nameString = result[0].slice(0, result[0].length-1);
             nameDom = <>
@@ -57,17 +50,17 @@ export function OtherUserControl(props) {
         }
     }
     else{
-        nameString = `${profileFetch.data.firstName} ${profileFetch.data.lastName}`;
+        nameString = `${props.user?.firstName} ${props.user.lastName}`;
         nameDom = <>
-            <span className="user-control-name">{profileFetch.data.firstName}</span>
-            <span className="user-control-name">{profileFetch.data.lastName}</span>
+            <span className="user-control-name">{props.user?.firstName}</span>
+            <span className="user-control-name">{props.user?.lastName}</span>
             </>;
     }
     return <>
         <div className="user-control" ref={controlRef}>
             {/* <span className="user-control-name">{nameString}</span> */}
             {nameDom}
-            <a href={"/api/users/" + props.id} onClick={togglePopUpVisibility}>
+            <a href={"/api/users/" + props.user?.id} onClick={togglePopUpVisibility}>
                 <img className="user-control-image" src={`/api/${image}`}></img>
             </a>
             <div className={popUpWindowClasses}>

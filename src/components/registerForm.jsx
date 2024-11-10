@@ -68,7 +68,7 @@ export default React.memo(function RegisterForm(props) {
         formData.append("firstname", event.target.firstname.value);
         formData.append("lastname", event.target.lastname.value);
         formData.append("password", event.target.password.value);
-        registerFetch.fetchHandler(formData);
+        registerFetch.fetchHandler({formData: formData});
         event.target.reset();
     }
     //render

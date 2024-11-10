@@ -52,7 +52,7 @@ export default function Article(props) {
         if (event.target.image.files.length > 0) {
             formData.append("image", event.target.image.files[0]);
         }
-        editFetch.fetchHandler(formData);
+        editFetch.fetchHandler({formData: formData});
         setEditMode(false);
     }
     //render

@@ -25,7 +25,7 @@ export default function ForgotPassword(props) {
         event.preventDefault();
         let formData = new FormData();
         formData.append("email", event.target.email.value);
-        fetchHandler(formData);
+        fetchHandler({formData: formData});
     }
     //render
     return <>

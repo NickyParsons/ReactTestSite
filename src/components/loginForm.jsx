@@ -24,7 +24,7 @@ export default React.memo((props) => {
         let formData = new FormData();
         formData.append("email", event.target.email.value);
         formData.append("password", event.target.password.value);
-        authContext.loginFetch.fetchHandler(formData);
+        authContext.loginFetch.fetchHandler({formData: formData});
         event.target.reset();
     }
     //render

@@ -41,14 +41,14 @@ export function Comment(props){
     function deleteComment(){
         let form = new FormData();
         form.append("authorId", authContext.id);
-        deleteFetch.fetchHandler(form);
+        deleteFetch.fetchHandler({formData: form});
     }
     function editComment(event){
         event.preventDefault();
         let form = new FormData();
         form.append("AuthorId", authContext.id);
         form.append("Text", event.target.newText.value);
-        editFetch.fetchHandler(form);
+        editFetch.fetchHandler({formData: form});
     }
     //render
     let isAllowedToEdit = (props.comment.authorId == authContext.id) || authContext.isModerPermission;
@@ -69,7 +69,7 @@ export function Comment(props){
     return <>
         <Row key={props.comment.id}>
             <Column1>
-                <OtherUserControl id={props.comment.authorId}/>
+                <OtherUserControl user={props.comment.author}/>
             </Column1>
             <Column2>
                 <div className="comment-card">

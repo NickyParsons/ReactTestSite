@@ -16,6 +16,8 @@ function Articles(props) {
         document.title = `NickyParsons Site | ${pageTitle}`;
         document.getElementById("pageTitle").innerText = pageTitle;
     }, []);
+    //context
+    let authContext = useAuthContext();
     //states
     const {fetchHandler, setData, isLoading, statusCode, data, error} = useFetch({
         url: "/api/articles",
@@ -23,8 +25,18 @@ function Articles(props) {
         isResponseJson: true,
         executeOnLoad: true
     });
-    //context
-    let authContext = useAuthContext();
+    //handlers
+    const refreshArticles = () => {
+        fetchHandler({
+            onSuccess: (response)=>{
+                if ((data?.length != response?.length) ||
+                    (data[0].createdAt != response[0].createdAt)
+            ) {
+                    setData([...response]);
+                }
+            }
+        });
+    }
     //render
     //add article
     let addArticleDom = <></>;
@@ -41,11 +53,12 @@ function Articles(props) {
     let articlesDom = <>
         <Container>
             <ResponseMessagePlaceholder statusCode={statusCode} error={error} successMessage="Статьи загружены"/>
+            <Row><button onClick={refreshArticles}>Обновить записи</button></Row>
             <LoadDataPlaceholder isLoading={isLoading} error={error}>
                 {data.map((article) => {
                     return <Row key={article.id}>
                         <Column1>
-                            <OtherUserControl id={article.authorId}/>
+                            <OtherUserControl user={article.author}/>
                         </Column1>
                         <Column2>
                             <ArticleCard article={article} />

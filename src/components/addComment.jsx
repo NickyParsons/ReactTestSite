@@ -14,7 +14,8 @@ export function AddComment(props){
         isResponseJson: true,
         executeOnLoad: false,
         onSuccess: (response)=>{
-            props.setDataHandler([...props.currentData, response]);
+            response.author = authContext.userDataFetch.data;
+            props.setDataHandler([response, ...props.currentData]);
         }
     });
     //handlers
@@ -23,7 +24,7 @@ export function AddComment(props){
         let formData = new FormData();
         formData.append("AuthorId", authContext.id);
         formData.append("Text", event.target.text.value);
-        fetchHandler(formData);
+        fetchHandler({formData: formData});
         event.target.reset();
     }
     return <>
