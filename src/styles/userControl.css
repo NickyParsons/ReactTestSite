@@ -3,7 +3,8 @@
     display: flex;
     flex-direction: column;
     align-items: start;
-    /* border: 1px dotted lightgrey; */
+    /* border: 1px dotted rgb(202, 125, 192); */
+    margin-bottom: auto;
 }
 .user-control-image {
     width: 50px;

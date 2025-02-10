@@ -139,7 +139,7 @@ export default function Article(props) {
     const returnDom = <>
         <BackButton/>
         <Container>
-            <ResponseMessagePlaceholder statusCode={getFetch.statusCode} data={getFetch.data} successMessage="Запись загружена"/>
+            <ResponseMessagePlaceholder isLoading={getFetch.isLoading} statusCode={getFetch.statusCode} data={getFetch.data} successMessage="Запись загружена"/>
             {(isAllowedToEdit) && <button className="neon-button" onClick={()=>{setEditMode(!isEditMode)}}>Редактировать</button>}
             <LoadDataPlaceholder isLoading={getFetch.isLoading} error={getFetch.error}>
                 {articleDom}

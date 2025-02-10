@@ -52,8 +52,8 @@ function Articles(props) {
     //DOM
     let articlesDom = <>
         <Container>
-            <ResponseMessagePlaceholder statusCode={statusCode} error={error} successMessage="Статьи загружены"/>
-            <Row><button onClick={refreshArticles}>Обновить записи</button></Row>
+        <ResponseMessagePlaceholder isLoading={isLoading} statusCode={statusCode} error={error} successMessage="Статьи загружены"/>
+            <Row><button onClick={refreshArticles} className="menu-button">Обновить записи</button></Row>
             <LoadDataPlaceholder isLoading={isLoading} error={error}>
                 {data.map((article) => {
                     return <Row key={article.id}>

@@ -32,7 +32,7 @@ export default React.memo((props) => {
     const passwordClass = isPasswordValid ? "active-input" : "invalid-active-input";
     return <>
         <Container>
-        <ResponseMessagePlaceholder statusCode={authContext.loginFetch.statusCode} data={authContext.loginFetch.data} successMessage="Успешный вход"/>
+        <ResponseMessagePlaceholder isLoading={authContext.loginFetch.isLoading} statusCode={authContext.loginFetch.statusCode} data={authContext.loginFetch.data} successMessage="Успешный вход"/>
             <form id="loginForm" method="post" action="/api/login" onSubmit={submit}>
                     <Row>
                         <Column1>E-Mail:</Column1>
@@ -46,19 +46,11 @@ export default React.memo((props) => {
                             <input type="password" name="password" className={passwordClass} required onChange={changePassword} />
                         </Column2>
                     </Row>
-                    <Row>
-                        <Column>
-                            <button type="submit" className="neon-button">Войти</button>
-                        </Column>
-                    </Row>
             </form>
+            <button type="submit" form="loginForm" className="menu-button">Войти</button>
             <button onClick={() => { props.navigateHandler("/forgot-password") }} className="menu-button">Забыл пароль</button>
             <button onClick={() => { props.navigateHandler("/reset-password") }} className="menu-button">Сбросить пароль</button>
-            <Row>
-                <Column>
-                    <button onClick={props.toggleVisible} className="neon-button">Закрыть</button>
-                </Column>
-            </Row>
+            <button onClick={props.toggleVisible} className="menu-button">Закрыть</button>
         </Container>
     </>
 })

@@ -1,0 +1,25 @@
+.loadingSpinner{
+    height: 100px;
+    width: 100px;
+    border: 5px solid;
+    border-radius: 50%;
+    border-top-color: lightgrey;
+    border-right-color: transparent;
+    border-bottom-color: #2fd8d8;
+    border-left-color: transparent;
+    margin: 10px;
+
+    animation-name: spin;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes spin{
+    0%{
+
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}

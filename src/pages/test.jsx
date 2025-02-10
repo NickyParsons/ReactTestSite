@@ -1,10 +1,13 @@
 import React, { useLayoutEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import { withAuth } from "../hocs/withAuth.jsx";
-import { Container } from "../components/contentContainer.jsx";
+import { Container, Row } from "../components/contentContainer.jsx";
 import { useFetch } from "../hooks/useFetchData.js";
 import { ResponseMessagePlaceholder } from "../components/fetchPlaceholders.jsx";
 import { useElapsedTime } from "../hooks/useTime.js";
+import { Spinner } from "../components/spinner.jsx";
+import { DottedDropDownMenu } from "../components/dottedDropDownMenu.jsx";
+import { CloseButton } from "../components/closeButton.jsx";
 
 
 export default withAuth(Test);
@@ -43,14 +46,23 @@ export function Test(props) {
         <p>Moder permissions: {authContext.isModerPermission.toString()}</p>
         <p>Verified: {authContext.isVerified.toString()}</p>
         <p>Elapsed time: {time}</p>
-        <button onClick={()=>{fetchHandler()}}>TEST FETCH</button><br/>
+        <button className="menu-button" onClick={()=>{fetchHandler()}}>TEST FETCH</button><br/>
         {/* {data.map((item) => {
             return <li key={item.name}>{item.name}</li>;
         })} */}
         {/* {console.log(data)} */}
-        <ResponseMessagePlaceholder statusCode={statusCode} error={error} successMessage="Что то выполнено успешно)"/>
-        <button className="menu-button">Menu button 1</button><hr></hr>
+        <ResponseMessagePlaceholder isLoading={isLoading} statusCode={statusCode} error={error} successMessage="Что то выполнено успешно)"/>
+        <button className="menu-button">Menu button 1</button><br/>
         <button className="menu-button">Menu button 2</button><br />
-        <button onClick={()=>{authContext.refreshToken()}}>REFRESH FETCH</button><br/>
+        <button className="menu-button">Menu button 3</button><br />
+        <button className="menu-button" onClick={()=>{authContext.refreshToken()}}>REFRESH FETCH</button><br/>
+        <DottedDropDownMenu windowName="Название окошка">
+            <Container>
+                <Row><Spinner/></Row>
+                <Row>Тут ничего не грузиться,</Row>
+                <Row>просто крутиться</Row>
+            </Container>
+        </DottedDropDownMenu>
+
     </>
 }

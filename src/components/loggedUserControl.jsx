@@ -46,15 +46,11 @@ export function LoggedUserControl(props) {
             </a>
             <div className={popUpWindowClasses}>
                 <Container>
+                    <button className="menu-button" onClick={()=>{goTo(`/profiles/${authContext.id}`)}}>Мой профиль</button>
                     <button className="menu-button" onClick={()=>{goTo("/profiles/edit")}}>Редактировать профиль</button>
                     <button className="menu-button" onClick={authContext.signOut}>Выход</button>
+                    <button className="menu-button" onClick={togglePopUpVisibility}>Закрыть</button>
                 </Container>
-                <Row>
-                    <Column>
-                        <button className="neon-button" onClick={togglePopUpVisibility}>Закрыть</button>
-                    </Column>
-                </Row>
-                
             </div>
         </div>
     </>;

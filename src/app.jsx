@@ -11,6 +11,7 @@ import Article from "./pages/article.jsx";
 import CreateArticle from "./pages/createArticle.jsx";
 import { AuthProvider } from "./context/authContext.jsx";
 import EditProfile from "./pages/editProfile.jsx"
+import { ShowProfile } from "./pages/showProfile.jsx";
 import VerifyEmail from "./pages/verify-email.jsx";
 import ChangeEmail from "./pages/change-email.jsx";
 import ForgotPassword from "./pages/forgot-password.jsx";
@@ -34,6 +35,7 @@ ReactDOM.createRoot(
                         <Route path="/articles/:articleId" element={<Article />}/>
                         <Route path="/articles/new" element={<CreateArticle />} />
                         <Route path="/profiles/edit" element={<EditProfile />} />
+                        <Route path="/profiles/:profileId" element={<ShowProfile />} />
                         <Route path="/verify-email" element={<VerifyEmail />} />
                         <Route path="/change-email" element={<ChangeEmail />} />
                         <Route path="/forgot-password" element={<ForgotPassword />} />

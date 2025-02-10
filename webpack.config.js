@@ -1,5 +1,6 @@
 const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
+const { cache } = require("react");
    
 module.exports = {
     entry: "./app.jsx", // входная точка - исходный файл
@@ -9,20 +10,20 @@ module.exports = {
         publicPath: "/",
         filename: "bundle.js"       // название создаваемого файла
     },
-    devtool: "source-map",
+    devtool: "eval-source-map",
     devServer: {
         historyApiFallback: true,
-        static: {
-            directory: path.join(__dirname, "/"),
-            watch: true
-        },
+        // static: {
+        //     directory: path.join(__dirname, "/"),
+        //     watch: true
+        // },
         port: 8081,
         open: true,
         liveReload: true,
-        hot: true
-        
+        hot: false
    },
-    module:{
+   cache: false,
+   module: {
         rules:[   //загрузчик для jsx
             {
                 test: /\.jsx?$/, // определяем тип файлов

@@ -1,23 +1,49 @@
 ﻿.popUpWindow {
-    top: 45px;
-    right: 20px;
+    /* top: 45px; */
+    top: 100%;
+    right: 0px;
     display: block;
     position: absolute;
-    padding: 10px;
+    padding: 0px;
+    width: max-content;
     max-width: 500px;
     box-shadow: 10px 10px 5px rgb(0, 0, 0, .5);
     border: 2px solid #2fd8d8;
     border-radius: 6px;
     background-color: #375a5a;
+    z-index: 1;
+}
+
+.popUpWindow .popUpWindowHeader{
+    display: flex;
+    justify-content: space-between;
+    border-radius: 3px;
+    background-color: #617890;
+    padding: 5px;
+}
+
+.popUpWindow .popUpWindowHeader .popUpWindowName{
+    margin-right: 5px;
+    font-weight: bold;
 }
 
 .windowVisible {
-    transition-property: opacity;
-    transition-duration: 500ms;
-    opacity: 1;
+    /* transition-property: opacity;
+    transition-duration: 500ms; */
+    /* opacity: 1; */
     visibility: visible;
+    transition-property: scale, visibility;
+    transition-duration: 100ms;
+    
+    
+    scale: 100%;
 }
 .windowHidden {
-    opacity: 0;
+    /* transition-property: opacity;
+    transition-duration: 500ms;
+    opacity: 0; */
     visibility: hidden;
+    scale: 0%;
+    transition-property: scale, visibility;
+    transition-duration: 100ms;
 }

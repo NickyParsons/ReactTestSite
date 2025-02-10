@@ -72,7 +72,7 @@ function CreateArticle(props) {
             </Row>
             </form>
             <LoadDataPlaceholder isLoading={isLoading} error={error}>
-                    <ResponseMessagePlaceholder statusCode={statusCode} data={data} successMessage="Успешно опубликована"/>
+                    <ResponseMessagePlaceholder isLoading={isLoading} statusCode={statusCode} data={data} successMessage="Успешно опубликована"/>
             </LoadDataPlaceholder>
         </Container>
     </>;

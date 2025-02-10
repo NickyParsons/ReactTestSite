@@ -46,7 +46,7 @@ export function ChangeEmail() {
                 </Row>
                 <Row>
                     <LoadDataPlaceholder isLoading={isLoading} error={error}>
-                        <ResponseMessagePlaceholder statusCode={statusCode} data={data} successMessage="Email успешно изменен!"/>
+                        <ResponseMessagePlaceholder isLoading={isLoading} statusCode={statusCode} data={data} successMessage="Email успешно изменен!"/>
                     </LoadDataPlaceholder>
                 </Row>
             </form>

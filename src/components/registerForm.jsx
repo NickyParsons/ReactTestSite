@@ -79,7 +79,7 @@ export default React.memo(function RegisterForm(props) {
     const repeatPasswordClass = isRepeatPasswordValid ? "active-input" : "invalid-active-input";
     return <>
         <Container>
-            <ResponseMessagePlaceholder statusCode={registerFetch.statusCode} data={registerFetch.data} successMessage="Успешная регистрация"/>
+            <ResponseMessagePlaceholder isLoading={registerFetch.isLoading} statusCode={registerFetch.statusCode} data={registerFetch.data} successMessage="Успешная регистрация"/>
             <form id="registerForm" method="post" ref={formRef} action="/api/register" onSubmit={submit}>
             <Row>
                 <Column1>E-Mail:</Column1>
@@ -111,17 +111,9 @@ export default React.memo(function RegisterForm(props) {
                 <input className={repeatPasswordClass} type="password" id="repeatPassword" onChange={validatePassword} required />
                 </Column2>
             </Row>
-            <Row>
-                <Column>
-                <button type="submit" className="neon-button">Регистрация</button>
-                </Column>
-            </Row>
             </form>
-            <Row>
-                <Column>
-                    <button onClick={props.toggleVisible} className="neon-button">Закрыть</button>
-                </Column>
-            </Row>
+            <button type="submit" form="registerForm" className="menu-button">Регистрация</button>
+            <button onClick={props.toggleVisible} className="menu-button">Закрыть</button>
         </Container>
     </>
 })

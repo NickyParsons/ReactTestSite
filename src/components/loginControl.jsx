@@ -28,7 +28,7 @@ function LoginControl(props) {
     const [isLoginVisible, setLoginVisibility] = React.useState(false);
     //handlers
     function goTo(page){
-        console.log("Попал куда надоы");
+        console.log("Попал куда надо");
         setRegisterVisibility(false);
         document.body.removeEventListener("click", registerClickOutside);
         setLoginVisibility(false);

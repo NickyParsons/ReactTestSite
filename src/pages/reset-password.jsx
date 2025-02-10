@@ -75,7 +75,7 @@ export default function ResetPassword(props) {
             </form>
             <Row>
                 <LoadDataPlaceholder isLoading={isLoading} error={error}>
-                    <ResponseMessagePlaceholder statusCode={statusCode} data={data} successMessage="Пароль успешно изменен!"/>
+                    <ResponseMessagePlaceholder isLoading={isLoading} statusCode={statusCode} data={data} successMessage="Пароль успешно изменен!"/>
                 </LoadDataPlaceholder>
             </Row>
         </Container>

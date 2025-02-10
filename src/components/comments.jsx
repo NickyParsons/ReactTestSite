@@ -50,16 +50,16 @@ export function Comments(props){
     }
     let commentsArray = isShortView ? data.slice(0, 3) : data;
     return <>
-        <ResponseMessagePlaceholder statusCode={statusCode} data={data} successMessage="Комментарии успешно загружены"/>
+        <ResponseMessagePlaceholder isLoading={isLoading} statusCode={statusCode} data={data} successMessage="Комментарии успешно загружены"/>
         <span>Комментарии:</span>
         {addCommentDom}
-        {/* <LoadDataPlaceholder isLoading={isLoading} error={error}> */}
-        {(data.length > 0) && <Row><button onClick={refreshComments}>Обновить</button></Row>}
+        <LoadDataPlaceholder isLoading={isLoading} error={error}>
+        {(data.length > 0) && <Row><button onClick={refreshComments} className="menu-button">Обновить комментарии</button></Row>}
         {commentsArray?.map((comment)=>{
             return <Comment key={comment.id} comment={comment} currentData={data} setDataHandler={setData}/>
         })}
-        {(isShortView && (data.length > 5)) && <Row><button onClick={()=>{setShortView(!isShortView)}}>Показать еще</button></Row>}
-        {(data.length > 0) && <Row><button onClick={refreshComments}>Обновить</button></Row>}
-        {/* </LoadDataPlaceholder> */}
+        {(isShortView && (data.length > 5)) && <Row><button onClick={()=>{setShortView(!isShortView)}} className="menu-button">Показать еще</button></Row>}
+        {(data.length > 0) && <Row><button onClick={refreshComments} className="menu-button">Обновить комментарии</button></Row>}
+        </LoadDataPlaceholder>
     </>
 }

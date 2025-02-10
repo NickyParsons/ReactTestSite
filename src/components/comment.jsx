@@ -4,6 +4,7 @@ import { Container, Row, Column, Column1, Column2, BackButton } from "../compone
 import { useFetch } from "../hooks/useFetchData.js";
 import { OtherUserControl } from "./otherUserControl.jsx";
 import { useElapsedTime } from "../hooks/useTime.js";
+import { DottedDropDownMenu } from "../components/dottedDropDownMenu.jsx";
 
 export function Comment(props){
     //context
@@ -77,8 +78,14 @@ export function Comment(props){
                         <span className="comment-card-added-time">{props.comment.updatedAt == null ? `Создан: ${commentCreatedTime}` : `Изменен: ${commentCreatedTime}`}</span>
                     </div>
                     <div className="comment-card-body">
-                        {(isAllowedToEdit) && <button className="neon-button comment-card-button"onClick={()=>{setEdit(!isEdit)}}>Редактировать</button>}
-                        {(isAllowedToEdit) && <button className="neon-button comment-card-button" onClick={deleteComment}>Удалить</button>}
+                        <div className="floatRight">
+                        <DottedDropDownMenu windowName="Комментарий">
+                            <Container>
+                            {(isAllowedToEdit) && <button className="menu-button" onClick={()=>{setEdit(!isEdit)}}>Редактировать</button>}
+                            {(isAllowedToEdit) && <button className="menu-button" onClick={deleteComment}>Удалить</button>}
+                            </Container>
+                        </DottedDropDownMenu>
+                        </div>
                         {textCommentDom}
                     </div>
                     

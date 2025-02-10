@@ -45,7 +45,7 @@ export default function VerifyEmail(props) {
     return <>
         <BackButton/>
         <Container>
-            <ResponseMessagePlaceholder statusCode={statusCode} data={data} successMessage="Email успешно подтвержден!"/>
+            <ResponseMessagePlaceholder isLoading={isLoading} statusCode={statusCode} data={data} successMessage="Email успешно подтвержден!"/>
             <form onSubmit={submitToken}>
                 <Row>
                     <Column1>Token:</Column1>

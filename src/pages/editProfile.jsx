@@ -131,7 +131,7 @@ export function EditProfile(props) {
         <BackButton/>
         <LoadDataPlaceholder isLoading={getProfile.isLoading} error={getProfile.error}>
             <Container>
-                <ResponseMessagePlaceholder statusCode={getProfile.statusCode} data={getProfile.data} successMessage="Данные профиля загружены"/>
+                <ResponseMessagePlaceholder isLoading={getProfile.isLoading} statusCode={getProfile.statusCode} data={getProfile.data} successMessage="Данные профиля загружены"/>
                 {imageDom}
                 <Row>
                     <Column1>ID:</Column1>
@@ -202,7 +202,7 @@ export function EditProfile(props) {
                     </Row>
                 </form>
                 <LoadDataPlaceholder isLoading={postProfile.isLoading} error={postProfile.error}>
-                    <ResponseMessagePlaceholder statusCode={postProfile.statusCode} data={postProfile.data} successMessage="Профиль успешно обновлен"/>
+                    <ResponseMessagePlaceholder isLoading={postProfile.isLoading} statusCode={postProfile.statusCode} data={postProfile.data} successMessage="Профиль успешно обновлен"/>
                 </LoadDataPlaceholder>
             </Container>
         </LoadDataPlaceholder>

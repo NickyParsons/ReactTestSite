@@ -42,7 +42,7 @@ export default function ForgotPassword(props) {
             </form>
             <Row>
                 <LoadDataPlaceholder isLoading={isLoading} error={error}>
-                    <ResponseMessagePlaceholder statusCode={statusCode} data={data} successMessage="Письмо с инструкциями по восстановлению запрошено. Проверьте почту."/>
+                    <ResponseMessagePlaceholder isLoading={isLoading} statusCode={statusCode} data={data} successMessage="Письмо с инструкциями по восстановлению запрошено. Проверьте почту."/>
                 </LoadDataPlaceholder>
             </Row>
         </Container>

@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext.js";
+import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
 import "../styles/userControl.css";
 export function OtherUserControl(props) {
     const [image, setImage] = React.useState("content/profiles/default.png");
@@ -64,10 +65,10 @@ export function OtherUserControl(props) {
                 <img className="user-control-image" src={`/api/${image}`}></img>
             </a>
             <div className={popUpWindowClasses}>
-                {/* <button className="menu-button" onClick={()=>{goTo("/profiles/edit")}}>Редактировать профиль</button>
-                <button className="menu-button" onClick={authContext.signOut}>Выход</button><br /> */}
-                <span>Тут еще ничего нет</span>
-                <button className="neon-button" onClick={togglePopUpVisibility}>Закрыть</button>
+                <Container>
+                    <button className="menu-button" onClick={()=>{goTo(`/profiles/${props.user?.id}`)}}>Профиль</button>
+                    <button className="menu-button" onClick={togglePopUpVisibility}>Закрыть</button>
+                </Container>
             </div>
         </div>
     </>;

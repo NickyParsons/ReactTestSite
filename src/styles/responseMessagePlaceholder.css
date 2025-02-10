@@ -1,12 +1,50 @@
-.responseMessagePlaceholder .success-code{
+.responseMessagePlaceholder {
+    position: relative;
+}
+.responseMessagePlaceholderSuccess {
     border-radius: 5px;
     border: 2px solid green;
     padding: 2px;
     background-color: rgb(126, 201, 182);
+    position: absolute;
+    visibility: visible;
+    transition-duration: 100ms;
+    transition-property: scale, visibility;
+    scale: 100%;
 }
-.responseMessagePlaceholder .fault-code{
+.responseMessagePlaceholderFault {
     border-radius: 5px;
     border: 2px solid red  ;
     padding: 2px;
     background-color: rgb(201, 137, 126);
+    position: absolute;
+    visibility: visible;
+    transition-duration: 100ms;
+    transition-property: scale, visibility;
+    scale: 100%;
 }
+
+.responseMessagePlaceholderHidden {
+    position: absolute;
+    visibility: hidden;
+    transition-duration: 100ms;
+    transition-property: scale, visibility;
+    scale: 0%;
+/* 
+    border-radius: 5px;
+    border: 2px solid blue ;
+    padding: 2px;
+    background-color: rgb(75, 69, 161); */
+}
+/* .loadingContent{
+    background-color: brown;
+    transition-property: all;
+    transition-duration: 0s;
+    height: 200px;
+}
+.loadedContent{
+    background-color: green;
+    transition-property: all;
+    transition-duration: 3s;
+    height: max-content;
+} */

@@ -1,0 +1,31 @@
+.dottedDropDownMenu{
+    position: relative;
+    height: 28px;
+    width: 28px;
+}
+.dottedDropDownButton{
+    display: flex;
+    border-radius: 50%;
+    border: solid 1px;
+    height: 28px;
+    width: 28px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-color: lightgray;
+    background-color: rgba(211, 211, 211, 0.1);
+}
+.dottedDropDownButton:hover{
+    background-color: #2fd8d877;
+    box-shadow: 0px 0px 0.5em #2fd8d8;
+    border-color: #2fd8d8;
+}
+.dot{
+    height: 3px;
+    width: 3px;
+    border: solid 3px;
+    border-radius: 50%;
+    border-color: inherit;
+    margin-left: 1px;
+    margin-right: 1px;
+}

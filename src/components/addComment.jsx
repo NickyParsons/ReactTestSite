@@ -41,7 +41,7 @@ export function AddComment(props){
         </Row>
         <Row>
             <Column>
-                <ResponseMessagePlaceholder statusCode={statusCode} data={data} successMessage="Комментарий добавлен"/>
+                <ResponseMessagePlaceholder isLoading={isLoading} statusCode={statusCode} data={data} successMessage="Комментарий добавлен"/>
             </Column>
         </Row>
         
