@@ -1,12 +1,12 @@
 import React from "react";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import { withVerified } from "../hocs/withVerified.jsx";
-import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
+import { Container, Row, Column, Column1, Column2, BackButton } from "../components/ContentContainer/contentContainer.jsx";
 import { usePostFetchOnTrigger } from "../hooks/useFetchData.js";
 import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
 
-export default withVerified(CreateArticle);
-function CreateArticle(props) {
+// export default withVerified(CreateArticle);
+export default function CreateArticle(props) {
     //page title
     const pageTitle = "Создание новой статьи";
     React.useLayoutEffect(() => {

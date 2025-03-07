@@ -3,7 +3,7 @@ import React from "react";
 import ArticleCard from "../components/articleCard.jsx";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import { OtherUserControl } from "../components/otherUserControl.jsx";
-import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
+import { Container, Row, Column, Column1, Column2, BackButton } from "../components/ContentContainer/contentContainer.jsx";
 import { useFetch } from "../hooks/useFetchData.js";
 import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
 import { Comments } from "../components/comments.jsx";
@@ -29,6 +29,8 @@ function Articles(props) {
     const refreshArticles = () => {
         fetchHandler({
             onSuccess: (response)=>{
+                console.log(response);
+                
                 if ((data?.length != response?.length) ||
                     (data[0].createdAt != response[0].createdAt)
             ) {
@@ -39,16 +41,17 @@ function Articles(props) {
     }
     //render
     //add article
-    let addArticleDom = <></>;
-    if (authContext.isLoggedIn) {
-        if (authContext.isVerified) {
-            addArticleDom = <Link to="/articles/new"><button className="neon-button">Добавить статью</button></Link>;
-        } else {
-            addArticleDom = <span>Подтвердите e-mail чтобы добавить статью</span>;
-        }
-    } else {
-        addArticleDom = <span>Войдите чтобы добавить статью</span>;
-    }
+    let addArticleDom = <Link to="/articles/new"><button className="neon-button">Добавить статью</button></Link>;
+    // let addArticleDom = <></>;
+    // if (authContext.isLoggedIn) {
+    //     if (authContext.isVerified) {
+    //         addArticleDom = <Link to="/articles/new"><button className="neon-button">Добавить статью</button></Link>;
+    //     } else {
+    //         addArticleDom = <span>Подтвердите e-mail чтобы добавить статью</span>;
+    //     }
+    // } else {
+    //     addArticleDom = <span>Войдите чтобы добавить статью</span>;
+    // }
     //DOM
     let articlesDom = <>
         <Container>
@@ -69,6 +72,7 @@ function Articles(props) {
             </LoadDataPlaceholder>
         </Container>
     </>;
+    
     return <>
         {addArticleDom}
         {articlesDom}

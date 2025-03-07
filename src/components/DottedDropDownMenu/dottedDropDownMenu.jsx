@@ -1,6 +1,6 @@
 import React from "react";
-import { CloseButton } from "../components/closeButton.jsx";
-import "../styles/dottedDropDownMenu.css";
+import { CloseButton } from "../_ui/closeButton.jsx";
+import "./dottedDropDownMenu.css";
 
 export function DottedDropDownMenu(props){
     const [isPopUpVisible, setPopUpVisible] = React.useState(false);

@@ -46,3 +46,9 @@
     height: auto;
     /* border-radius: 10px; */
 }
+
+.articleCardLikeButton{
+    float: right;
+    margin-right: 2px;
+    margin-bottom: 2px;
+}

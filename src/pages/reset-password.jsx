@@ -1,6 +1,6 @@
 import React from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
+import { Container, Row, Column, Column1, Column2, BackButton } from "../components/ContentContainer/contentContainer.jsx";
 import { usePostFetchOnTrigger } from "../hooks/useFetchData.js";
 import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
 

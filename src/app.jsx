@@ -2,7 +2,7 @@ const ReactDOM = require("react-dom/client");
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { Layout }  from "./components/_layout.jsx";
+import { Layout }  from "./pages/_layout.jsx";
 import NotFound from "./pages/notFound.jsx";
 import { Test } from "./pages/test.jsx";
 import { Counter } from "./pages/counter.jsx";
@@ -18,7 +18,6 @@ import ForgotPassword from "./pages/forgot-password.jsx";
 import ResetPassword from "./pages/reset-password.jsx";
 
 import "./styles/_style.css";
-import "./styles/contentContainer.css";
   
 ReactDOM.createRoot(
     document.getElementById("app")

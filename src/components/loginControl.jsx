@@ -5,7 +5,6 @@ import LoginForm from "./loginForm.jsx";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import { LoggedUserControl } from "./loggedUserControl.jsx";
 import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
-import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
 import { useFetch } from "../hooks/useFetchData.js";
 
 import "../styles/popUpWindow.css";

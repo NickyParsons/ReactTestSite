@@ -1,0 +1,28 @@
+.likeButton{
+    display: flex;
+    flex-direction: row;
+}
+
+.likeSvg{
+    width: 20px;
+    height: auto;
+    /* border: solid 1px white; */
+}
+
+.likeIcon.iconLiked{
+    stroke: #2fd8d8;
+}
+
+.likeIcon.iconUnliked{
+    stroke: lightgrey;
+}
+
+.likeSvg:hover .likeIcon{
+    stroke: #2fd8d8;
+    fill: #2fd8d877;
+}
+
+.likeButtonText{
+    color: lightgrey;
+    margin-right: 5px;
+}

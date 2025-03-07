@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import { useElapsedTime } from "../hooks/useTime.js";
+import { useFetch } from "../hooks/useFetchData.js";
+import { LikeButton } from "../components/LikeButton/likeButton.jsx";
 export default function ArticleCard(props) {
-    //fields
+    //context
+    const authContext = useAuthContext();
+    
+    
     //refs
     const textRef = React.useRef("");
     if (props.article.text != null) {
@@ -11,13 +16,33 @@ export default function ArticleCard(props) {
     }
     //states
     const [isShowMore, setShowMore] = React.useState(false);
-    //context
-    const authContext = useAuthContext();
-    //effects
+    const [likesCount, updateLikesCount] = useState(props.article.likedBy.length);
+    const [isLiked, setIsLiked] = useState(props.article.likedBy.some(x => x.id == authContext.id));
+    //likeFetch
+    const likeFetch = useFetch({
+        url: `/api/articles/${props.article.id}/like`,
+        method: "POST",
+        isResponseJson: true,
+        executeOnLoad: false
+    });
     //handlers
     function toggleShowMore(event) {
         event.preventDefault();
         isShowMore ? setShowMore(false) : setShowMore(true);
+    }
+    //
+    const likeArticle = () =>{
+        let formData = new FormData();
+        formData.append("UserId", authContext.id);
+        console.log(`ID: ${authContext.id}`);
+        likeFetch.fetchHandler({
+            formData: formData,
+            queryData: undefined,
+            onSuccess: (data)=>{
+                updateLikesCount(data.likedBy.length);
+                setIsLiked(!isLiked);
+            }
+        });
     }
     //render
     let image = <></>;
@@ -49,6 +74,7 @@ export default function ArticleCard(props) {
         }
     }
     const articleCreatedTime = useElapsedTime(props.article.updatedAt == null ? props.article.createdAt : props.article.updatedAt);
+    //render
     return <div className="articleCard">
         <div className="articleCardHeader">
             <Link to={articleLink} className="articleName">{props.article.name}</Link>
@@ -61,5 +87,6 @@ export default function ArticleCard(props) {
         <div className="articleCardText">
             <p>{text}</p>
         </div>
+        <div className="articleCardLikeButton"><LikeButton isLiked={isLiked} likesCount={likesCount} likeHandler={likeArticle}></LikeButton></div>
     </div>;
 }

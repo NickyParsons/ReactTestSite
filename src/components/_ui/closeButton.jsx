@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/closeButton.css";
+import "./closeButton.css";
 
 export function CloseButton(props){
     return <div className="closeButtonBox" onClick={props.onClick}>

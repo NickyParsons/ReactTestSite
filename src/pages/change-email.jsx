@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
+import { Container, Row, Column, Column1, Column2, BackButton } from "../components/ContentContainer/contentContainer.jsx";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import { withAuth } from "../hocs/withAuth.jsx";
 import { usePostFetchOnTrigger } from "../hooks/useFetchData.js";

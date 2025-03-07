@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/contentContainer.css";
+import "./contentContainer.css";
 
 export function Container(props) {
     return <div className="contentContainer">

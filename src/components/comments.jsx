@@ -1,6 +1,6 @@
 import React from "react";
 import { useAuthContext } from "../hooks/useAuthContext.js";
-import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
+import { Container, Row, Column, Column1, Column2, BackButton } from "../components/ContentContainer/contentContainer.jsx";
 import { useFetch } from "../hooks/useFetchData.js";
 import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
 import { AddComment } from "../components/addComment.jsx";
@@ -19,12 +19,13 @@ export function Comments(props){
         executeOnLoad: true
     });
     //effect
-    React.useEffect(()=>{
-        let timer = setInterval(refreshComments, 30000);
-        return ()=>{
-            clearInterval(timer);
-        }
-    }, []);
+    //таймер пока выключен
+    // React.useEffect(()=>{
+    //     let timer = setInterval(refreshComments, 30000);
+    //     return ()=>{
+    //         clearInterval(timer);
+    //     }
+    // }, []);
     //handlers
     const refreshComments = () => {
         fetchHandler({
@@ -43,7 +44,8 @@ export function Comments(props){
         if (authContext.isVerified) {
             addCommentDom = <AddComment articleId={props.articleId} currentData={data} setDataHandler={setData}/>;
         } else {
-            addCommentDom = <textarea name="text" className="disabled-input" disabled defaultValue="Подтвердите e-mail чтобы добавить комментарий"></textarea>
+            addCommentDom = <AddComment articleId={props.articleId} currentData={data} setDataHandler={setData}/>;
+            // addCommentDom = <textarea name="text" className="disabled-input" disabled defaultValue="Подтвердите e-mail чтобы добавить комментарий"></textarea>
         }
     } else {
         addCommentDom = <textarea name="text" className="disabled-input" disabled defaultValue="Войдите чтобы добавить комментарий"></textarea>

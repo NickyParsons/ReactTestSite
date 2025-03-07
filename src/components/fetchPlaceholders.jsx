@@ -1,5 +1,5 @@
 import React from "react";
-import { Spinner } from "../components/spinner.jsx";
+import { Spinner } from "../components/_ui/spinner.jsx";
 import "../styles/responseMessagePlaceHolder.css";
 export function ResponseMessagePlaceholder({isLoading, statusCode, error, successMessage}, ...props) {
     const placeholderDivRef = React.useRef();

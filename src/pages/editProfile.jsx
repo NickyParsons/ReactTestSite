@@ -2,8 +2,8 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import { withAuth } from "../hocs/withAuth.jsx";
-import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
-import { useGetFetchOnLoad, usePostFetchOnTrigger } from "../hooks/useFetchData.js";
+import { Container, Row, Column, Column1, Column2, BackButton } from "../components/ContentContainer/contentContainer.jsx";
+import { useFetch, useGetFetchOnLoad, usePostFetchOnTrigger } from "../hooks/useFetchData.js";
 import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
 
 export default withAuth(EditProfile);
@@ -27,6 +27,12 @@ export function EditProfile(props) {
     const navigate = useNavigate();
     const getProfile = useGetFetchOnLoad(`/api/users/${authContext.id}`, true);
     const postProfile = usePostFetchOnTrigger();
+    const sendConfirmEmailFetch = useFetch({
+        url: "/api/send-confirm-email",
+        method: "POST",
+        isResponseJson: false,
+        executeOnLoad: false
+    });
     //handlers
     function validatePassword(event){
         const password = event.target.form.userNewPassword;
@@ -86,6 +92,14 @@ export function EditProfile(props) {
             setDataHandler: getProfile.setData
         });
     }
+    async function sendConfirEmail(event) {
+        event.preventDefault();
+        let formData = new FormData();
+        formData.append("email", authContext.email);
+        sendConfirmEmailFetch.fetchHandler({
+            formData: formData
+        });
+    }
     //render
     //profile image
     let imageDom;
@@ -109,7 +123,12 @@ export function EditProfile(props) {
             </Row>
             <Row>
                 <Column>
-                    <button className="neon-button" onClick={() => { navigate("/verify-email") } }>Подтвердить</button>
+                    <button className="menu-button" onClick={() => { navigate("/verify-email") } }>Подтвердить</button>
+                </Column>
+            </Row>
+            <Row>
+                <Column>
+                    <button className="menu-button" onClick={sendConfirEmail}>Отправить e-mail с подтверждением</button>
                 </Column>
             </Row>
         </>;
@@ -154,7 +173,7 @@ export function EditProfile(props) {
                 {verifiedEmailDom}
                 <Row>
                     <Column>
-                        <button className="neon-button" onClick={() => { navigate("/change-email")}}>Изменить e-mail</button>
+                        <button className="menu-button" onClick={() => { navigate("/change-email")}}>Изменить e-mail</button>
                     </Column>
                 </Row>
                 <br />

@@ -1,14 +1,14 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, version } from "react";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import { withAuth } from "../hocs/withAuth.jsx";
-import { Container, Row } from "../components/contentContainer.jsx";
+import { Container, Row } from "../components/ContentContainer/contentContainer.jsx";
 import { useFetch } from "../hooks/useFetchData.js";
 import { ResponseMessagePlaceholder } from "../components/fetchPlaceholders.jsx";
 import { useElapsedTime } from "../hooks/useTime.js";
-import { Spinner } from "../components/spinner.jsx";
-import { DottedDropDownMenu } from "../components/dottedDropDownMenu.jsx";
-import { CloseButton } from "../components/closeButton.jsx";
-
+import { Spinner } from "../components/_ui/spinner.jsx";
+import { DottedDropDownMenu } from "../components/DottedDropDownMenu/dottedDropDownMenu.jsx";
+import { CloseButton } from "../components/_ui/closeButton.jsx";
+import { LikeButton } from "../components/LikeButton/likeButton.jsx";
 
 export default withAuth(Test);
 //export default Test;
@@ -56,6 +56,8 @@ export function Test(props) {
         <button className="menu-button">Menu button 2</button><br />
         <button className="menu-button">Menu button 3</button><br />
         <button className="menu-button" onClick={()=>{authContext.refreshToken()}}>REFRESH FETCH</button><br/>
+        <LikeButton likesCount={666} isLiked={true}></LikeButton>
+        
         <DottedDropDownMenu windowName="Название окошка">
             <Container>
                 <Row><Spinner/></Row>

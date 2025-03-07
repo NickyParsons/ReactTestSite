@@ -21,9 +21,9 @@ module.exports = {
         open: true,
         liveReload: true,
         hot: false
-   },
-   cache: false,
-   module: {
+    },
+    cache: false,
+    module: {
         rules:[   //загрузчик для jsx
             {
                 test: /\.jsx?$/, // определяем тип файлов

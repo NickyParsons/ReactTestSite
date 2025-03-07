@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import { LoginControl } from "./loginControl.jsx";
+import { LoginControl } from "../components/loginControl.jsx";
 import "../styles/header.css";
 const React = require("react");
   

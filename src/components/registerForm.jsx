@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useFetch } from "../hooks/useFetchData.js";
 import { ResponseMessagePlaceholder, LoadDataPlaceholder } from "../components/fetchPlaceholders.jsx";
-import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
+import { Container, Row, Column, Column1, Column2, BackButton } from "../components/ContentContainer/contentContainer.jsx";
 import "../styles/userForms.css";
 export default React.memo(function RegisterForm(props) {
     //show render count

@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext.js";
 import "../styles/userControl.css";
-import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
+import { Container, Row, Column, Column1, Column2, BackButton } from "../components/ContentContainer/contentContainer.jsx";
 export function LoggedUserControl(props) {
     const [isPopUpVisible, setPopUpVisible] = React.useState(false);
     const controlRef = React.useRef();

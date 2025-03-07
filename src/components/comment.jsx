@@ -1,16 +1,19 @@
 import React from "react";
 import { useAuthContext } from "../hooks/useAuthContext.js";
-import { Container, Row, Column, Column1, Column2, BackButton } from "../components/contentContainer.jsx";
+import { Container, Row, Column, Column1, Column2, BackButton } from "../components/ContentContainer/contentContainer.jsx";
 import { useFetch } from "../hooks/useFetchData.js";
 import { OtherUserControl } from "./otherUserControl.jsx";
 import { useElapsedTime } from "../hooks/useTime.js";
-import { DottedDropDownMenu } from "../components/dottedDropDownMenu.jsx";
+import { DottedDropDownMenu } from "../components/DottedDropDownMenu/dottedDropDownMenu.jsx";
+import { LikeButton } from "../components/LikeButton/likeButton.jsx";
 
 export function Comment(props){
     //context
     let authContext = useAuthContext();
     //fields
     //states
+    const [likesCount, updateLikesCount] = React.useState(props.comment.likedBy.length);
+    const [isLiked, setIsLiked] = React.useState(props.comment.likedBy.some(x => x.id == authContext.id));
     const [isEdit, setEdit] = React.useState(false);
     const deleteFetch = useFetch({
         url: `/api/comments/${props.comment.id}/delete`,
@@ -38,11 +41,31 @@ export function Comment(props){
             setEdit(false);
         }
     });
+    //likeFetch
+    const likeFetch = useFetch({
+        url: `/api/comments/${props.comment.id}/like`,
+        method: "POST",
+        isResponseJson: true,
+        executeOnLoad: false
+    });
     //handlers
     function deleteComment(){
         let form = new FormData();
         form.append("authorId", authContext.id);
         deleteFetch.fetchHandler({formData: form});
+    }
+    const likeComment = () =>{
+        let formData = new FormData();
+        formData.append("UserId", authContext.id);
+        console.log(`ID: ${authContext.id}`);
+        likeFetch.fetchHandler({
+            formData: formData,
+            queryData: undefined,
+            onSuccess: (data)=>{
+                updateLikesCount(data.likedBy.length);
+                setIsLiked(!isLiked);
+            }
+        });
     }
     function editComment(event){
         event.preventDefault();
@@ -88,7 +111,7 @@ export function Comment(props){
                         </div>
                         {textCommentDom}
                     </div>
-                    
+                    <div className="commentCardLikeButton"><LikeButton isLiked={isLiked} likesCount={likesCount} likeHandler={likeComment}></LikeButton></div>
                 </div>
             </Column2>
         </Row>
